@@ -18,14 +18,16 @@ package {
         public var body:b2Body;
         private var graphic:DisplayObject;
 
-        private var beh:IRoleBehaviour;
+        private var _behaviour:IRoleBehaviour;
+
+        private var sideLength:Number = 1.0;
 
         private var physScale:Number = 30;
         private var torque:Number = 3;
         private var speed:Number = 0.3;
 
-        private var forwardSpeed:Number = 10;
-        private var backwardSpeed:Number = 3;
+        private var forwardSpeed:Number = 18;
+        private var backwardSpeed:Number = 9;
 
         // vector for linear velocity of character
         private var charVel:b2Vec2 = new b2Vec2();
@@ -35,50 +37,63 @@ package {
 
         private var level:Number = 3;
 
-        public function Actor():void {
+        public function Actor(_b:IRoleBehaviour = null):void {
+            initBody();
+            initGraphic();
+
             addEventListener(Event.ENTER_FRAME, run);
             addEventListener(Event.ENTER_FRAME, update);
 
-            var world:b2World = context.world.getWorld();
+            if (_b != null) {
+                behaviour = _b;
+            }
+        }
+
+        public function get behaviour():IRoleBehaviour {
+            return _behaviour;
+        }
+        public function set behaviour(_b:IRoleBehaviour):void {
+            _behaviour = _b;
+            _behaviour.actor = this;
+            run();
+        }
+
+        public function run(event:Event = null):void {
+            if (behaviour != null) {
+                behaviour.run();
+            }
+        }
+
+        public function initBody():void {
             var bodyDef:b2BodyDef = new b2BodyDef();
-            bodyDef.position.Set(0.0, 4.0);
+            bodyDef.position.Set(10.0, 6.0);
 	    bodyDef.linearDamping = 1;
 	    bodyDef.angularDamping = 2;
 
-
+            var world:b2World = context.world.getWorld();
             body = world.CreateBody(bodyDef);
+            body.m_userData = this;
 
             var shapeDef:b2PolygonDef = new b2PolygonDef();
-            shapeDef.SetAsBox(1.0, 1.0);
+            shapeDef.SetAsBox(sideLength, sideLength);
             shapeDef.density = 1.0;
             shapeDef.friction = 0.3;
             body.CreateShape(shapeDef);
             body.SetMassFromShapes();
+        }
 
-            var triangleHeight:uint = 10;
+        public function initGraphic():void {
+            var hw:Number = sideLength;
 
+            var bodyRotation:Number=body.GetAngle();
+	    var bodyPosition:b2Vec2 = body.GetPosition();
 
             with (context.camera) {
                 graphic = newSprite();
-                beginFill(0xFF0000);
-                moveTo(triangleHeight/2, 0);
-                lineTo(triangleHeight, triangleHeight);
-                lineTo(0, triangleHeight);
-                lineTo(triangleHeight/2, 0);
+                beginFill(0x00FF00);
+                drawRect(0, 0, hw * 2, hw * 2);
+                drawCircle(1.81, 1, 0.15)
             }
-
-        }
-
-        public function set behaviour(_beh:IRoleBehaviour):void {
-            beh = _beh;
-            beh.actor = this;
-            run();
-	    // if (stage) //active();
-	    // else addEventListener(Event.ADDED_TO_STAGE, run);
-        }
-
-        public function run(event:Event = null):void {
-            beh.run();
         }
 
         public function update(e:Event):void {

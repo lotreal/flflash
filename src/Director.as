@@ -18,7 +18,7 @@ package
         public function Director(singleton_enforcer:SingletonEnforcer):void {
         }
 
-        public function Action():void {
+        public function action():void {
             dispatchEvent(new Event(Director.ACTION));
         }
     }

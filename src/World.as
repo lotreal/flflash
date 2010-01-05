@@ -4,8 +4,9 @@ package
     import flash.display.*;
     import im.luo.log.Logger;
 
-    import Box2D.Common.Math.*;
     import Box2D.Dynamics.*;
+    import Box2D.Dynamics.Contacts.*;
+    import Box2D.Common.Math.*;
     import Box2D.Collision.*;
     import Box2D.Collision.Shapes.*;
     
@@ -25,9 +26,11 @@ package
         private var timeStep:Number = 1.0 / 60.0;
         private var iterations:Number = 10;
 
+        private var myContactListener:ContactListener;
+
         public function World(singleton_enforcer:SingletonEnforcer) {
             var context:Context = Context.instance;
-            context.sprite.addChild(this);
+            context.camera.addChild(this);
             var worldAABB:b2AABB = new b2AABB();
             worldAABB.lowerBound.Set(-100.0, -100.0);
             worldAABB.upperBound.Set(100.0, 100.0);
@@ -52,16 +55,28 @@ package
             dbgDraw.m_drawFlags = b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit;
             world.SetDebugDraw(dbgDraw);
 
-	    addEventListener(Event.ENTER_FRAME, active);
+            myContactListener = new ContactListener();
+            world.SetContactListener(myContactListener);
+	    addEventListener(Event.ENTER_FRAME, run);
         }
 
         public function getWorld():b2World { return world; }
 
-        public function active(e:Event):void {
+        public function run(e:Event):void {
             world.Step(timeStep, iterations);
             //var position:b2Vec2 = body.GetPosition();
             //var angle:Number = body.GetAngle();
             //trace(position.x +','+ position.y +','+ angle);
+
+            while(myContactListener.contactStack[0])
+            {
+                var currentContact:CustomContactPoint = myContactListener.contactStack.pop();
+                logger.debug('contact!');
+                //var xPos:Number = currentContact.position.x * physScale;
+                //var yPos:Number = currentContact.position.y * physScale;
+                //var penetration:Number = -currentContact.separation;
+                //addChild(new Explosion(xPos, yPos, penetration));
+            }
         }
     }
 }

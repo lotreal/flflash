@@ -1,4 +1,4 @@
-// ~/share/flex4sdk/bin/mxmlc -debug=true -sp+=/home/lot/sf/Box2D_2.0.1/ -sp+=/home/lot/sf/QuickBox2D_1.1/QuickBox2D_1.1/ -static-link-runtime-shared-libraries=true Main.as -o ../bin/flf.swf
+// ~/share/flex4sdk/bin/mxmlc -debug=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/sf/Box2D_2.0.1/ -sp+=/home/lot/sf/QuickBox2D_1.1/QuickBox2D_1.1/ -static-link-runtime-shared-libraries=true Main.as -o ../bin/flf.swf
 package {
     import flash.display.*;
     import flash.display.StageScaleMode;

@@ -8,13 +8,14 @@ package {
     import com.actionsnippet.qbox.*;
     import Box2D.Dynamics.*;
 
+    import at.geoathome.utils.loader.AssetLoader;
+    import flash.system.LoaderContext;
+    import flash.system.ApplicationDomain;
     import flf.*;
     import im.luo.utils.*;
     import im.luo.log.Logger;
 
     public class Context {
-        //private var keys:Vector.<Boolean> = new Vector.<Boolean>(256);
-
 	private static var _instance:Context = null;
         public static function get instance():Context {
 	    return Context.getInstance();
@@ -33,27 +34,44 @@ package {
         public var scenario:Scenario;
         public var director:Director;
 
-        public var keyMapper:KeyMapper;
+	private var _asset_loader_context:LoaderContext;
+        private var _asset_loader:AssetLoader;
+	public function get asset_loader():AssetLoader { return _asset_loader; }
 
         public function Context(singleton_enforcer:SingletonEnforcer) {}
 	
         public static function init(root:Sprite):void {
             root.stage.scaleMode = StageScaleMode.NO_SCALE;
+
             var context:Context = Context.instance;
-            with(context) {
+            with (context) {
                 sprite = root;
                 stage = root.stage;
-                logger = Logger.getLogger(context);
 
-                camera = Camera.instance;
-                world = World.instance;
-                
-                scenario = Scenario.instance;
-                director = Director.instance;
+                logger   = Logger.getLogger(context);
 
+                loadAssest();
 
-                director.Action();
             }
+        }
+        public function loadAssest():void {
+	    // start loading assets
+	    _asset_loader_context = new LoaderContext(true, ApplicationDomain.currentDomain, null);
+	    _asset_loader = new AssetLoader("main.swf", _asset_loader_context);
+	    _asset_loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
+	    _asset_loader.load();
+
+        }
+	private function onAssestLoadComplete(e:Event):void 
+	{
+            logger.debug('资源加载完成');
+            camera   = Camera.instance;
+            world    = World.instance;
+            scenario = Scenario.instance;
+            director = Director.instance;
+
+            director.action();
+
         }
     }
 }
