@@ -1,0 +1,16 @@
+命名 AI
+
+Stage
+GlobalStage
+
+Scene # 场景
+
+SceneStart
+SceneFight
+SceneGameover
+
+
+
+
+Gladiator # 角斗士
+  I:Control
