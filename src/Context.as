@@ -38,30 +38,28 @@ package {
         private var _asset_loader:AssetLoader;
 	public function get asset_loader():AssetLoader { return _asset_loader; }
 
-        public function Context(singleton_enforcer:SingletonEnforcer) {}
-	
+        public function Context(singleton_enforcer:SingletonEnforcer) {
+            logger   = Logger.getLogger(this);
+        }
+
         public static function init(root:Sprite):void {
             root.stage.scaleMode = StageScaleMode.NO_SCALE;
-
             var context:Context = Context.instance;
             with (context) {
                 sprite = root;
                 stage = root.stage;
-
-                logger   = Logger.getLogger(context);
-
                 loadAssest();
-
             }
         }
+
         public function loadAssest():void {
 	    // start loading assets
 	    _asset_loader_context = new LoaderContext(true, ApplicationDomain.currentDomain, null);
 	    _asset_loader = new AssetLoader("main.swf", _asset_loader_context);
 	    _asset_loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
 	    _asset_loader.load();
-
         }
+
 	private function onAssestLoadComplete(e:Event):void 
 	{
             logger.debug('资源加载完成');
@@ -69,9 +67,28 @@ package {
             world    = World.instance;
             scenario = Scenario.instance;
             director = Director.instance;
-
             director.action();
-
+            debug(stage);
+        }
+        
+        private function debug(node:DisplayObject):void {
+            logger.debug("============= "+(String(node))+" =============");
+            var c:DisplayObjectContainer = node as DisplayObjectContainer;
+            if (c) {
+                logger.debug("Number of children of "+(String(c))+": ");
+                logger.debug(c.numChildren);
+                if (c.numChildren > 0 ) {
+                    logger.debug("List children of "+(String(c))+": ");
+                    for (var i:uint=0;i<c.numChildren;i++) {
+                        logger.debug(c.getChildAt(i));
+                    }
+                    for (var j:uint=0;j<c.numChildren;j++) {
+                        debug(c.getChildAt(j));
+                    }
+                }
+            } else {
+                logger.debug("DisplayObject(not container): "+(String(node)));
+            }
         }
     }
 }

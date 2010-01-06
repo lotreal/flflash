@@ -1,9 +1,11 @@
 package im.luo.log
 {
+    import flash.display.*;
     import flash.utils.getQualifiedClassName;
     import im.luo.ui.Debugger;
 
     public class Logger {
+        public static var target:Stage;
         private var clazz:String;
         public function Logger(cls:*):void {
             clazz = getQualifiedClassName(cls);
@@ -20,6 +22,5 @@ package im.luo.log
 
             Debugger.instance.print(clazz+'#'+str);
         }
-
     }
 }

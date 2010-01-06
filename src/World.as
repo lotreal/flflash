@@ -52,7 +52,7 @@ package
             dbgDraw.m_drawScale = 30.0;
             dbgDraw.m_fillAlpha = 0.3;
             dbgDraw.m_lineThickness = 1.0;
-            dbgDraw.m_drawFlags = b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit;
+	    dbgDraw.m_drawFlags = b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_centerOfMassBit | b2DebugDraw.e_coreShapeBit;
             world.SetDebugDraw(dbgDraw);
 
             myContactListener = new ContactListener();

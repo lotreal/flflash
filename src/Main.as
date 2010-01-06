@@ -6,8 +6,6 @@ package {
 
     [SWF(width="1000", height="600", backgroundColor="#000000", frameRate="30")]
     public class Main extends Sprite {
-        public static var width:int;
-        public static var height:int;
         public static var context:Context;
 	public function Main() {
 	    if (stage) init();
