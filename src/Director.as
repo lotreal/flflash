@@ -1,7 +1,7 @@
 package 
 {
     import flash.events.*;
-    import im.luo.log.Logger;
+    import im.luo.logging.Logger;
     public class Director extends EventDispatcher {
         public static const ACTION:String = "action";
 

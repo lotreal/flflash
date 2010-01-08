@@ -2,7 +2,7 @@ package
 {
     import flash.display.*;
     import flash.events.*;
-    import im.luo.log.Logger;
+    import im.luo.logging.Logger;
     public class Scenario extends EventDispatcher {
         private static var _instance:Scenario = null;
         public static function get instance():Scenario {
@@ -17,7 +17,7 @@ package
         private var context:Context = Context.instance;
 
         public function Scenario(singleton_enforcer:SingletonEnforcer) {
-
+            //scenery();
 
             var a:Actor = new Actor(new RBPlayerA());
             context.camera.follow(a);
@@ -27,7 +27,7 @@ package
             //var scene:SceneFight = new SceneFight();
         }
 
-        public function bg():void {
+        public function scenery():void {
             var map1:DisplayObject = context.camera.addChild(
                 new (context.asset_loader.getDefinitionOf("Map1"))());
             var map2:DisplayObject = new (context.asset_loader.getDefinitionOf("Map2"))();

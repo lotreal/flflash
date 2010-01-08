@@ -3,7 +3,7 @@ package
     import flash.display.*;
     import com.actionsnippet.qbox.*;
     import flf.*;
-    import im.luo.log.Logger;
+    import im.luo.logging.Logger;
 
     public class SceneFight extends Sprite {
         private var logger:Logger = Logger.getLogger(this);

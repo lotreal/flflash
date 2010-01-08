@@ -5,7 +5,7 @@ package flf {
     import Box2D.Common.Math.*;
     import com.actionsnippet.qbox.*;
     import flash.ui.Keyboard;
-    import im.luo.log.Logger;
+    import im.luo.logging.Logger;
 
     public class Doll extends Sprite {
         private var _cu:IDollController;

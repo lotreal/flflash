@@ -3,9 +3,11 @@ package
     import flash.display.*;
     import flash.geom.*;
     import flash.events.*;
-    import im.luo.log.Logger;
+    import im.luo.logging.Logger;
     import Box2D.Common.Math.*;    
-    public class Camera extends MovieClip {
+
+    import caurina.transitions.Tweener;
+    public class Camera extends Sprite {
         private static var _instance:Camera = null;
         public static function get instance():Camera {
             return Camera.getInstance();
@@ -27,7 +29,7 @@ package
         private var shootMode:String = Camera.FIXED;
         private var followTarget:Actor;
 
-        private var scale:Number = 30;
+        public var scale:Number = 30;
 
         public function Camera(singleton_enforcer:SingletonEnforcer):void {
             context.sprite.addChild(this);
@@ -72,23 +74,18 @@ package
                 return y*2;
             }
         }
-        public function beginFill(color:uint, alpha:Number = 1.0):void  {
-            g.beginFill(color, alpha);
-        }
-        public function moveTo(x:Number, y:Number):void {
-            x = rx(x); y = ry(y); g.moveTo(x, y);
-        }
-        public function lineTo(x:Number, y:Number):void {
-            x = rx(x); y = ry(y); g.lineTo(x, y);
-        }
-        public function drawRect(x:Number, y:Number, width:Number, height:Number):void {
-            x = rx(x); y = ry(y); g.drawRect(x, y, width * scale, height * scale);
-        }
-        public function drawCircle(x:Number, y:Number, radius:Number):void {
-            x = rx(x); y = ry(y); g.drawCircle(x, y, radius * scale);
+
+        private var actors:Vector.<Actor> = new Vector.<Actor>;
+        public function observe(p_display:Actor):Vision {
+            var vision:Vision = new Vision(this);
+            actors.push(p_display);
+            return addChild(vision) as Vision;
         }
 
         public function shoot(e:Event):void {
+            //var a:Actor;
+            //for each (a in actors) { a.run(e); a.update(e); }
+
             if (shootMode == Camera.FOLLOW) {
                 var c:b2Vec2 = followTarget.body.GetWorldCenter();
                 rotation=0; // If not, matrix starts wrong.
@@ -97,6 +94,7 @@ package
                 m.ty= (h/2 - c.y * 30);
                 transform.matrix=m;
             }
+
         }
 
         public function follow(actor:Actor):void {
@@ -108,6 +106,7 @@ package
         public function debug():void {
             logger.debug('width',w,'height',h);
         }
+        //camera.mirror():Vision
     }
 }
 // SingletonEnforcer

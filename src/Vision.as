@@ -2,7 +2,7 @@ package
 {
     import flash.display.*;
     import flash.geom.*;
-    import im.luo.log.Logger;
+    import im.luo.logging.Logger;
 
     public class Vision extends Sprite {
         private var camera:Camera;

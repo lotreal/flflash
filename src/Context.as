@@ -13,7 +13,7 @@ package {
     import flash.system.ApplicationDomain;
     import flf.*;
     import im.luo.utils.*;
-    import im.luo.log.Logger;
+    import im.luo.logging.Logger;
 
     public class Context {
 	private static var _instance:Context = null;
@@ -65,9 +65,11 @@ package {
             logger.debug('资源加载完成');
             camera   = Camera.instance;
             world    = World.instance;
-            scenario = Scenario.instance;
+
             director = Director.instance;
+            scenario = Scenario.instance;
             director.action();
+
             debug(stage);
         }
         
@@ -75,10 +77,8 @@ package {
             logger.debug("============= "+(String(node))+" =============");
             var c:DisplayObjectContainer = node as DisplayObjectContainer;
             if (c) {
-                logger.debug("Number of children of "+(String(c))+": ");
-                logger.debug(c.numChildren);
                 if (c.numChildren > 0 ) {
-                    logger.debug("List children of "+(String(c))+": ");
+                    logger.debug("Number of children of "+(String(c))+": " + c.numChildren);
                     for (var i:uint=0;i<c.numChildren;i++) {
                         logger.debug(c.getChildAt(i));
                     }

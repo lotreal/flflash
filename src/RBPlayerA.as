@@ -1,7 +1,7 @@
 package
 {
     import flash.display.*;
-    import im.luo.log.Logger;
+    import im.luo.logging.Logger;
     import flash.events.*;
     import Box2D.Common.Math.*;
     import Box2D.Dynamics.*;
