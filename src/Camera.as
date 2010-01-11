@@ -32,7 +32,7 @@ package
         public var scale:Number = 30;
 
         public function Camera(singleton_enforcer:SingletonEnforcer):void {
-            context.sprite.addChild(this);
+            context.root.addChild(this);
             logger.debug('初始化摄影机');
             debug();
             addEventListener(Event.ENTER_FRAME, shoot);
@@ -46,10 +46,10 @@ package
         }
 
         public function get w():int {
-            return context.stage.stageWidth;
+            return context.width;
         }
         public function get h():int {
-            return context.stage.stageHeight;
+            return context.height;
         }
         public function get g():Graphics {
             return current.graphics;

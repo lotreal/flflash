@@ -11,7 +11,6 @@ package
     import flash.display.*;
     
     public class ContactListener extends b2ContactListener {
-        private var _logger:Logger = Logger.getLogger(this);
         public var contactStack:Array = new Array();
         
         override public function Add(point:b2ContactPoint):void{
@@ -20,7 +19,18 @@ package
             var separation:Number = point.separation;
             // var penetration:Number = -separation;
             var position:b2Vec2 = point.position.Copy();
-            contactStack.push(new ContactPoint(actor1, actor2, separation, position));
+
+            var contactPoint:ContactPoint = new ContactPoint(actor1, actor2, separation, position); 
+            if (!findDuplicate(contactPoint)) contactStack.push(contactPoint);
         }
+
+        private function findDuplicate(contactPoint:ContactPoint):Boolean {
+            for each(var p:ContactPoint in contactStack) {
+                if (p.actor1 == contactPoint.actor1 && p.actor2 == contactPoint.actor2)
+                    return true;
+            }
+            return false;
+        }
+        private var _logger:Logger = Logger.getLogger(this);
     }
 }

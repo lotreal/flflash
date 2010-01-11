@@ -15,17 +15,14 @@ package {
     import im.luo.utils.*;
     import im.luo.logging.Logger;
 
+    import ghostcat.debug.EnabledSWFScreen;
+
     public class Context {
-	private static var _instance:Context = null;
-        public static function get instance():Context {
-	    return Context.getInstance();
-	}
-	public static function getInstance():Context {
-	    if (_instance == null) _instance = new Context(new SingletonEnforcer());
-	    return _instance;
-	}
+        public var width:int = 640;
+        public var height:int = 480;
+
         public var logger:Logger;
-        public var sprite:Sprite;
+        public var root:DisplayObjectContainer;
         public var stage:Stage;
 
         public var world:World;
@@ -34,26 +31,35 @@ package {
         public var scenario:Scenario;
         public var director:Director;
 
-	private var _asset_loader_context:LoaderContext;
-        private var _asset_loader:AssetLoader;
 	public function get asset_loader():AssetLoader { return _asset_loader; }
 
         public function Context(singleton_enforcer:SingletonEnforcer) {
             logger   = Logger.getLogger(this);
         }
 
-        public static function init(root:Sprite):void {
-            root.stage.scaleMode = StageScaleMode.NO_SCALE;
-            var context:Context = Context.instance;
-            with (context) {
-                sprite = root;
-                stage = root.stage;
-                loadAssest();
+        public static function Init(root:DisplayObjectContainer):void {
+            Context.instance.init(root);
+        }
+        public function init(root:DisplayObjectContainer):void {
+            this.root = root;
+            if(root != null && stage == null && root.stage != null){
+        	initStage(root.stage);
+            }
+        }
+        private function initStage(stage:Stage):void {
+            if(this.stage == null) {
+                stage.scaleMode = StageScaleMode.NO_SCALE;
+                this.stage = stage;
+                this.width = stage.stageWidth;
+                this.height = stage.stageHeight;
+
+		//new EnabledSWFScreen(stage);
+                //,function ():void{refreshInterval = 2},function ():void{refreshInterval = 0})
+                this.loadAssest();
             }
         }
 
         public function loadAssest():void {
-	    // start loading assets
 	    _asset_loader_context = new LoaderContext(true, ApplicationDomain.currentDomain, null);
 	    _asset_loader = new AssetLoader("main.swf", _asset_loader_context);
 	    _asset_loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
@@ -90,6 +96,18 @@ package {
                 logger.debug("DisplayObject(not container): "+(String(node)));
             }
         }
+
+	private static var _instance:Context = null;
+        public static function get instance():Context {
+	    return Context.getInstance();
+	}
+	public static function getInstance():Context {
+	    if (_instance == null) _instance = new Context(new SingletonEnforcer());
+	    return _instance;
+	}
+	private var _asset_loader_context:LoaderContext;
+        private var _asset_loader:AssetLoader;
+
     }
 }
 

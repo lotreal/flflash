@@ -51,7 +51,7 @@ package
             dbgDraw.m_drawScale = 30.0;
             dbgDraw.m_fillAlpha = 0.3;
             dbgDraw.m_lineThickness = 1.0;
-	    dbgDraw.m_drawFlags = b2DebugDraw.e_shapeBit|b2DebugDraw.e_jointBit|b2DebugDraw.e_coreShapeBit|b2DebugDraw.e_aabbBit|b2DebugDraw.e_obbBit|b2DebugDraw.e_pairBit|b2DebugDraw.e_centerOfMassBit;
+	    dbgDraw.m_drawFlags = b2DebugDraw.e_shapeBit|b2DebugDraw.e_jointBit|b2DebugDraw.e_coreShapeBit|b2DebugDraw.e_pairBit|b2DebugDraw.e_centerOfMassBit;
 
             world.SetDebugDraw(dbgDraw);
 

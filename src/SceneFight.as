@@ -12,7 +12,7 @@ package
         public function SceneFight():void {
             var mc:MovieClip = new MovieClip();
             var context:Context = Context.instance;
-            context.sprite.addChild(mc);
+            context.root.addChild(mc);
             qbWorld = new QuickBox2D(mc, {gravityX:0, gravityY:0, debug:true, frim:true});
             qbWorld.setDefault({
                     lineColor:0x666666, 
