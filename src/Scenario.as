@@ -19,10 +19,12 @@ package
         public function Scenario(singleton_enforcer:SingletonEnforcer) {
             //scenery();
 
-            var a:Actor = new Actor(10, 6, new RBPlayerA());
-            context.camera.follow(a);
+            var a:GladiatorRole = new GladiatorRole(6, 6);
+
+            //var a:Actor = new Actor(10, 6, new RBPlayerA());
+            //context.camera.follow(a);
             
-            var b:Actor = new Actor(20, 6);
+            //var b:Actor = new Actor(20, 6);
             logger.debug('建立场景');
             //var scene:SceneFight = new SceneFight();
         }

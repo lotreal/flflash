@@ -1,22 +1,32 @@
 package
 {
     import im.luo.logging.Logger;
-    
+    import flash.events.TimerEvent;
+    import flash.text.TextField;
+    import flash.utils.Timer;
+    import flash.events.TimerEvent;
+    import Box2D.Common.Math.b2Vec2;
     public class GladiatorRole extends Role {
-        private var _logger:Logger = Logger.getLogger(this);
+        private var logger:Logger = Logger.getLogger(this);
 
-        private var maxLevel:int = 9;
+        public var maxLevel:int = 9;
+        public var level:int = 4;
 
-        public function GladiatorRole() {
-            this.actor = actor;
-            this.looks = looks;
+        public var side:Number = 3;
+        public var forwardSpeed:Number = 18;
+        public var backwardSpeed:Number = -9;
+
+        public var dialogue:Vision = new Vision(camera);
+        public var dialogueTextBox:TextField = new TextField();
+
+        public function GladiatorRole(x:Number, y:Number) {
+            super(x, y);
+            this.actor = new GladiatorActor();
+            this.looks = new GladiatorLooks(this);
         }
 
-        private function changeLevel(lv:uint):void {
-            if (level != lv) {
-                //modelling();
-            }
-        }
+
+
 
         public function turnLeft():void {
             logger.debug ("left");
@@ -64,17 +74,17 @@ package
 
         public function levelUp():void {
             level++;
-            actor.refresh();
+            actor.update();
             looks.repaint();
         }
 
-        private var dialogueTimer:Timer;
+        public var dialogueTimer:Timer;
         public function say(s:String):void
         {
-            dialogueTextBox.text = s;
-            dialogueTimer = new Timer(1000, 1);
-            dialogueTimer.addEventListener("timer", timerHandler);
-            dialogueTimer.start();
+            //dialogueTextBox.text = s;
+            //dialogueTimer = new Timer(1000, 1);
+            //dialogueTimer.addEventListener("timer", timerHandler);
+            //dialogueTimer.start();
         }
 
         public function timerHandler(event:TimerEvent):void {

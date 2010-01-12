@@ -1,0 +1,3 @@
+            var side:Number = 3 / (1 + role.level/10);
+
+	    var radius:Number = (side / 2) / Math.sin(innerangle / 2);

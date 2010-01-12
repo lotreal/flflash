@@ -76,9 +76,9 @@ package
         }
 
         private var actors:Vector.<Actor> = new Vector.<Actor>;
-        public function observe(p_display:Actor):Vision {
+        public function observe(p_display:*):Vision {
             var vision:Vision = new Vision(this);
-            actors.push(p_display);
+            //actors.push(p_display);
             return addChild(vision) as Vision;
         }
 
@@ -86,14 +86,14 @@ package
             //var a:Actor;
             //for each (a in actors) { a.run(e); a.update(e); }
 
-            if (shootMode == Camera.FOLLOW) {
-                var c:b2Vec2 = followTarget.body.GetWorldCenter();
-                rotation=0; // If not, matrix starts wrong.
-                var m:Matrix=transform.matrix;
-                m.tx= (w/2 - c.x * 30);
-                m.ty= (h/2 - c.y * 30);
-                transform.matrix=m;
-            }
+            //if (shootMode == Camera.FOLLOW) {
+            //    var c:b2Vec2 = followTarget.body.GetWorldCenter();
+            //    rotation=0; // If not, matrix starts wrong.
+            //    var m:Matrix=transform.matrix;
+            //    m.tx= (w/2 - c.x * 30);
+            //    m.ty= (h/2 - c.y * 30);
+            //    transform.matrix=m;
+            //}
 
         }
 

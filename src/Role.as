@@ -1,10 +1,21 @@
 package
 {
     import im.luo.logging.Logger;
-    
+    import flash.display.DisplayObjectContainer;
+    import flash.events.Event;
     public class Role {
-        public var x:int;
-        public var y:int;
+        public var x:Number;
+        public var y:Number;
+        public var type:String = "";
+
+        public var actor:Actor;
+        //public var action:Action = null;
+        public var looks:Looks;
+
+        public var context:Context = Context.instance;
+        public var camera:Camera = context.camera;
+
+        private var _logger:Logger = Logger.getLogger(this);
 
         public function Role(x:Number, y:Number) {
             this.x = x;
@@ -13,34 +24,17 @@ package
 
         public function run():void {
             looks.paint();
-            looks.addEventListener(Event.ENTER_FRAME, step);
         }
 
         public function step():void {
-            if (action != null) action.step();
+            //if (action != null) action.step();
             looks.update();
         }
-
-        private var _action:Action = null;
-        public function get action():Action {
-            return _action;
-        }
-        public function set action(value:Action):void {
-            _action = value;
-        }
-
-        private var actor:Actor;
-        private var type:String;
-        private var looks:DisplayObjectContainer;
-
-        private var _logger:Logger = Logger.getLogger(this);
 
         public function destroy():void {
             looks.destroy();
             //vision.parent.removeChild(vision);
-
             actor.destroy();
         }
-
     }
 }
