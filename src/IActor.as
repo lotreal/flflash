@@ -14,8 +14,8 @@ package
         function get angularVel():Number;
         function set angularVel(value:Number):void;
 
-        function get data():*;
-        function set data(value:*):void;
+        function get userdata():*;
+        function set userdata(value:*):void;
 
         function update():void;
         function destroy():void;

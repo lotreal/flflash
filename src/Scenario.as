@@ -16,13 +16,32 @@ package
         private var logger:Logger = Logger.getLogger(this);
         private var context:Context = Context.instance;
 
-        public function Scenario(singleton_enforcer:SingletonEnforcer) {
-            //scenery();
+        public var width:int = 997 * 2;
+        public var height:int = 600 * 2;
 
-            var a:GladiatorRole = new GladiatorRole(6, 6);
+        public function Scenario(singleton_enforcer:SingletonEnforcer) {
+            scenery();
+            var player1:GladiatorRole = new GladiatorRole(20, 12);
+            player1.controller = new RBPlayerA();
+            player1.run();
+            Director.instance.player1 = player1;
+
+            var npc:GladiatorRole;
+            var x:Number, y:Number;
+            for (var i:int = 0; i < 20; i++) {
+                x = Math.random() * width / 30;
+                y = Math.random() * height / 30;
+
+                npc = new NpcGladiatorRole(x, y);
+                npc.run();
+            }
+
+            //var player1:Fighter = new Fighter(6, 6);
+            //player1.action = new KeyboardAction();
+            //addRole(player1);
 
             //var a:Actor = new Actor(10, 6, new RBPlayerA());
-            //context.camera.follow(a);
+            context.camera.follow(player1);
             
             //var b:Actor = new Actor(20, 6);
             logger.debug('建立场景');

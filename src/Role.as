@@ -9,7 +9,15 @@ package
         public var type:String = "";
 
         public var actor:Actor;
-        //public var action:Action = null;
+
+        private var _controller:IRoleBehaviour = null;
+        public function set controller(value:IRoleBehaviour):void {
+            if (_controller != null) _controller.destroy();
+            _controller = value;
+            _controller.role = this;
+            _controller.run();
+        }
+
         public var looks:Looks;
 
         public var context:Context = Context.instance;

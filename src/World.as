@@ -2,6 +2,9 @@ package
 {
     import flash.events.*;
     import flash.display.*;
+    import flash.filters.BitmapFilterQuality;
+    import flash.filters.GlowFilter;
+
     import im.luo.logging.Logger;
 
     import Box2D.Dynamics.*;
@@ -10,7 +13,7 @@ package
     import Box2D.Collision.*;
     import Box2D.Collision.Shapes.*;
     
-    public class World extends Sprite {
+    public class World {
         private static var _instance:World = null;
         public static function get instance():World {
             return World.getInstance();
@@ -27,9 +30,11 @@ package
 
         private var contactListener:ContactListener;
 
+        private var camera:Camera = Context.instance.camera;
+
         public function World(singleton_enforcer:SingletonEnforcer) {
             var context:Context = Context.instance;
-            //context.camera.addChild(this);
+
             var worldAABB:b2AABB = new b2AABB();
             worldAABB.lowerBound.Set(-100.0, -100.0);
             worldAABB.upperBound.Set(100.0, 100.0);
@@ -53,11 +58,57 @@ package
             dbgDraw.m_lineThickness = 1.0;
 	    dbgDraw.m_drawFlags = b2DebugDraw.e_shapeBit|b2DebugDraw.e_jointBit|b2DebugDraw.e_coreShapeBit|b2DebugDraw.e_pairBit|b2DebugDraw.e_centerOfMassBit;
 
-            world.SetDebugDraw(dbgDraw);
+            var glow:GlowFilter = new GlowFilter();
+            glow.color = 0xffffff;
+            glow.alpha = 0.8;
+            glow.blurX = 12;
+            glow.blurY = 12;
+            glow.quality = BitmapFilterQuality.MEDIUM;
+
+            //debugSprite.filters = [glow];
+
+            //world.SetDebugDraw(dbgDraw);
 
             contactListener = new ContactListener();
             world.SetContactListener(contactListener);
-	    addEventListener(Event.ENTER_FRAME, run);
+	    camera.addEventListener(Event.ENTER_FRAME, run);
+
+
+
+            var width:int = 997 * 2;
+            var height:int = 600 * 2;
+
+            var bodyDef:b2BodyDef = new b2BodyDef();
+            bodyDef.position.Set(0, 0);
+
+            var body:b2Body = world.CreateBody(bodyDef);
+
+	    var boxDef:b2PolygonDef;
+
+	    boxDef = new b2PolygonDef();
+            boxDef.SetAsOrientedBox(width/2/30, 0.2, new b2Vec2(width/30/2, -0.1), 0);
+            boxDef.density = 0;
+            body.CreateShape(boxDef);
+
+	    boxDef = new b2PolygonDef();
+            boxDef.SetAsOrientedBox(width/2/30, 0.2, new b2Vec2(width/30/2, height/30+0.1), 0);
+            boxDef.density = 0;
+            body.CreateShape(boxDef);
+
+	    boxDef = new b2PolygonDef();
+            boxDef.SetAsOrientedBox(0.2, height/2/30, new b2Vec2(-0.1, height/2/30), 0);
+            boxDef.density = 0;
+            body.CreateShape(boxDef);
+
+	    boxDef = new b2PolygonDef();
+            boxDef.SetAsOrientedBox(0.2, height/2/30, new b2Vec2(width/30+0.1, height/2/30), 0);
+            boxDef.density = 0;
+            body.CreateShape(boxDef);
+
+
+            body.CreateShape(boxDef);
+            body.SetMassFromShapes();
+
         }
 
         public function getWorld():b2World { return world; }
@@ -68,7 +119,7 @@ package
             while(contactListener.contactStack[0])
             {
                 var contactPoint:ContactPoint = contactListener.contactStack.pop();
-                logger.debug('contact!');
+                //logger.debug('contact!');
                 Collide.process(contactPoint);
             }
         }

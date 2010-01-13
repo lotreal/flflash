@@ -27,14 +27,14 @@ package
         private var current:Sprite = this as Sprite;
 
         private var shootMode:String = Camera.FIXED;
-        private var followTarget:Actor;
+        private var followTarget:Role;
 
         public var scale:Number = 30;
 
         public function Camera(singleton_enforcer:SingletonEnforcer):void {
             context.root.addChild(this);
             logger.debug('初始化摄影机');
-            debug();
+            //debug();
             addEventListener(Event.ENTER_FRAME, shoot);
         }
 
@@ -86,20 +86,20 @@ package
             //var a:Actor;
             //for each (a in actors) { a.run(e); a.update(e); }
 
-            //if (shootMode == Camera.FOLLOW) {
-            //    var c:b2Vec2 = followTarget.body.GetWorldCenter();
-            //    rotation=0; // If not, matrix starts wrong.
-            //    var m:Matrix=transform.matrix;
-            //    m.tx= (w/2 - c.x * 30);
-            //    m.ty= (h/2 - c.y * 30);
-            //    transform.matrix=m;
-            //}
+            if (shootMode == Camera.FOLLOW) {
+                var c:b2Vec2 = followTarget.actor.center;
+                rotation=0; // If not, matrix starts wrong.
+                var m:Matrix=transform.matrix;
+                m.tx= (w/2 - c.x * 30);
+                m.ty= (h/2 - c.y * 30);
+                transform.matrix=m;
+            }
 
         }
 
-        public function follow(actor:Actor):void {
+        public function follow(role:Role):void {
             shootMode = Camera.FOLLOW;
-            followTarget = actor;
+            followTarget = role;
             logger.debug('镜头跟随模式');
         }
 

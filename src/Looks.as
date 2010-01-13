@@ -4,7 +4,7 @@ package
     import flash.display.Sprite;
     public class Looks extends Sprite {
         public var vision:Vision;
-        public var role:Role;
+        public var role:*;
         public var context:Context = Context.instance;
         public var camera:Camera = context.camera;
 

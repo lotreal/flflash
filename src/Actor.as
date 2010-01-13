@@ -13,7 +13,7 @@ package {
     public class Actor implements IActor {
         public var context:Context = Context.instance;
         //public var camera:Camera = context.camera;
-        public var role:Role;
+        public var role:*;
 
         private var logger:Logger = Logger.getLogger(this);
 
@@ -32,6 +32,10 @@ package {
             return body.GetAngle();
         }
 
+        public function get center():b2Vec2 {
+            return body.GetWorldCenter();
+        }
+
         public function get position():b2Vec2 {
             return body.GetPosition();
         }
@@ -48,14 +52,15 @@ package {
             return body.GetAngularVelocity();
         }
         public function set angularVel(value:Number):void {
+            if (Math.abs(value) > 5) value = (value > 0 ? 5 : -5);
             body.WakeUp();
             body.SetAngularVelocity(value);
         }
 
-        public function get data():* {
+        public function get userdata():* {
             return body.m_userData;
         }
-        public function set data(value:*):void {
+        public function set userdata(value:*):void {
             body.m_userData = value;
         }
 
@@ -86,7 +91,7 @@ package {
         protected function creatBody():void {
             initBodyDef();
             body = world.CreateBody(bodyDef);
-            data(this);
+            body.m_userData = this;
             createShape();
         }
     }

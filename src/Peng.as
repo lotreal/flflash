@@ -4,6 +4,7 @@ package
     import caurina.transitions.Tweener;
     import Box2D.Common.Math.b2Vec2;
     import flash.display.Sprite;
+    import flash.display.MovieClip;
     
     public class Peng {
         private var _logger:Logger = Logger.getLogger(this);

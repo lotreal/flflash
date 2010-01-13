@@ -76,7 +76,7 @@ package {
             scenario = Scenario.instance;
             director.action();
 
-            debug(stage);
+            //debug(stage);
         }
         
         private function debug(node:DisplayObject):void {

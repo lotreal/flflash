@@ -3,11 +3,12 @@ package
     import im.luo.logging.Logger;
     import flash.events.Event;
     import Box2D.Common.Math.b2Vec2;
+    import flash.geom.Matrix;
 
     public class GladiatorLooks extends Looks {
-        private var _logger:Logger = Logger.getLogger(this);
+        private var logger:Logger = Logger.getLogger(this);
 
-        public function GladiatorLooks(role:Role) {
+        public function GladiatorLooks(role:GladiatorRole) {
             super(role);
         }
 
@@ -25,24 +26,26 @@ package
         }
 
         protected function paintBody():void {
+            //logger.debug("开始绘制角色");
             vision.graphics.clear();
-            vision.lineStyle(1, 0x990000, .75);
+            vision.lineStyle(3, role.color, 1);
 
             var vertices:Vector.<b2Vec2> = GeomUtil.evalPolygonVertices(role.level, role.radius);
 
             var p:b2Vec2 = vertices[0];
             vision.moveTo(p.x, p.y);
-	    for (var i:int = 1; i < level; i++) {
+	    for (var i:int = 1; i < role.level; i++) {
                 p = vertices[i];
                 vision.lineTo(p.x, p.y);
 	    }
             p = vertices[0];
             vision.lineTo(p.x, p.y);
+            vision.lineTo(0, 0);
         }
 
         override public function update(e:Event = null):void {
-            var position:b2Vec2 = body.GetPosition();
-            var rotation:Number = body.GetAngle();
+            var position:b2Vec2 = role.actor.position;
+            var rotation:Number = role.actor.angle;
 
             vision.rotation = 0; // If not, matrix starts wrong.
             var m:Matrix;
