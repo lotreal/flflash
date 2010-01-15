@@ -34,15 +34,18 @@ package
                 _role.turnLeft();
             }
             if (kb.pressed("UP")) {
-                _role.forward();
+                _role.forward(kb.timePressed("UP"));
             }
             if (kb.pressed("RIGHT")) {
                 _role.turnRight();
             }
             if (kb.pressed("DOWN")) {
-                _role.backward();
+                _role.backward(kb.timePressed("DOWN"));
             }
         }
 
+        override public function toString():String {
+            return "上\下\左\右 方向键分别为: 前进; 后退; 左转; 右转. "
+        };
     }
 }

@@ -10,7 +10,7 @@ package
                 actor1.center, position);
             var distance2:Number = actor2.role.radius - b2Vec2Util.distanceBetweenPoints(
                 actor2.center, position);
-            //logger.debug(distance1, distance2);
+            logger.debug(actor1.role.type, distance1, distance2);
             if (distance1 < distance2) {
                 actor1.role.levelUp();
                 actor2.role.levelDown();
@@ -19,6 +19,9 @@ package
                 actor2.role.levelUp();
             } else {
             }
+
+            //actor1.applyImpulse(position, actor1.center);
+            //actor2.applyImpulse(position, actor2.center);
         }
     }
 }

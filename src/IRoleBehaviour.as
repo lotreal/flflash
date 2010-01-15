@@ -6,5 +6,6 @@ package
         function run():void;
         function update(e:Event):void;
         function destroy():void;
+        function toString():String;
     }
 }

@@ -14,7 +14,7 @@ package
 
         override public function paint():void {
             vision = camera.observe(this);
-            addEventListener(Event.ENTER_FRAME, update);
+            camera.addEventListener(Event.ENTER_FRAME, update);
 
             //camera.addChild(dialogue);
             //dialogue.addChild(dialogueTextBox);

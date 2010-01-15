@@ -6,23 +6,39 @@ package
     import flash.utils.Timer;
     import flash.events.TimerEvent;
     import Box2D.Common.Math.b2Vec2;
+
+    import flash.events.TimerEvent;
+    import flash.utils.Timer;
+
+
     public class GladiatorRole extends Role {
         private var logger:Logger = Logger.getLogger(this);
 
         public var maxLevel:int = 9;
 
-        private var _level:int = 4;
+        private var initLv:int = 3;
+        private var _level:int = initLv;
         public function get level():int {
             return _level;
         }
         public function set level(value:int):void {
+            //if (lock) return void;
             if (value > 8) value = 8;
-            if (value < 3) value = 3;
+            if (value < 2) value = 2;
             if (_level != value) {
+                //lock = true;
+		//var gameTimer:Timer = new Timer(1000, 1); //changed in part 3 from 50
+		//gameTimer.addEventListener(TimerEvent.TIMER, buff);
+
                 _level = value;
                 actor.update();
                 looks.repaint();
             }
+        }
+        
+        private var lock:Boolean = false;
+        public function buff():void {
+            lock = false;
         }
 
         public var color:uint = 0x990000;
@@ -44,26 +60,31 @@ package
 
         public function GladiatorRole(x:Number, y:Number) {
             super(x, y);
+            type = "gladiator";
             this.actor = new GladiatorActor(this);
             this.looks = new GladiatorLooks(this);
         }
 
-        public function strafeEast():void {
+        public function strafeEast(t:int = -1):void {
+            var v1:Number = evalLinearVel(20, t, 30);
             var v:b2Vec2 = new b2Vec2(-strafeSpeed, 0);
             actor.linearVel = v;
         }
 
-        public function strafeWest():void {
+        public function strafeWest(t:int = -1):void {
+            var v1:Number = evalLinearVel(20, t, 30);
             var v:b2Vec2 = new b2Vec2(strafeSpeed, 0);
             actor.linearVel = v;
         }
 
-        public function strafeNorth():void {
+        public function strafeNorth(t:int = -1):void {
+            var v1:Number = evalLinearVel(20, t, 30);
             var v:b2Vec2 = new b2Vec2(0, -strafeSpeed);
             actor.linearVel = v;
         }
 
-        public function strafeSouth():void {
+        public function strafeSouth(t:int = -1):void {
+            var v1:Number = evalLinearVel(20, t, 30);
             var v:b2Vec2 = new b2Vec2(0, strafeSpeed);
             actor.linearVel = v;
         }
@@ -81,21 +102,49 @@ package
             actor.angularVel += 1;
         }
 
-        public function forward():void {
-            //logger.debug ("forward");
-            var v:b2Vec2 = new b2Vec2(
-                forwardSpeed * Math.cos(actor.angle),
-                forwardSpeed * Math.sin(actor.angle));
-            actor.linearVel = v;
+        private function evalLinearVel(a:Number, t:int, maxVel:Number):Number {
+            var v:Number = v0 + a * t / 1000;
+            if (a > 0) {
+                v = v > maxVel ? maxVel : v;
+            } else {
+                v = v < maxVel ? maxVel : v;
+                v = v > v0 ? v0 : v;
+            }
+            //logger.debug(v0, a, t, maxVel, v);
+            return v;
+        }
+
+        public static const FORWARD:int = 1;
+        public static const BACKWARD:int = 2;
+
+        private var lastMove:int = 0;
+        private var v0:Number = 0;
+
+        public function move(type:int):void {
+            if (type != lastMove) {
+                lastMove = type;
+                v0 = actor.linearVel.Length();
+            }
+        }
+
+
+        public function forward(t:int = -1):void {
+            move(FORWARD);
+            var v:Number = evalLinearVel(20, t, 30);
+
+            actor.linearVel = new b2Vec2(
+                v * Math.cos(actor.angle),
+                v * Math.sin(actor.angle));
             actor.angularVel *= 0.8;
         }
 
-        public function backward():void {
-            //logger.debug ("backward");
-            var v:b2Vec2 = new b2Vec2(
-                backwardSpeed * Math.cos(actor.angle),
-                backwardSpeed * Math.sin(actor.angle));
-            actor.linearVel = v;
+        public function backward(t:int = -1):void {
+            move(BACKWARD);
+            var v:Number = evalLinearVel(-32, t, -20);
+
+            actor.linearVel = new b2Vec2(
+                v * Math.cos(actor.angle),
+                v * Math.sin(actor.angle));
             actor.angularVel *= 0.8;
         }
 

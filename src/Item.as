@@ -93,7 +93,7 @@ package {
         public function Actor(ix:Number = 10, iy:Number = 6, _b:IRoleBehaviour = null):void {
             this.ix = ix;
             this.iy = iy;
-            addEventListener(Event.ENTER_FRAME, run);
+            camera.addEventListener(Event.ENTER_FRAME, run);
 
             body = world.CreateBody(bodyDef);
             body.m_userData = this;

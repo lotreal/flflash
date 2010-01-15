@@ -6,6 +6,7 @@ package
     import im.luo.logging.Logger;
     import Box2D.Common.Math.*;    
 
+    import flash.utils.getTimer;
     import caurina.transitions.Tweener;
     public class Camera extends Sprite {
         private static var _instance:Camera = null;
@@ -85,7 +86,6 @@ package
         public function shoot(e:Event):void {
             //var a:Actor;
             //for each (a in actors) { a.run(e); a.update(e); }
-
             if (shootMode == Camera.FOLLOW) {
                 var c:b2Vec2 = followTarget.actor.center;
                 rotation=0; // If not, matrix starts wrong.

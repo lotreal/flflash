@@ -8,6 +8,7 @@ package
         
         public function NpcGladiatorRole(x:Number, y:Number) {
             super(x, y);
+            type = "npc_gladiator";
             color = 0xffffff;
         }
     }

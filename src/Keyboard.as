@@ -2,14 +2,18 @@ package
 {
     import flash.display.Stage;
     import flash.events.KeyboardEvent;
-    
+    import flash.utils.getTimer;
+    import im.luo.logging.Logger;
     public class Keyboard
     {
+        
 	private static var _instance:Keyboard = null;
         public static function get instance():Keyboard {
 	    if (_instance == null) _instance = new Keyboard(new SingletonEnforcer());
 	    return _instance;
 	}
+
+        private var logger:Logger = Logger.getLogger(this);
 
 	public var ESC:Boolean;
 	public var F1:Boolean;
@@ -187,69 +191,79 @@ package
 	/**
 	* Check to see if this key is pressed.
 	* 
-	* @param	Key		One of the key constants listed above (e.g. "LEFT" or "A").
-	* 
-	* @return	Whether the key is pressed
-	*/
-	public function pressed(Key:String):Boolean { return this[Key]; }
-	
-	/**
-	* Check to see if this key was just pressed.
-	* 
-	* @param	Key		One of the key constants listed above (e.g. "LEFT" or "A").
-	* 
-	* @return	Whether the key was just pressed
-	*/
-	public function justPressed(Key:String):Boolean { return _map[_lookup[Key]].current == 2; }
-	
-	/**
-	* Check to see if this key is just released.
-	* 
-	* @param	Key		One of the key constants listed above (e.g. "LEFT" or "A").
-	* 
-	* @return	Whether the key is just released.
-	*/
-	public function justReleased(Key:String):Boolean { return _map[_lookup[Key]].current == -1; }
-	
-	/**
-	* Event handler so FlxGame can toggle keys.
-	* 
-	* @param	event	A <code>KeyboardEvent</code> object.
-	*/
-	public function handleKeyDown(event:KeyboardEvent):void
-	{
-	    var o:Object = _map[event.keyCode];
-	    if(o == null) return;
-	    if(o.current > 0) o.current = 1;
-	    else o.current = 2;
-	    this[o.name] = true;
-	}
-	
-	/**
-	* Event handler so FlxGame can toggle keys.
-	* 
-	* @param	event	A <code>KeyboardEvent</code> object.
-	*/
-	public function handleKeyUp(event:KeyboardEvent):void
-	{
-	    var o:Object = _map[event.keyCode];
-	    if(o == null) return;
-	    if(o.current > 0) o.current = -1;
-	    else o.current = 0;
-	    this[o.name] = false;
-	}
-	
-	/**
-	* An internal helper function used to build the key array.
-	* 
-	* @param	KeyName		String name of the key (e.g. "LEFT" or "A")
-	* @param	KeyCode		The numeric Flash code for this key.
-	*/
-	protected function addKey(KeyName:String,KeyCode:uint):void
-	{
-	    _lookup[KeyName] = KeyCode;
-	    _map[KeyCode] = { name: KeyName, current: 0, last: 0 };
-	}
+        * @param Key  One of the key constants listed above (e.g. "LEFT" or "A").
+        * 
+        * @return Whether the key is pressed
+        */
+        public function pressed(Key:String):Boolean { return this[Key]; }
+        
+        /**
+        * Check to see if this key was just pressed.
+        * 
+        * @param Key  One of the key constants listed above (e.g. "LEFT" or "A").
+        * 
+        * @return Whether the key was just pressed
+        */
+        public function justPressed(Key:String):Boolean { return _map[_lookup[Key]].current == 2; }
+        
+        /**
+        * Check to see if this key is just released.
+        * 
+        * @param Key  One of the key constants listed above (e.g. "LEFT" or "A").
+        * 
+        * @return Whether the key is just released.
+        */
+        public function justReleased(Key:String):Boolean { return _map[_lookup[Key]].current == -1; }
+        
+        /**
+        * Event handler so FlxGame can toggle keys.
+        * 
+        * @param event A <code>KeyboardEvent</code> object.
+        */
+        public function handleKeyDown(event:KeyboardEvent):void
+        {
+            var o:Object = _map[event.keyCode];
+            if(o == null) return;
+            if(o.current > 0) o.current = 1;
+            else o.current = 2;
+
+            if (!this[o.name]) {
+                o.t0 = getTimer();
+            }
+            this[o.name] = true;
+        }
+
+        public function timePressed(Key:String):int
+        {
+            var o:Object = _map[_lookup[Key]];
+            return getTimer() - o.t0;
+        }
+
+        /**
+        * Event handler so FlxGame can toggle keys.
+        * 
+        * @param event A <code>KeyboardEvent</code> object.
+        */
+        public function handleKeyUp(event:KeyboardEvent):void
+        {
+            var o:Object = _map[event.keyCode];
+            if(o == null) return;
+            if(o.current > 0) o.current = -1;
+            else o.current = 0;
+            this[o.name] = false;
+        }
+        
+        /**
+        * An internal helper function used to build the key array.
+        * 
+        * @param KeyName  String name of the key (e.g. "LEFT" or "A")
+        * @param KeyCode  The numeric Flash code for this key.
+        */
+        protected function addKey(KeyName:String,KeyCode:uint):void
+        {
+            _lookup[KeyName] = KeyCode;
+            _map[KeyCode] = { name: KeyName, current: 0, last: 0, t1: 0, t2: 0 };
+        }
     }
 }
 // SingletonEnforcer

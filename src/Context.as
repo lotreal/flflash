@@ -15,7 +15,7 @@ package {
     import im.luo.utils.*;
     import im.luo.logging.Logger;
 
-    import ghostcat.debug.EnabledSWFScreen;
+    //import ghostcat.debug.EnabledSWFScreen;
 
     public class Context {
         public var width:int = 640;

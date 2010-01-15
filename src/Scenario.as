@@ -3,6 +3,9 @@ package
     import flash.display.*;
     import flash.events.*;
     import im.luo.logging.Logger;
+    import flash.utils.Timer;
+    import flash.events.TimerEvent;
+    import Box2D.Common.Math.b2Vec2;
     public class Scenario extends EventDispatcher {
         private static var _instance:Scenario = null;
         public static function get instance():Scenario {
@@ -18,7 +21,8 @@ package
 
         public var width:int = 997 * 2;
         public var height:int = 600 * 2;
-
+        
+        private var npcs:Vector.<NpcGladiatorRole> = new Vector.<NpcGladiatorRole>();
         public function Scenario(singleton_enforcer:SingletonEnforcer) {
             scenery();
             var player1:GladiatorRole = new GladiatorRole(20, 12);
@@ -34,6 +38,7 @@ package
 
                 npc = new NpcGladiatorRole(x, y);
                 npc.run();
+                npcs.push(npc);
             }
 
             //var player1:Fighter = new Fighter(6, 6);
@@ -46,6 +51,20 @@ package
             //var b:Actor = new Actor(20, 6);
             logger.debug('建立场景');
             //var scene:SceneFight = new SceneFight();
+
+	    var npcForceTimer:Timer = new Timer(10000);
+	    npcForceTimer.addEventListener(TimerEvent.TIMER, forceNpc);
+            npcForceTimer.start();
+            forceNpc();
+        }
+        public function forceNpc(event:TimerEvent = null):void {
+            logger.debug('force npc');
+            for (var i:int = 0, n:int=npcs.length; i < n; i++) {
+                var actor:Actor = npcs[i].actor;
+                var impulse:b2Vec2 = new b2Vec2(
+                    (Math.random() - 0.5)*2, (Math.random() - 0.5)*2);
+                actor.applyImpulse(impulse, actor.center);
+            }
         }
 
         public function scenery():void {

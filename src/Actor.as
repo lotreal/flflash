@@ -57,11 +57,22 @@ package {
             body.SetAngularVelocity(value);
         }
 
+        public function get mass():b2MassData {
+            return new b2MassData(); //body.GetMass();
+        }
+        public function set mass(value:b2MassData):void {
+            body.SetMass(value);
+        }
+
         public function get userdata():* {
             return body.m_userData;
         }
         public function set userdata(value:*):void {
             body.m_userData = value;
+        }
+
+	public function applyImpulse(impulse:b2Vec2, point:b2Vec2):void{
+            body.ApplyImpulse(impulse, point);
         }
 
         public function update():void {
@@ -81,7 +92,7 @@ package {
 
         protected function initBodyDef():void {
             bodyDef.position.Set(role.x, role.y);
-	    bodyDef.linearDamping = 1;
+	    bodyDef.linearDamping = 0.2;
 	    bodyDef.angularDamping = 2;
             bodyDef.angle = 0;
         }
