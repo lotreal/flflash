@@ -39,7 +39,7 @@ package
                 player1.levelDown();
             }
 
-	    if(c == KeyCode.TAB) {
+	    if(c == KeyCode.SPACEBAR) {
                 pcf++;
                 pcf = pcf > 1 ? 0 : pcf;
                 if (pcf == 1) player1.controller = new S2KBController();

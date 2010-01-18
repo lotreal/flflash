@@ -5,7 +5,6 @@ package {
     import flash.display.MovieClip;
     import flash.display.StageScaleMode;
     import flash.events.*;
-    import com.actionsnippet.qbox.*;
     import Box2D.Dynamics.*;
 
     import at.geoathome.utils.loader.AssetLoader;

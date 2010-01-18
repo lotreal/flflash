@@ -8,6 +8,8 @@ package
 
     import flash.utils.getTimer;
     import caurina.transitions.Tweener;
+    import ghostcat.display.residual.ResidualScreen;
+
     public class Camera extends Sprite {
         private static var _instance:Camera = null;
         public static function get instance():Camera {
@@ -22,7 +24,7 @@ package
         public static const FIXED:String = "fixed";
         public static const FOLLOW:String = "follow";
 
-
+        public var screen:ResidualScreen;
         private var logger:Logger = Logger.getLogger(this);
         private var context:Context = Context.instance;
         private var current:Sprite = this as Sprite;
@@ -34,14 +36,27 @@ package
 
         public function Camera(singleton_enforcer:SingletonEnforcer):void {
             context.root.addChild(this);
+
+            screen = new ResidualScreen(context.width, context.height);
+            screen.blurSpeed = 4;
+            screen.fadeSpeed = 0.7;
+
+            context.root.addChild(screen);
             logger.debug('初始化摄影机');
             //debug();
             addEventListener(Event.ENTER_FRAME, shoot);
+
+            var shape:Shape = new Shape();
+            shape.addEventListener(Event.ENTER_FRAME, tf);
+        }
+
+        public function tf(event:Event):void {
+            logger.debug('shapes enter');
         }
 
         public function newSprite():Sprite {
             var sprite:Sprite = new Sprite();
-            addChild(sprite);
+            screen.addChild(sprite);
             current = sprite;
             return sprite;
         }
@@ -80,7 +95,9 @@ package
         public function observe(p_display:*):Vision {
             var vision:Vision = new Vision(this);
             //actors.push(p_display);
-            return addChild(vision) as Vision;
+            //screen.addChild(vision);
+            addChild(vision);
+            return vision;
         }
 
         public function shoot(e:Event):void {

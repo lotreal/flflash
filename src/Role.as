@@ -14,7 +14,7 @@ package
         public function set controller(value:IRoleBehaviour):void {
             if (_controller != null) _controller.destroy();
 
-            UI.instance.tips("当前操作方案: "+ value.toString() +" [切换操作方案: Tab]");
+            UI.instance.tips("当前操作方案: "+ value.toString() +" [切换操作方案: 空格键]");
             _controller = value;
             _controller.role = this;
             _controller.run();

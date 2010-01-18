@@ -1,4 +1,4 @@
-// ~/share/flex4sdk/bin/mxmlc -debug=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/sf/TowerBuilder/lib/ -sp+=/home/lot/sf/Box2D_2.0.1/ -sp+=/home/lot/sf/QuickBox2D_1.1/QuickBox2D_1.1/ -sp+=/home/lot/sf/tweener-read-only/as3/ -sp+=/home/lot/sf/ghostcat-read-only/GhostCat/src/ -static-link-runtime-shared-libraries=true Main.as -o ../bin/flf.swf
+// ~/share/flex4sdk/bin/mxmlc -debug=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -static-link-runtime-shared-libraries=true /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/bin/flf.swf
 package {
     import flash.display.*;
     import flash.display.StageScaleMode;
