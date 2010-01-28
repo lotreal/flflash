@@ -13,7 +13,7 @@ package flf.flatland.game
         private var logger:Logger = Logger.getLogger(this);
 
         public var _role:Creature;
-        public function set role(value:Role):void {_role = Creature(value)};
+        public function set role(value:Character):void {_role = Creature(value)};
 
         public var kb:Keyboard;
         public var context:Context = Context.instance;

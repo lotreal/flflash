@@ -12,7 +12,7 @@ package flf.flatland.meta
     import im.luo.geom.Vector2D;
 
 
-    public class Creature extends Role {
+    public class Creature extends Character {
         private var logger:Logger = Logger.getLogger(this);
 
         public var maxLevel:int = 9;

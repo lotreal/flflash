@@ -31,7 +31,7 @@ package
         private var context:Context = Context.instance;
 
         private var shootMode:String = Camera.FIXED;
-        private var followTarget:Role;
+        private var followTarget:Character;
 
         public var scale:Number = 30;
 
@@ -107,7 +107,7 @@ package
 
         }
 
-        public function follow(role:Role):void {
+        public function follow(role:Character):void {
             shootMode = Camera.FOLLOW;
             followTarget = role;
             logger.debug('镜头跟随模式');

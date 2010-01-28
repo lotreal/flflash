@@ -8,7 +8,7 @@ package
         public var context:Context = Context.instance;
         public var camera:Camera = context.camera;
 
-        public function Looks(role:Role) {
+        public function Looks(role:Character) {
             this.role = role;
         }
 

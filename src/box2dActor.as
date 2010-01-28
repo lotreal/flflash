@@ -108,7 +108,7 @@ package {
             world.destroyBody(body);
         }
 
-        public function box2dActor(role:Role):void {
+        public function box2dActor(role:Character):void {
             this.role = role;
             this.creatBody();
         }
