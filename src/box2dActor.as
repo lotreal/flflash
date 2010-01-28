@@ -9,43 +9,69 @@ package {
     import flash.geom.*;
     import im.luo.logging.Logger;
     import caurina.transitions.Tweener;
+    import im.luo.geom.Vector2D;
 
-    public class Actor implements IActor {
+    public class box2dActor implements IActor {
         public var context:Context = Context.instance;
         //public var camera:Camera = context.camera;
         public var role:*;
 
         private var logger:Logger = Logger.getLogger(this);
 
-        protected var _world:b2World = context.world.getWorld();
+        protected var _world:IWorld = box2dWorld.instance;
         protected var bodyDef:b2BodyDef = new b2BodyDef();
         protected var body:b2Body;
-        protected var shapeDef:b2ShapeDef;
         protected var shape:b2Shape;
+        protected var fixture:b2Fixture;
+
+        private var _maxSpeed:Number = 0;
+        public function get maxSpeed():Number {
+            return _maxSpeed;
+        }
+        public function set maxSpeed(value:Number):void {
+            _maxSpeed = value;
+        }
 
 
-        public function get world():b2World {
+        public function get world():IWorld {
             return _world;
         }
 
         public function get angle():Number {
             return body.GetAngle();
         }
-
-        public function get center():b2Vec2 {
-            return body.GetWorldCenter();
+        public function set angle(value:Number):void {
         }
 
-        public function get position():b2Vec2 {
-            return body.GetPosition();
+	public function set x(value:Number):void {};
+	public function get x():Number {
+            return 1;
+        };
+
+	public function set y(value:Number):void {};
+	public function get y():Number {
+            return 1;
+        };
+
+        public function get center():Vector2D {
+            var p:b2Vec2 = body.GetWorldCenter();
+            return new Vector2D(p.x, p.y);
         }
 
-        public function get linearVel():b2Vec2 {
-            return body.GetLinearVelocity();
+        public function get position():Vector2D {
+            var p:b2Vec2 = body.GetPosition();
+            return new Vector2D(p.x, p.y);
         }
-        public function set linearVel(value:b2Vec2):void {
-            body.WakeUp();
-            body.SetLinearVelocity(value);
+
+        public function set position(value:Vector2D):void {
+        }
+
+        public function get linearVel():Vector2D {
+            var vel:b2Vec2 = body.GetLinearVelocity();
+            return new Vector2D(vel.x, vel.y);
+        }
+        public function set linearVel(value:Vector2D):void {
+            body.SetLinearVelocity(new b2Vec2(value.x, value.y));
         }
 
         public function get angularVel():Number {
@@ -53,7 +79,6 @@ package {
         }
         public function set angularVel(value:Number):void {
             if (Math.abs(value) > 5) value = (value > 0 ? 5 : -5);
-            body.WakeUp();
             body.SetAngularVelocity(value);
         }
 
@@ -61,14 +86,13 @@ package {
             return new b2MassData(); //body.GetMass();
         }
         public function set mass(value:b2MassData):void {
-            body.SetMass(value);
         }
 
         public function get userdata():* {
-            return body.m_userData;
+            return body.GetUserData();
         }
         public function set userdata(value:*):void {
-            body.m_userData = value;
+            body.SetUserData(value);
         }
 
 	public function applyImpulse(impulse:b2Vec2, point:b2Vec2):void{
@@ -76,33 +100,34 @@ package {
         }
 
         public function update():void {
-            body.DestroyShape(shape);
+            body.DestroyFixture(fixture);
             createShape();
-            //attachShape(shapeDef);
         }
 
         public function destroy():void {
-            world.DestroyBody(body);
+            world.destroyBody(body);
         }
 
-        public function Actor(role:Role):void {
+        public function box2dActor(role:Role):void {
             this.role = role;
             this.creatBody();
         }
 
         protected function initBodyDef():void {
             bodyDef.position.Set(role.x, role.y);
-	    bodyDef.linearDamping = 0.2;
-	    bodyDef.angularDamping = 2;
+	    bodyDef.linearDamping = 6;
+	    bodyDef.angularDamping = 12;
             bodyDef.angle = 0;
+            bodyDef.type = b2Body.b2_dynamicBody;
         }
 
         protected function createShape():void {}
 
         protected function creatBody():void {
             initBodyDef();
-            body = world.CreateBody(bodyDef);
-            body.m_userData = this;
+            body = world.createBody(bodyDef);
+            body.SetUserData(this);
+            //body.SetActive(true);
             createShape();
         }
     }

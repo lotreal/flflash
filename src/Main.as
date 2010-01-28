@@ -4,6 +4,7 @@ package {
     import flash.display.StageScaleMode;
     import flash.events.*;
     import com.hexagonstar.util.debug.Debug;
+
     [SWF(width="1000", height="600", backgroundColor="#000000", frameRate="30")]
     public class Main extends Sprite {
         public static var context:Context;

@@ -2,15 +2,15 @@ package
 {
     import im.luo.logging.Logger;
     import caurina.transitions.Tweener;
-    import Box2D.Common.Math.b2Vec2;
     import flash.display.Sprite;
     import flash.display.MovieClip;
+    import im.luo.geom.Vector2D;
     
     public class Peng {
         private var _logger:Logger = Logger.getLogger(this);
         private var camera:Camera = Context.instance.camera;
         private var peng:Sprite = new Sprite();
-        public function Peng(position:b2Vec2) {
+        public function Peng(position:Vector2D) {
             camera.addChild(peng);
             //peng.graphics.beginFill(0xFFCC00);
             peng.graphics.lineStyle(1, 0xffffff);

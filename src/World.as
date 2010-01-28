@@ -13,7 +13,7 @@ package
     import Box2D.Collision.*;
     import Box2D.Collision.Shapes.*;
     
-    public class World {
+    public class World implements IWorld {
         private static var _instance:World = null;
         public static function get instance():World {
             return World.getInstance();
@@ -67,7 +67,7 @@ package
 
             //debugSprite.filters = [glow];
 
-            //world.SetDebugDraw(dbgDraw);
+            world.SetDebugDraw(dbgDraw);
 
             contactListener = new ContactListener();
             world.SetContactListener(contactListener);
@@ -123,6 +123,14 @@ package
                 Collide.process(contactPoint);
             }
         }
+
+        public function destroyBody(body:*):void {
+            world.DestroyBody(body);
+        }
+        public function createBody(body:*):* {
+            return world.CreateBody(body);
+        }
+
     }
 }
 // SingletonEnforcer

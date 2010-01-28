@@ -1,12 +1,12 @@
-package
+package flf.flatland.role
 {
-    import flash.events.*;
     import im.luo.logging.Logger;
+    import flf.flatland.meta.Creature;
     
-    public class NpcGladiatorRole extends GladiatorRole {
+    public class Npc extends Creature {
         private var _logger:Logger = Logger.getLogger(this);
         
-        public function NpcGladiatorRole(x:Number, y:Number) {
+        public function Npc(x:Number, y:Number) {
             super(x, y);
             type = "npc_gladiator";
             color = 0xffffff;

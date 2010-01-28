@@ -13,24 +13,24 @@ package
     public class ContactListener extends b2ContactListener {
         public var contactStack:Array = new Array();
         
-        override public function Add(point:b2ContactPoint):void{
-            var actor1:Actor = Actor(point.shape1.GetUserData());
-            var actor2:Actor = Actor(point.shape2.GetUserData());
-            var separation:Number = point.separation;
-            // var penetration:Number = -separation;
-            var position:b2Vec2 = point.position.Copy();
+        //override public function Add(point:b2ContactPoint):void{
+        //    var actor1:box2dActor = box2dActor(point.shape1.GetUserData());
+        //    var actor2:box2dActor = box2dActor(point.shape2.GetUserData());
+        //    var separation:Number = point.separation;
+        //    // var penetration:Number = -separation;
+        //    var position:b2Vec2 = point.position.Copy();
 
-            var contactPoint:ContactPoint = new ContactPoint(actor1, actor2, separation, position); 
-            if (!findDuplicate(contactPoint)) contactStack.push(contactPoint);
-        }
+        //    var contactPoint:ContactPoint = new ContactPoint(actor1, actor2, separation, position); 
+        //    if (!findDuplicate(contactPoint)) contactStack.push(contactPoint);
+        //}
 
-        private function findDuplicate(contactPoint:ContactPoint):Boolean {
-            for each(var p:ContactPoint in contactStack) {
-                if (p.actor1 == contactPoint.actor1 && p.actor2 == contactPoint.actor2)
-                    return true;
-            }
-            return false;
-        }
-        private var _logger:Logger = Logger.getLogger(this);
+        //private function findDuplicate(contactPoint:ContactPoint):Boolean {
+        //    for each(var p:ContactPoint in contactStack) {
+        //        if (p.actor1 == contactPoint.actor1 && p.actor2 == contactPoint.actor2)
+        //            return true;
+        //    }
+        //    return false;
+        //}
+        //private var _logger:Logger = Logger.getLogger(this);
     }
 }

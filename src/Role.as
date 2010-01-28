@@ -8,7 +8,7 @@ package
         public var y:Number;
         public var type:String = "";
 
-        public var actor:Actor;
+        public var actor:IActor;
 
         private var _controller:IRoleBehaviour = null;
         public function set controller(value:IRoleBehaviour):void {

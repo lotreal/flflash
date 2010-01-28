@@ -1,15 +1,14 @@
 package
 {
     import im.luo.logging.Logger;
-    import Box2D.Common.Math.b2Vec2;
+    import im.luo.geom.Vector2D;
+
     public class Referee {
         public static var logger:Logger = Logger.getLogger(new Referee());
 
-        public static function judge(actor1:Actor, actor2:Actor, position:b2Vec2):void {
-            var distance1:Number = actor1.role.radius - b2Vec2Util.distanceBetweenPoints(
-                actor1.center, position);
-            var distance2:Number = actor2.role.radius - b2Vec2Util.distanceBetweenPoints(
-                actor2.center, position);
+        public static function judge(actor1:box2dActor, actor2:box2dActor, position:Vector2D):void {
+            var distance1:Number = actor1.role.radius - actor1.center.dist(position);
+            var distance2:Number = actor2.role.radius - actor2.center.dist(position);
             logger.debug(actor1.role.type, distance1, distance2);
             if (distance1 < distance2) {
                 actor1.role.levelUp();

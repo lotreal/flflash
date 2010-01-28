@@ -9,8 +9,10 @@ package
     import flash.utils.getTimer;
     import caurina.transitions.Tweener;
     import ghostcat.display.residual.ResidualScreen;
+    import ghostcat.display.bitmap.BitmapScreen;
+    import im.luo.geom.Vector2D;
 
-    public class Camera extends Sprite {
+    public class Camera extends Sprite implements ICamera {
         private static var _instance:Camera = null;
         public static function get instance():Camera {
             return Camera.getInstance();
@@ -27,7 +29,6 @@ package
         public var screen:ResidualScreen;
         private var logger:Logger = Logger.getLogger(this);
         private var context:Context = Context.instance;
-        private var current:Sprite = this as Sprite;
 
         private var shootMode:String = Camera.FIXED;
         private var followTarget:Role;
@@ -37,28 +38,23 @@ package
         public function Camera(singleton_enforcer:SingletonEnforcer):void {
             context.root.addChild(this);
 
-            screen = new ResidualScreen(context.width, context.height);
-            screen.blurSpeed = 4;
-            screen.fadeSpeed = 0.7;
+            //screen = new ResidualScreen(context.width, context.height);
+            //screen.mode = BitmapScreen.MODE_SPRITE;
+            //screen.blurSpeed = 4;
+            //screen.fadeSpeed = 0.7;
 
-            context.root.addChild(screen);
+            //context.root.addChild(screen);
+            //screen.addChild(this);
             logger.debug('初始化摄影机');
             //debug();
             addEventListener(Event.ENTER_FRAME, shoot);
 
             var shape:Shape = new Shape();
-            shape.addEventListener(Event.ENTER_FRAME, tf);
+            //shape.addEventListener(Event.ENTER_FRAME, tf);
         }
 
         public function tf(event:Event):void {
             logger.debug('shapes enter');
-        }
-
-        public function newSprite():Sprite {
-            var sprite:Sprite = new Sprite();
-            screen.addChild(sprite);
-            current = sprite;
-            return sprite;
         }
 
         public function get w():int {
@@ -67,31 +63,28 @@ package
         public function get h():int {
             return context.height;
         }
-        public function get g():Graphics {
-            return current.graphics;
-        }
 
         public function rx(x:Number):Number {
             return x * scale;
             if (shootMode == Camera.FOLLOW) {
-                var c:b2Vec2 = followTarget.body.GetWorldCenter();
+                var c:Vector2D = followTarget.body.center;
                 return x - c.x;
             } else {
-                return x*2;
+                return x;
             }
         }
 
         public function ry(y:Number):Number {
             return y * scale;
             if (shootMode == Camera.FOLLOW) {
-                var c:b2Vec2 = followTarget.body.GetWorldCenter();
+                var c:Vector2D = followTarget.body.center;
                 return y - c.y;
             } else {
-                return y*2;
+                return y;
             }
         }
 
-        private var actors:Vector.<Actor> = new Vector.<Actor>;
+        private var actors:Vector.<box2dActor> = new Vector.<box2dActor>;
         public function observe(p_display:*):Vision {
             var vision:Vision = new Vision(this);
             //actors.push(p_display);
@@ -104,7 +97,7 @@ package
             //var a:Actor;
             //for each (a in actors) { a.run(e); a.update(e); }
             if (shootMode == Camera.FOLLOW) {
-                var c:b2Vec2 = followTarget.actor.center;
+                var c:Vector2D = followTarget.actor.center;
                 rotation=0; // If not, matrix starts wrong.
                 var m:Matrix=transform.matrix;
                 m.tx= (w/2 - c.x * 30);
@@ -124,6 +117,23 @@ package
             logger.debug('width',w,'height',h);
         }
         //camera.mirror():Vision
+
+        public function shooting(scene:IScene):void {
+            logger.debug(scene.layers.length);
+            for (var i:int = 0, l:int = scene.layers.length; i < l; i++) {
+                scene.layers[i].render(this);
+            }
+        }
+
+        public function add(child:*):* {
+            return addChild(child);
+        }
+        
+        /*
+        function shoot():void {
+        scene.shooting(this);
+        }
+        */
     }
 }
 // SingletonEnforcer

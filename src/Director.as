@@ -2,6 +2,9 @@ package
 {
     import flash.events.*;
     import im.luo.logging.Logger;
+	import flf.flatland.meta.Creature;
+	import flf.flatland.game.PlayerHotkey;
+
     public class Director extends EventDispatcher {
         public static const ACTION:String = "action";
 
@@ -17,7 +20,7 @@ package
         private var logger:Logger = Logger.getLogger(this);
 
         public var keyboard:Keyboard = Keyboard.instance;
-        public var player1:GladiatorRole = null;
+        public var player1:Creature = null;
         public var context:Context = Context.instance;
 
         public function Director(singleton_enforcer:SingletonEnforcer):void {
@@ -43,15 +46,10 @@ package
                 pcf++;
                 pcf = pcf > 1 ? 0 : pcf;
                 if (pcf == 1) player1.controller = new S2KBController();
-                else player1.controller = new RBPlayerA();
+                else player1.controller = new PlayerHotkey();
             }
 
 	    if(c == KeyCode.D) {
-                //var body:b2Body = _role.body;
-                //var wc:b2Vec2 = body.GetWorldCenter();
-                //logger.debug(wc.x, wc.y);
-                //wc = body.GetLocalCenter();
-                //logger.debug(wc.x, wc.y);
             }
 
         }

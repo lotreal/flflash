@@ -20,11 +20,10 @@ package {
         public var width:int = 640;
         public var height:int = 480;
 
-        public var logger:Logger;
+        public static var logger:Logger;
         public var root:DisplayObjectContainer;
         public var stage:Stage;
 
-        public var world:World;
         public var camera:Camera;
 
         public var scenario:Scenario;
@@ -60,7 +59,7 @@ package {
 
         public function loadAssest():void {
 	    _asset_loader_context = new LoaderContext(true, ApplicationDomain.currentDomain, null);
-	    _asset_loader = new AssetLoader("main.swf", _asset_loader_context);
+	    _asset_loader = new AssetLoader("flf-res.swf", _asset_loader_context);
 	    _asset_loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
 	    _asset_loader.load();
         }
@@ -68,14 +67,16 @@ package {
 	private function onAssestLoadComplete(e:Event):void 
 	{
             logger.debug('资源加载完成');
+
             camera   = Camera.instance;
-            world    = World.instance;
-
             director = Director.instance;
-            scenario = Scenario.instance;
-            director.action();
+            //scenario = Scenario.instance;
+            //director.action();
 
-            //debug(stage);
+            var scene:IScene = new PlayScene();
+            scene.build();
+            camera.shooting(scene);
+            debug(root);
         }
         
         private function debug(node:DisplayObject):void {
@@ -96,14 +97,14 @@ package {
             }
         }
 
-	private static var _instance:Context = null;
+        private static var _instance:Context = null;
         public static function get instance():Context {
-	    return Context.getInstance();
-	}
-	public static function getInstance():Context {
-	    if (_instance == null) _instance = new Context(new SingletonEnforcer());
-	    return _instance;
-	}
+            return Context.getInstance();
+        }
+        public static function getInstance():Context {
+            if (_instance == null) _instance = new Context(new SingletonEnforcer());
+            return _instance;
+        }
 	private var _asset_loader_context:LoaderContext;
         private var _asset_loader:AssetLoader;
 

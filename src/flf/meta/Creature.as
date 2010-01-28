@@ -1,4 +1,4 @@
-package
+package flf.meta
 {
     import im.luo.logging.Logger;
     import flash.events.TimerEvent;
@@ -9,9 +9,10 @@ package
 
     import flash.events.TimerEvent;
     import flash.utils.Timer;
+    import im.luo.geom.Vector2D;
 
 
-    public class GladiatorRole extends Role {
+    public class Creature extends Role {
         private var logger:Logger = Logger.getLogger(this);
 
         public var maxLevel:int = 9;
@@ -53,12 +54,12 @@ package
         public var forwardSpeed:Number = 24;
         public var backwardSpeed:Number = -9;
 
-        public var strafeSpeed:Number = 12;
+        public var strafeSpeed:Number = 20;
 
         public var dialogue:Vision = new Vision(camera);
         public var dialogueTextBox:TextField = new TextField();
 
-        public function GladiatorRole(x:Number, y:Number) {
+        public function Creature(x:Number, y:Number) {
             super(x, y);
             type = "gladiator";
             this.actor = new GladiatorActor(this);
@@ -67,25 +68,25 @@ package
 
         public function strafeEast(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
-            var v:b2Vec2 = new b2Vec2(-strafeSpeed, 0);
+            var v:Vector2D = new Vector2D(-strafeSpeed, 0);
             actor.linearVel = v;
         }
 
         public function strafeWest(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
-            var v:b2Vec2 = new b2Vec2(strafeSpeed, 0);
+            var v:Vector2D = new Vector2D(strafeSpeed, 0);
             actor.linearVel = v;
         }
 
         public function strafeNorth(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
-            var v:b2Vec2 = new b2Vec2(0, -strafeSpeed);
+            var v:Vector2D = new Vector2D(0, -strafeSpeed);
             actor.linearVel = v;
         }
 
         public function strafeSouth(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
-            var v:b2Vec2 = new b2Vec2(0, strafeSpeed);
+            var v:Vector2D = new Vector2D(0, strafeSpeed);
             actor.linearVel = v;
         }
 
@@ -123,16 +124,16 @@ package
         public function move(type:int):void {
             if (type != lastMove) {
                 lastMove = type;
-                v0 = actor.linearVel.Length();
+                v0 = actor.linearVel.length;
             }
         }
 
 
         public function forward(t:int = -1):void {
             move(FORWARD);
-            var v:Number = evalLinearVel(20, t, 30);
+            var v:Number = evalLinearVel(24, t, 40);
 
-            actor.linearVel = new b2Vec2(
+            actor.linearVel = new Vector2D(
                 v * Math.cos(actor.angle),
                 v * Math.sin(actor.angle));
             actor.angularVel *= 0.8;
@@ -142,7 +143,7 @@ package
             move(BACKWARD);
             var v:Number = evalLinearVel(-32, t, -20);
 
-            actor.linearVel = new b2Vec2(
+            actor.linearVel = new Vector2D(
                 v * Math.cos(actor.angle),
                 v * Math.sin(actor.angle));
             actor.angularVel *= 0.8;

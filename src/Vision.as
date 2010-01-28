@@ -9,6 +9,7 @@ package
         
         public function Vision(p_camera:Camera) {
             camera = p_camera;
+            //this.cacheAsBitmap = true;
         }
 
         public function lineStyle(thickness:Number, color:uint = 0, alpha:Number = 1.0, pixelHinting:Boolean = false, scaleMode:String = "normal", caps:String = null, joints:String = null, miterLimit:Number = 3):void {

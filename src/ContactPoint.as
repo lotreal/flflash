@@ -6,12 +6,12 @@ package
     public class ContactPoint {
         private var _logger:Logger = Logger.getLogger(this);
 
-        public var actor1:Actor;
-        public var actor2:Actor;
+        public var actor1:box2dActor;
+        public var actor2:box2dActor;
         public var separation:Number;
         public var position:b2Vec2;
 
-        public function ContactPoint(actor1:Actor, actor2:Actor, separation:Number, position:b2Vec2) {
+        public function ContactPoint(actor1:box2dActor, actor2:box2dActor, separation:Number, position:b2Vec2) {
             this.actor1 = actor1;
             this.actor2 = actor2;
             this.separation = separation;

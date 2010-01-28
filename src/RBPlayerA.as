@@ -7,12 +7,13 @@ package
     import Box2D.Dynamics.*;
     import Box2D.Collision.*;
     import Box2D.Collision.Shapes.*;
+    import flf.meta.Creature;
 
     public class RBPlayerA extends EventDispatcher implements IRoleBehaviour {
         private var logger:Logger = Logger.getLogger(this);
 
-        public var _role:GladiatorRole;
-        public function set role(value:Role):void {_role = GladiatorRole(value)};
+        public var _role:Creature;
+        public function set role(value:Role):void {_role = Creature(value)};
 
         public var kb:Keyboard;
         public var context:Context = Context.instance;

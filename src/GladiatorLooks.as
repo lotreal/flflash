@@ -2,13 +2,14 @@ package
 {
     import im.luo.logging.Logger;
     import flash.events.Event;
-    import Box2D.Common.Math.b2Vec2;
     import flash.geom.Matrix;
+    import im.luo.geom.Vector2D;
+    import flf.flatland.meta.Creature;
 
     public class GladiatorLooks extends Looks {
         private var logger:Logger = Logger.getLogger(this);
 
-        public function GladiatorLooks(role:GladiatorRole) {
+        public function GladiatorLooks(role:Creature) {
             super(role);
         }
 
@@ -30,9 +31,9 @@ package
             vision.graphics.clear();
             vision.lineStyle(3, role.color, 1);
 
-            var vertices:Vector.<b2Vec2> = GeomUtil.evalPolygonVertices(role.level, role.radius);
+            var vertices:Vector.<Vector2D> = GeomUtil.evalPolygonVertices(role.level, role.radius);
 
-            var p:b2Vec2 = vertices[0];
+            var p:Vector2D = vertices[0];
             vision.moveTo(p.x, p.y);
 	    for (var i:int = 1; i < role.level; i++) {
                 p = vertices[i];
@@ -44,7 +45,7 @@ package
         }
 
         override public function update(e:Event = null):void {
-            var position:b2Vec2 = role.actor.position;
+            var position:Vector2D = role.actor.position;
             var rotation:Number = role.actor.angle;
 
             vision.rotation = 0; // If not, matrix starts wrong.

@@ -2,8 +2,9 @@ package
 {
     import flash.events.*;
     import im.luo.logging.Logger;
+    import flf.flatland.game.PlayerHotkey;
     
-    public class S2KBController extends RBPlayerA {
+    public class S2KBController extends PlayerHotkey {
         private var logger:Logger = Logger.getLogger(this);
         
         override public function update(e:Event):void {
