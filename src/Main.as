@@ -8,9 +8,9 @@ package {
     [SWF(width="1000", height="600", backgroundColor="#000000", frameRate="30")]
     public class Main extends Sprite {
         public static var context:Context;
-	public function Main() {
-	    if (stage) init();
-	    else addEventListener(Event.ADDED_TO_STAGE, init);
+        public function Main() {
+            if (stage) init();
+            else addEventListener(Event.ADDED_TO_STAGE, init);
         }
         public function init(event:MouseEvent = null):void {
             Debug.monitor(stage, 1000);

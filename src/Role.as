@@ -3,7 +3,12 @@ package
     import im.luo.logging.Logger;
     import flash.display.DisplayObjectContainer;
     import flash.events.Event;
-    public class Role {
+    import im.luo.game.IRole;
+    import im.luo.game.IRoleBehaviour;
+    import im.luo.game.IActor;
+    import im.luo.game.Camera;
+
+    public class Role implements IRole {
         public var x:Number;
         public var y:Number;
         public var type:String = "";
@@ -11,16 +16,16 @@ package
         public var actor:IActor;
 
         private var _controller:IRoleBehaviour = null;
-        public function set controller(value:IRoleBehaviour):void {
-            if (_controller != null) _controller.destroy();
+        public function set behaviour(value:IRoleBehaviour):void {
+            //if (_controller != null) _controller.destroy();
 
             UI.instance.tips("当前操作方案: "+ value.toString() +" [切换操作方案: 空格键]");
             _controller = value;
-            _controller.role = this;
-            _controller.run();
+            //_controller.role = this;
+            //_controller.run();
         }
 
-        public var looks:Looks;
+        public var appearance:Appearance;
 
         public var context:Context = Context.instance;
         public var camera:Camera = context.camera;
@@ -33,16 +38,18 @@ package
         }
 
         public function run():void {
-            looks.paint();
+            appearance.paint();
         }
 
-        public function step():void {
+        public function play():void {
             //if (action != null) action.step();
-            looks.update();
+            _controller.play();
+            actor.play();
+            appearance.update();
         }
 
         public function destroy():void {
-            looks.destroy();
+            appearance.destroy();
             //vision.parent.removeChild(vision);
             actor.destroy();
         }

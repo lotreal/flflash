@@ -3,6 +3,9 @@ package
     import im.luo.logging.Logger;
     import Box2D.Common.Math.b2Vec2;
     import im.luo.geom.Vector2D;
+    import im.luo.physics.box2d.box2dActor;
+    import flf.flatland.fx.Peng;
+    import flf.flatland.fx.Peng2;
 
     public class Collide {
         public static function process(contactPoint:ContactPoint):void {

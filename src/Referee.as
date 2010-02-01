@@ -2,6 +2,7 @@ package
 {
     import im.luo.logging.Logger;
     import im.luo.geom.Vector2D;
+    import im.luo.physics.box2d.box2dActor;
 
     public class Referee {
         public static var logger:Logger = Logger.getLogger(new Referee());

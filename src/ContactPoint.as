@@ -2,6 +2,7 @@ package
 {
     import im.luo.logging.Logger;
     import Box2D.Common.Math.b2Vec2;
+    import im.luo.physics.box2d.box2dActor;
     
     public class ContactPoint {
         private var _logger:Logger = Logger.getLogger(this);

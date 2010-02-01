@@ -10,9 +10,11 @@ package flf.flatland.meta
     import flash.events.TimerEvent;
     import flash.utils.Timer;
     import im.luo.geom.Vector2D;
+    import flf.flatland.game.GladiatorActor;
+    import flf.flatland.game.GladiatorLooks;
 
 
-    public class Creature extends Character {
+    public class Creature extends Role {
         private var logger:Logger = Logger.getLogger(this);
 
         public var maxLevel:int = 9;
@@ -33,7 +35,7 @@ package flf.flatland.meta
 
                 _level = value;
                 actor.update();
-                looks.repaint();
+                appearance.repaint();
             }
         }
         
@@ -63,7 +65,7 @@ package flf.flatland.meta
             super(x, y);
             type = "gladiator";
             this.actor = new GladiatorActor(this);
-            this.looks = new GladiatorLooks(this);
+            this.appearance = new GladiatorLooks(this);
         }
 
         public function strafeEast(t:int = -1):void {

@@ -18,30 +18,30 @@ package im.luo.util
         }
         public function Tick(singleton_enforcer:SingletonEnforcer) {
             super();
-	    var displayObject:Shape = new Shape();
-	    displayObject.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+            var displayObject:Shape = new Shape();
+            displayObject.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
         }
-
-	private var prevTime:int;
-	/**
-	* 最大两帧间隔（防止待机后返回卡死） 
-	*/
-	static public var MAX_INTERVAL:int = 300;
-	
-	private final function enterFrameHandler(event:Event):void
-	{
-	    var nextTime:int = getTimer();
-	    var interval:int;
-	    if (prevTime == 0) {
-	        interval = 0;
-	    } else {
-		interval = Math.min(nextTime - prevTime, MAX_INTERVAL);
-		var e:TickEvent = new TickEvent(TickEvent.TICK, interval);
-		dispatchEvent(e);
-	    }
-
-	    prevTime = nextTime;
-	}
+        
+        private var prevTime:int;
+        /**
+         * 最大两帧间隔（防止待机后返回卡死） 
+         */
+        static public var MAX_INTERVAL:int = 300;
+        
+        private final function enterFrameHandler(event:Event):void
+        {
+            var nextTime:int = getTimer();
+            var interval:int;
+            if (prevTime == 0) {
+                interval = 0;
+            } else {
+                interval = Math.min(nextTime - prevTime, MAX_INTERVAL);
+                var e:TickEvent = new TickEvent(TickEvent.TICK, interval);
+                dispatchEvent(e);
+            }
+            
+            prevTime = nextTime;
+        }
     }
 }
 
