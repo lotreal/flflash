@@ -5,6 +5,7 @@ package im.luo.util
     import flash.events.EventDispatcher;
     import flash.utils.getTimer;
     import im.luo.events.TickEvent;
+    import flf.flatland.game.Context;
     
     [Event(name="tick",type="im.luo.events.TickEvent")]
     public class Tick extends EventDispatcher {
@@ -19,7 +20,7 @@ package im.luo.util
         public function Tick(singleton_enforcer:SingletonEnforcer) {
             super();
             var displayObject:Shape = new Shape();
-            displayObject.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+            Context.instance.root.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
         }
         
         private var prevTime:int;

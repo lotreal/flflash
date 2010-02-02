@@ -3,7 +3,8 @@ package im.luo.game
 
     public interface ICamera {
         function add(child:*):*;
-        function shoot(scene:IScene):void;
-        function record(scene:IScene):void;
+        function preShoot(scene:IScene):void;
+        function shooting(scene:IScene):void;
+        function postShoot(scene:IScene):void;
     }
 }

@@ -5,21 +5,24 @@ package im.luo.game
     import im.luo.logging.Logger;
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
-    
-    public class SpriteLayer extends SceneLayer implements ISceneLayer {
-        protected var screen:Sprite;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+
+    public class TileLayer extends SceneLayer implements ISceneLayer {
+        protected var screen:Bitmap;
         private var _logger:Logger = Logger.getLogger(this);
 
-        public function SpriteLayer() {
+        public function TileLayer() {
             super();
         }
 
         override public function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void {
-            screen = new Sprite();
+            var data:BitmapData = new BitmapData(rectangle.width, rectangle.height, true);
             for (var i:int = 0, n:int = list.length; i < n; i++) {
                 var el:DisplayObject = list[i];
-                if (inCamera(el, rectangle)) screen.addChild(el);
+                if (inCamera(el, rectangle)) data.draw(el);
             }
+            screen = new Bitmap(data);
             container.addChild(screen);
         }
     }

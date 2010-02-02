@@ -11,6 +11,9 @@ package im.luo.physics.box2d {
     import caurina.transitions.Tweener;
     import im.luo.geom.Vector2D;
     import im.luo.game.IActor;
+    import flf.flatland.game.Context;
+    import im.luo.sim.IWorld;
+    import im.luo.game.RoleAbstract;
 
     public class box2dActor implements IActor {
         public var context:Context = Context.instance;
@@ -110,7 +113,7 @@ package im.luo.physics.box2d {
             world.destroyBody(body);
         }
 
-        public function box2dActor(role:Role):void {
+        public function box2dActor(role:RoleAbstract):void {
             this.role = role;
             this.creatBody();
         }
@@ -130,12 +133,10 @@ package im.luo.physics.box2d {
             body = world.createBody(bodyDef);
             body.SetUserData(this);
             body.SetSleepingAllowed(false);
-            //body.SetActive(true);
             createShape();
         }
 
         public function play():void {
-            world.run();
         }
     }
 }

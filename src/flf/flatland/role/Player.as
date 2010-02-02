@@ -1,6 +1,5 @@
 package flf.flatland.role
 {
-	import flf.flatland.meta.Creature;
 
 	public class Player extends Creature
 	{

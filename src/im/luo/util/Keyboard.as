@@ -4,6 +4,8 @@ package im.luo.util
     import flash.events.KeyboardEvent;
     import flash.utils.getTimer;
     import im.luo.logging.Logger;
+    import flf.flatland.game.Context;
+
     public class Keyboard
     {
         

@@ -5,12 +5,12 @@ package im.luo.game
     
     public class Scene extends EventDispatcher implements IScene {
         public var _layers:Vector.<ISceneLayer>;
-        public var _roles:Vector.<Role>;
+        public var _roles:Vector.<RoleAbstract>;
         public function get layers():Vector.<ISceneLayer> { return _layers; }
 
         public function Scene() {
             _layers = new Vector.<ISceneLayer>();
-            _roles = new Vector.<Role>();
+            _roles = new Vector.<RoleAbstract>();
         }
 
         public function addLayer(layer:ISceneLayer):ISceneLayer {
@@ -18,7 +18,7 @@ package im.luo.game
             return layer;
         }
 
-        public function addCharacter(name:String, character:Role, layer:ISceneLayer):* {
+        public function addCharacter(name:String, character:RoleAbstract, layer:ISceneLayer):* {
             layer.add(character.appearance);
             _roles.push(character);
             return character;

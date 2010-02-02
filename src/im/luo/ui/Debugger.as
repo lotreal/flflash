@@ -3,6 +3,7 @@ package im.luo.ui
     import flash.text.*;
     import flash.display.Stage;
     import flash.utils.*;
+    import flf.flatland.game.Context;
     
     public class Debugger {
 	private static var _instance:Debugger = null;

@@ -1,6 +1,8 @@
 package im.luo.util{
     import flash.display.*;
     import flash.events.*;
+    import flf.flatland.game.Context;
+
     public class KeyMapper extends Sprite{
         public  var keys:uint = 0;
         private var _map:Vector.<int> = new Vector.<int>(256, true);

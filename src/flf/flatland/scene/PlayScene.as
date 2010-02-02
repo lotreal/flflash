@@ -3,13 +3,15 @@ package flf.flatland.scene
     import flash.events.*;
     import flash.display.DisplayObject;
     import im.luo.logging.Logger;
-    import flf.flatland.game.PlayerHotkeyA;
+    import flf.flatland.action.PlayerHotkeyA;
     import im.luo.geom.Vector2D;
     import flf.flatland.role.Player;
     import im.luo.game.ISceneLayer;
     import im.luo.game.IActor;
     import im.luo.game.Scene;
+    import im.luo.game.TileLayer;
     import im.luo.game.SpriteLayer;
+    import flf.flatland.game.Context;
 
     public class PlayScene extends Scene {
         public var player:Player;
@@ -23,7 +25,7 @@ package flf.flatland.scene
         override public function build():void {
             var context:Context = Context.instance;
 
-            var bgLayer:ISceneLayer = addLayer(new SpriteLayer());
+            var bgLayer:ISceneLayer = addLayer(new TileLayer());
 
             var map1:DisplayObject = new (context.loader.getDefinitionOf("Map1"))();
             var map2:DisplayObject = new (context.loader.getDefinitionOf("Map2"))();
@@ -48,6 +50,8 @@ package flf.flatland.scene
 
             addCharacter('player', player, mainLayer);
 
+            var debugLayer:ISceneLayer = addLayer(new SpriteLayer());
+            debugLayer.add(Context.instance.cache['world_debug_draw']);
             //var npc:Npc;
             //var x:Number, y:Number;
             //for (var i:int = 0; i < 8; i++) {

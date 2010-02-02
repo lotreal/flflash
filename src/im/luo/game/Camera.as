@@ -1,19 +1,14 @@
 package im.luo.game 
 {
     import flash.display.*;
-    import flash.geom.*;
     import flash.events.*;
-    import im.luo.logging.Logger;
-    import Box2D.Common.Math.*;    
-
-    import flash.utils.getTimer;
-    import caurina.transitions.Tweener;
-    import ghostcat.display.residual.ResidualScreen;
-    import ghostcat.display.bitmap.BitmapScreen;
-    import im.luo.geom.Vector2D;
-    import im.luo.physics.box2d.box2dActor;
+    import flash.geom.*;
     
-    public class Camera extends Sprite implements ICamera {
+    import im.luo.geom.Vector2D;
+    import im.luo.logging.Logger;
+    import flf.flatland.game.Context;
+    
+    public class Camera implements ICamera {
         private static var _instance:Camera = null;
         public static function get instance():Camera {
             return Camera.getInstance();
@@ -23,21 +18,20 @@ package im.luo.game
             return _instance;
         }
 
-
         public static const FIXED:String = "fixed";
         public static const FOLLOW:String = "follow";
 
-        public var screen:ResidualScreen;
         private var logger:Logger = Logger.getLogger(this);
         private var context:Context = Context.instance;
 
         private var shootMode:String = Camera.FIXED;
-        private var followTarget:Role;
+        private var followTarget:RoleAbstract;
+
+        protected var screen:Sprite;
 
         public var scale:Number = 30;
 
         public function Camera(singleton_enforcer:SingletonEnforcer):void {
-            context.root.addChild(this);
             _rectangle = new Rectangle(0, 0, context.width, context.height);
             debug();
         }
@@ -71,15 +65,6 @@ package im.luo.game
             }
         }
 
-        private var actors:Vector.<box2dActor> = new Vector.<box2dActor>;
-        public function observe(p_display:*):Vision {
-            var vision:Vision = new Vision(this);
-            //actors.push(p_display);
-            //screen.addChild(vision);
-            addChild(vision);
-            return vision;
-        }
-
         //public function shoot(e:Event):void {
         //    if (shootMode == Camera.FOLLOW) {
         //        var c:Vector2D = followTarget.actor.center;
@@ -91,7 +76,7 @@ package im.luo.game
         //    }
         //}
 
-        public function follow(role:Role):void {
+        public function follow(role:RoleAbstract):void {
             shootMode = Camera.FOLLOW;
             followTarget = role;
             logger.debug('镜头跟随模式');
@@ -101,43 +86,30 @@ package im.luo.game
             logger.debug('初始化摄影机');
             logger.debug('view rect', rectangle);
         }
-        //camera.mirror():Vision
 
-        //public function shooting(scene:IScene):void {
-        //    for (var i:int = 0, l:int = scene.layers.length; i < l; i++) {
-        //        scene.preShoot(this);
-        //        //scene.layers[i].render(this);
-        //        scene.addEventListener(TICK, shooting);
-        //        scene.addEventListener(Event.COMPLETE, postShoot);
-        //        scene.postShoot(this);
-        //    }
-        //}
+        public function preShoot(scene:IScene):void {
+            screen = new Sprite();
+            context.root.addChild(screen);
 
-        public function shoot(scene:IScene):void {
-            scene.action(this);
-            ////scene.layers[i].render(this);
-            ////scene.addEventListener(Event.COMPLETE, postShoot);
-            ////scene.postShoot(this);
-        }
-
-        public function record(scene:IScene):void {
             for (var i:int = 0, l:int = scene.layers.length; i < l; i++) {
-                add(scene.layers[i]);
+                scene.layers[i].preShoot(screen, this.rectangle);
             }
-            ////scene.layers[i].render(this);
-            ////scene.addEventListener(Event.COMPLETE, postShoot);
-            ////scene.postShoot(this);
         }
 
-        public function render(scene:IScene):void {
+        public function shooting(scene:IScene):void {
+            for (var i:int = 0, l:int = scene.layers.length; i < l; i++) {
+                scene.layers[i].shooting(screen, this.rectangle);
+            }
         }
 
-        public function shooting(event:Event):void {
-            logger.debug("tick");
+        public function postShoot(scene:IScene):void {
+            for (var i:int = 0, l:int = scene.layers.length; i < l; i++) {
+                scene.layers[i].postShoot(screen, this.rectangle);
+            }
         }
 
         public function add(child:*):* {
-            return addChild(child);
+            return screen.addChild(child);
         }
     }
 }
