@@ -8,10 +8,11 @@ package flf.flatland.game
     import im.luo.util.Keyboard;
     import im.luo.util.KeyCode;
     import flf.flatland.scene.PlayScene;
-    import im.luo.game.ICamera;
-    import im.luo.game.IScene;
-    import im.luo.game.DirectorAbstract;
-    import im.luo.game.Camera;
+    import im.luo.camera.ICamera;
+    import im.luo.scene.IScene;
+    import im.luo.staff.DirectorAbstract;
+    import im.luo.camera.Camera;
+    import flash.geom.Rectangle;
 
     public class Director extends DirectorAbstract {
         private static var _instance:Director = null;
@@ -33,11 +34,17 @@ package flf.flatland.game
             // TODO -> keyboard process
             context.stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyUp);
             
-            camera = Camera.instance;
-            scene = new PlayScene();
+            scene = new PlayScene(new Rectangle(0, 0, context.width * 2, context.height * 2));
             scene.build();
 
+            camera = new Camera(scene);
             action();
+        }
+
+        override public function shooting(event:TickEvent):void {
+            scene.play();
+            camera.follow((scene as PlayScene).player);
+            //camera.shooting(scene);
         }
         
         private var pcf:int = 0;

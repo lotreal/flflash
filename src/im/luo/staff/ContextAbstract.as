@@ -1,4 +1,4 @@
-package im.luo.game {
+package im.luo.staff {
     import flash.display.*;
     
     import flash.events.*;
@@ -35,8 +35,6 @@ package im.luo.game {
         public var logger:Logger = Logger.getLogger(this);
         public var root:DisplayObjectContainer;
         public var stage:Stage;
-        
-        public var camera:Camera;
         
         public var director:Director;
         

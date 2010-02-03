@@ -1,14 +1,18 @@
-package im.luo.game
+package im.luo.role
 {
     import im.luo.logging.Logger;
     import flash.display.DisplayObjectContainer;
     import flash.events.Event;
     import im.luo.util.UI;
     import flf.flatland.game.Context;
+    import im.luo.geom.Vector2D;
+    import im.luo.actor.IActor;
+    import im.luo.face.Face;
+    import im.luo.action.IRoleBehaviour;
 
     public class RoleAbstract implements IRole {
-        public var x:Number;
-        public var y:Number;
+        public var x:int;
+        public var y:int;
         public var type:String = "";
 
         public var actor:IActor;
@@ -23,14 +27,21 @@ package im.luo.game
             //_controller.run();
         }
 
+        public function get position():Vector2D {
+            return actor.position;
+        }
+        public function set position(value:Vector2D):void {
+            actor.position = value;
+        }
+
+
         public var appearance:Face;
 
         public var context:Context = Context.instance;
-        public var camera:Camera = context.camera;
 
         private var _logger:Logger = Logger.getLogger(this);
 
-        public function RoleAbstract(x:Number, y:Number) {
+        public function RoleAbstract(x:int, y:int) {
             this.x = x;
             this.y = y;
         }

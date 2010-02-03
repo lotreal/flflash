@@ -7,7 +7,7 @@ package flf.flatland.role
     import flf.flatland.actor.CreatureActor;
     import flf.flatland.face.CreatureFace;
     
-    import im.luo.game.RoleAbstract;
+    import im.luo.role.RoleAbstract;
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
 
@@ -58,7 +58,7 @@ package flf.flatland.role
 
         public var dialogueTextBox:TextField = new TextField();
 
-        public function Creature(x:Number, y:Number) {
+        public function Creature(x:int, y:int) {
             super(x, y);
             type = "gladiator";
             this.actor = new CreatureActor(this);

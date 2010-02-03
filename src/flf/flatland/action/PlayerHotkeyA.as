@@ -9,7 +9,7 @@ package flf.flatland.action
     import Box2D.Collision.Shapes.*;
     import flf.flatland.role.Creature;
     import flf.flatland.role.Player;
-    import im.luo.game.IRoleBehaviour;
+    import im.luo.action.IRoleBehaviour;
     import im.luo.util.Keyboard;
     import flf.flatland.scene.PlayScene;
     import flf.flatland.game.Context;

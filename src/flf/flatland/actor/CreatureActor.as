@@ -7,7 +7,7 @@ package flf.flatland.actor
     import flf.flatland.role.Creature;
     import Box2D.Dynamics.b2FixtureDef;
     import im.luo.physics.box2d.ShapeUtil;
-    import im.luo.physics.box2d.box2dActor;
+    import im.luo.actor.box2dActor;
 
     public class CreatureActor extends box2dActor {
         private var _logger:Logger = Logger.getLogger(this);

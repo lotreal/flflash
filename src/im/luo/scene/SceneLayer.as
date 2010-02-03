@@ -1,17 +1,19 @@
-package im.luo.game
+package im.luo.scene
 {
     import flash.display.Sprite;
     import flash.display.DisplayObject;
     import im.luo.logging.Logger;
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
+    import im.luo.role.RoleAbstract;
 
-    public class SceneLayer implements ISceneLayer {
+    public class SceneLayer extends SceneAbstract implements ISceneLayer {
         private var logger:Logger = Logger.getLogger(this);
 
         protected var list:Vector.<DisplayObject>;
         
-        public function SceneLayer() {
+        public function SceneLayer(rect:Rectangle = null) {
+            super(rect);
             list = new Vector.<DisplayObject>();
         }
 
@@ -21,7 +23,7 @@ package im.luo.game
         }
 
         public function addCharacter(character:RoleAbstract):* {
-            add(character.appearance);
+            add(character.appearance.render);
             return character;
         }
 

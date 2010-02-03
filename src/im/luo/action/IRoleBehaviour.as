@@ -1,4 +1,4 @@
-package im.luo.game
+package im.luo.action
 {
     import flash.events.Event;
     public interface IRoleBehaviour {

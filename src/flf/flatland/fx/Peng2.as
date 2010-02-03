@@ -5,7 +5,7 @@ package flf.flatland.fx
     import flash.display.Sprite;
     import flash.display.MovieClip;
     import im.luo.geom.Vector2D;
-    import im.luo.game.Camera;
+    import im.luo.camera.Camera;
     import flf.flatland.game.Context;
     
     public class Peng2 {

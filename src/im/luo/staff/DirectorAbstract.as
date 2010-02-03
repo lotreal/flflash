@@ -1,4 +1,4 @@
-package im.luo.game 
+package im.luo.staff 
 {
     import flash.events.*;
     import flf.flatland.role.Creature;
@@ -8,8 +8,10 @@ package im.luo.game
     import im.luo.util.Keyboard;
     import im.luo.util.KeyCode;
     import flf.flatland.scene.PlayScene;
-    import im.luo.game.ICamera;
-    import im.luo.game.IScene;
+    import im.luo.camera.ICamera;
+    import im.luo.scene.IScene;
+    import im.luo.camera.ICamera;
+    import im.luo.scene.IScene;
     
     public class DirectorAbstract extends EventDispatcher {
         private var logger:Logger = Logger.getLogger(this);
@@ -27,7 +29,7 @@ package im.luo.game
             camera.postShoot(scene);
         }
         
-        protected function shooting(event:TickEvent):void {
+        public function shooting(event:TickEvent):void {
             scene.play();
             camera.shooting(scene);
         }

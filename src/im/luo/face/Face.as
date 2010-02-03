@@ -1,13 +1,13 @@
-package im.luo.game
+package im.luo.face
 {
-    import flash.display.Sprite;
     import flash.events.Event;
-    import flf.flatland.game.Context;
+    import flash.display.Sprite;
 
-    public class Face extends Sprite {
+    import im.luo.role.RoleAbstract;
+
+    public class Face {
         public var role:*;
-        public var context:Context = Context.instance;
-        public var camera:Camera = context.camera;
+        public var render:Sprite = new Sprite();
 
         public function Face(role:RoleAbstract) {
             this.role = role;

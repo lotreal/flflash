@@ -1,25 +1,30 @@
-package im.luo.game
+package im.luo.scene
 {
     import im.luo.logging.Logger;
     import flash.events.*;
-    
-    public class Scene extends EventDispatcher implements IScene {
+    import flash.geom.Rectangle;
+    import im.luo.camera.ICamera;
+    import im.luo.role.RoleAbstract;
+
+    public class Scene extends SceneAbstract implements IScene {
         public var _layers:Vector.<ISceneLayer>;
         public var _roles:Vector.<RoleAbstract>;
         public function get layers():Vector.<ISceneLayer> { return _layers; }
 
-        public function Scene() {
+        public function Scene(rect:Rectangle = null) {
+            super(rect);
             _layers = new Vector.<ISceneLayer>();
             _roles = new Vector.<RoleAbstract>();
         }
 
         public function addLayer(layer:ISceneLayer):ISceneLayer {
+            if (layer.rect.isEmpty()) layer.rect = this.rect;
             _layers.push(layer);
             return layer;
         }
 
         public function addCharacter(name:String, character:RoleAbstract, layer:ISceneLayer):* {
-            layer.add(character.appearance);
+            layer.add(character.appearance.render);
             _roles.push(character);
             return character;
         }

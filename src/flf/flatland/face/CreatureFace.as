@@ -8,12 +8,11 @@ package flf.flatland.face
     
     import flash.display.GraphicsPathCommand;
     import flash.display.Sprite;
-    import im.luo.game.Face;
+    import im.luo.face.Face;
     
     public class CreatureFace extends Face {
         private var logger:Logger = Logger.getLogger(this);
         
-        protected var face:Sprite = new Sprite();
         public function CreatureFace(role:Creature) {
             super(role);
 
@@ -39,8 +38,9 @@ package flf.flatland.face
             commands.push(GraphicsPathCommand.LINE_TO);
             data.push(0);
             data.push(0);
-            graphics.lineStyle(2, role.color, 1);
-            graphics.drawPath(commands, data);
+
+            render.graphics.lineStyle(2, role.color, 1);
+            render.graphics.drawPath(commands, data);
             logger.debug("图形路径数据");
             logger.debug(commands);
             logger.debug(data);
@@ -54,17 +54,17 @@ package flf.flatland.face
         
         override public function update(e:Event = null):void {
             var position:Vector2D = role.actor.position;
+            logger.debug(position);
             var rotation:Number = role.actor.angle;
 
-            this.rotation = 0; // If not, matrix starts wrong.
+            render.rotation = 0; // If not, matrix starts wrong.
             var m:Matrix;
-            m = this.transform.matrix;
+            m = render.transform.matrix;
             m.rotate(rotation);
             m.tx = position.x;
             m.ty = position.y;
-            
-            this.transform.matrix = m;
-            
+            render.alpha = 0.1;
+            render.transform.matrix = m;
             //m = dialogue.transform.matrix;
             //m.tx = camera.rx(position.x);
             //m.ty = camera.ry(position.y);

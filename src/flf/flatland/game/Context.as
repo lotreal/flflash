@@ -13,7 +13,7 @@ package flf.flatland.game {
     import flf.*;
     import im.luo.util.*;
     import im.luo.logging.Logger;
-    import im.luo.game.ContextAbstract;
+    import im.luo.staff.ContextAbstract;
 
     public class Context extends ContextAbstract {
         public static function get instance():Context {

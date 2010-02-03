@@ -1,25 +1,29 @@
 package flf.flatland.scene
 {
-    import flash.events.*;
     import flash.display.DisplayObject;
-    import im.luo.logging.Logger;
+    import flash.events.*;
+    import flash.geom.Rectangle;
+    
     import flf.flatland.action.PlayerHotkeyA;
-    import im.luo.geom.Vector2D;
-    import flf.flatland.role.Player;
-    import im.luo.game.ISceneLayer;
-    import im.luo.game.IActor;
-    import im.luo.game.Scene;
-    import im.luo.game.TileLayer;
-    import im.luo.game.SpriteLayer;
     import flf.flatland.game.Context;
+    import flf.flatland.role.Edge;
+    import flf.flatland.role.Npc;
+    import flf.flatland.role.Player;
+    
+    import im.luo.actor.IActor;
+    import im.luo.logging.Logger;
+    import im.luo.scene.ISceneLayer;
+    import im.luo.scene.Scene;
+    import im.luo.scene.SpriteLayer;
+    import im.luo.scene.TileLayer;
 
     public class PlayScene extends Scene {
         public var player:Player;
-        public var npcs:Vector.<IActor>;
+        public var npcs:Vector.<Npc>;
 
-        public function PlayScene() {
-            super();
-            npcs = new Vector.<IActor>();
+        public function PlayScene(rect:Rectangle = null) {
+            super(rect);
+            npcs = new Vector.<Npc>();
         }
 
         override public function build():void {
@@ -45,22 +49,28 @@ package flf.flatland.scene
 
             //var player:Player = mainLayer.addCharacter(new Player(20, 12));
 
-            player = new Player(20, 12);
+            player = new Player(385, 285);
             player.behaviour = new PlayerHotkeyA(this, player);
 
-            addCharacter('player', player, mainLayer);
+            var edge:Edge = new Edge(0, 0);
+            addCharacter('edge', edge, mainLayer);
+
+            var npc:Npc;
+            var x:Number, y:Number;
+            for (var i:int = 0; i < 1; i++) {
+                x = Math.random() * rect.width;
+                y = Math.random() * rect.height;
+
+                npc = mainLayer.addCharacter(new Npc(x, y));
+                npcs.push(npc);
+            }
 
             var debugLayer:ISceneLayer = addLayer(new SpriteLayer());
             debugLayer.add(Context.instance.cache['world_debug_draw']);
-            //var npc:Npc;
-            //var x:Number, y:Number;
-            //for (var i:int = 0; i < 8; i++) {
-            //    x = Math.random() * width / 30;
-            //    y = Math.random() * height / 30;
+            logger.debug(bgLayer.rect);
+            logger.debug(mainLayer.rect);
+            logger.debug(debugLayer.rect);
 
-            //    npc = mainLayer.addCharacter(new Npc(x, y));
-            //    npcs.push(npc);
-            //}
 
             //logger.debug('建立场景');
 

@@ -29,7 +29,8 @@ package im.luo.physics.box2d
         private var world:b2World;
         private var timeStep:Number = 1.0 / 60.0;
         private var iterations:Number = 10;
-        
+        private var context:Context = Context.instance;
+
         //private var contactListener:ContactListener;
         
         public function box2dWorld(singleton_enforcer:SingletonEnforcer) {
@@ -99,55 +100,10 @@ package im.luo.physics.box2d
             //glow.blurY = 12;
             //glow.quality = BitmapFilterQuality.MEDIUM;
             //debugSprite.filters = [glow];
-            Context.instance.cache['world_debug_draw'] = m_sprite;
+            context.cache['world_debug_draw'] = m_sprite;
         }
 
         public function createEdge():void {
-            var width:int = 997 * 2;
-            var height:int = 600 * 2;
-            
-            var fixtureDef:b2FixtureDef = new b2FixtureDef();
-            
-            var bodyDef:b2BodyDef = new b2BodyDef();
-            bodyDef.position.Set(0, 0);
-            
-            var body:b2Body = world.CreateBody(bodyDef);
-            
-            var boxDef:b2PolygonShape;
-            
-            boxDef = new b2PolygonShape();
-            boxDef.SetAsOrientedBox(width/2/30, 0.2, new b2Vec2(width/30/2, -0.1), 0);
-            
-            fixtureDef.shape = boxDef;
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            
-            body.CreateFixture(fixtureDef);
-            
-            boxDef = new b2PolygonShape();
-            boxDef.SetAsOrientedBox(width/2/30, 0.2, new b2Vec2(width/30/2, height/30+0.1), 0);
-            fixtureDef.shape = boxDef;
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            
-            body.CreateFixture(fixtureDef);
-            
-            
-            boxDef = new b2PolygonShape();
-            boxDef.SetAsOrientedBox(0.2, height/2/30, new b2Vec2(-0.1, height/2/30), 0);
-            fixtureDef.shape = boxDef;
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            
-            body.CreateFixture(fixtureDef);
-            
-            boxDef = new b2PolygonShape();
-            boxDef.SetAsOrientedBox(0.2, height/2/30, new b2Vec2(width/30+0.1, height/2/30), 0);
-            fixtureDef.shape = boxDef;
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            
-            body.CreateFixture(fixtureDef);
         }
     }
 }
