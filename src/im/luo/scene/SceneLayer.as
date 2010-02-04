@@ -5,10 +5,10 @@ package im.luo.scene
     import im.luo.logging.Logger;
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
-    import im.luo.role.RoleAbstract;
+    import im.luo.role.IRole;
 
     public class SceneLayer extends SceneAbstract implements ISceneLayer {
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
 
         protected var list:Vector.<DisplayObject>;
         
@@ -22,8 +22,8 @@ package im.luo.scene
             return child;
         }
 
-        public function addCharacter(character:RoleAbstract):* {
-            add(character.appearance.render);
+        public function addCharacter(character:IRole):* {
+            add(character.face.render);
             return character;
         }
 

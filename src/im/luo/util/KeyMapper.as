@@ -1,7 +1,7 @@
 package im.luo.util{
     import flash.display.*;
     import flash.events.*;
-    import flf.flatland.game.Context;
+    import im.luo.staff.Context;
 
     public class KeyMapper extends Sprite{
         public  var keys:uint = 0;

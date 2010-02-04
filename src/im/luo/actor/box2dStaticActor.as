@@ -10,7 +10,7 @@ package im.luo.actor {
     import im.luo.logging.Logger;
     import caurina.transitions.Tweener;
     import im.luo.geom.Vector2D;
-    import flf.flatland.game.Context;
+    import im.luo.staff.Context;
     import im.luo.sim.IWorld;
     import im.luo.role.RoleAbstract;
     import im.luo.physics.box2d.box2dWorld;
@@ -20,7 +20,7 @@ package im.luo.actor {
         //public var camera:Camera = context.camera;
         public var role:*;
         
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
         
         protected var _world:IWorld = box2dWorld.instance;
         protected var bodyDef:b2BodyDef = new b2BodyDef();

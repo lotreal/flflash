@@ -13,7 +13,7 @@ package im.luo.scene
         protected var screen:Bitmap;
         protected var tile:BitmapData;
         protected var data:BitmapData;
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
 
         public function TileLayer() {
             super();
@@ -29,8 +29,8 @@ package im.luo.scene
             tile = new BitmapData(buffer.width, buffer.height, true);
             tile.draw(buffer);
 
-            logger.debug("tile~~~~~~~~~~~");
-            logger.debug(tile.rect);
+            _logger.debug("tile~~~~~~~~~~~");
+            _logger.debug(tile.rect);
             data = new BitmapData(rect.width, rect.height, true);
             //data.setVector(data.rect, tile.getVector(rect));
             data.copyPixels(tile, rect, new Point(0, 0));

@@ -13,12 +13,12 @@ package flf.flatland.role
 
 
     public class Edge extends RoleAbstract {
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
         public function Edge(x:int, y:int) {
             super(x, y);
             type = Role.EDGE;
             this.actor = new EdgeActor(this);
-            this.appearance = new Face(this);
+            this.face = new Face(this);
         }
     }
 }

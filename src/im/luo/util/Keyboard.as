@@ -4,7 +4,7 @@ package im.luo.util
     import flash.events.KeyboardEvent;
     import flash.utils.getTimer;
     import im.luo.logging.Logger;
-    import flf.flatland.game.Context;
+    import im.luo.staff.Context;
 
     public class Keyboard
     {
@@ -15,7 +15,7 @@ package im.luo.util
 	    return _instance;
 	}
 
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
 
 	public var ESC:Boolean;
 	public var F1:Boolean;

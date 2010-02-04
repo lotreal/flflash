@@ -5,7 +5,7 @@ package im.luo.util
     import flash.events.EventDispatcher;
     import flash.utils.getTimer;
     import im.luo.events.TickEvent;
-    import flf.flatland.game.Context;
+    import im.luo.staff.Context;
     
     [Event(name="tick",type="im.luo.events.TickEvent")]
     public class Tick extends EventDispatcher {

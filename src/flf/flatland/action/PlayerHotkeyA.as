@@ -1,51 +1,46 @@
 package flf.flatland.action
 {
-    import flash.display.*;
-    import im.luo.logging.Logger;
-    import flash.events.*;
-    import Box2D.Common.Math.*;
-    import Box2D.Dynamics.*;
     import Box2D.Collision.*;
     import Box2D.Collision.Shapes.*;
-    import flf.flatland.role.Creature;
+    import Box2D.Common.Math.*;
+    import Box2D.Dynamics.*;
+    
+    import flash.display.*;
+    import flash.events.*;
+    
     import flf.flatland.role.Player;
-    import im.luo.action.IRoleBehaviour;
-    import im.luo.util.Keyboard;
     import flf.flatland.scene.PlayScene;
-    import flf.flatland.game.Context;
-
-    public class PlayerHotkeyA extends EventDispatcher implements IRoleBehaviour {
-        private var logger:Logger = Logger.getLogger(this);
-
-        protected var scene:PlayScene;
-        protected var role:Player;
-        protected var kb:Keyboard;
-        protected var context:Context = Context.instance;
-
+    
+    import im.luo.action.KeyboardAction;
+    import im.luo.logging.Logger;
+    
+    public class PlayerHotkeyA extends KeyboardAction {
         public function PlayerHotkeyA(scene:PlayScene, role:Player):void {
-            this.kb = Keyboard.instance;
-            this.scene = scene;
-            this.role = role;
+            super(scene, role);
         }
-
-        public function play():void {
-            //logger.debug("play");
-            if (kb.pressed("LEFT")) {
+        
+        override public function play():void {
+            //_logger.debug("play");
+            if (keyboard.pressed("LEFT")) {
                 role.turnLeft();
             }
-            if (kb.pressed("UP")) {
-                role.forward(kb.timePressed("UP"));
+            if (keyboard.pressed("UP")) {
+                role.forward(keyboard.timePressed("UP"));
             }
-            if (kb.pressed("RIGHT")) {
+            if (keyboard.pressed("RIGHT")) {
                 role.turnRight();
             }
-            if (kb.pressed("DOWN")) {
-                role.backward(kb.timePressed("DOWN"));
+            if (keyboard.pressed("DOWN")) {
+                role.backward(keyboard.timePressed("DOWN"));
             }
         }
 
+        override public function destroy():void {}
+        
         override public function toString():String {
             return "上\下\左\右 方向键分别为: 前进; 后退; 左转; 右转. "
         };
+        
+        private var _logger:Logger = Logger.getLogger(this);
     }
 }

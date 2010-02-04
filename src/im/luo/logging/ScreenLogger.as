@@ -1,6 +1,6 @@
 package im.luo.logging
 {
-    import im.luo.ui.Debugger;
+    import im.luo.util.Debugger;
 
     public class ScreenLogger extends Logger {
         public function ScreenLogger(cls:*):void {

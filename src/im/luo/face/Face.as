@@ -1,15 +1,15 @@
 package im.luo.face
 {
-    import flash.events.Event;
     import flash.display.Sprite;
-
-    import im.luo.role.RoleAbstract;
+    import flash.events.Event;
+    
+    import im.luo.role.IRole;
 
     public class Face {
         public var role:*;
         public var render:Sprite = new Sprite();
 
-        public function Face(role:RoleAbstract) {
+        public function Face(role:IRole) {
             this.role = role;
         }
 

@@ -1,21 +1,29 @@
 package flf.flatland.game 
 {
-    import flash.events.*;
-    import flf.flatland.role.Creature;
-    import im.luo.logging.Logger;
-    import im.luo.util.Tick;
-    import im.luo.events.TickEvent;
-    import im.luo.util.Keyboard;
-    import im.luo.util.KeyCode;
-    import flf.flatland.scene.PlayScene;
-    import im.luo.camera.ICamera;
-    import im.luo.scene.IScene;
-    import im.luo.staff.DirectorAbstract;
-    import im.luo.camera.Camera;
+    import at.geoathome.utils.loader.AssetLoader;
+    
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
+    import flash.events.Event;
+    import flash.events.KeyboardEvent;
     import flash.geom.Rectangle;
+    
+    import flf.flatland.role.Creature;
+    import flf.flatland.scene.PlayScene;
+    
+    import im.luo.camera.Camera;
+    import im.luo.events.TickEvent;
+    import im.luo.logging.Logger;
+    import im.luo.staff.DirectorAbstract;
+    import im.luo.util.KeyCode;
+    import im.luo.util.Keyboard;
 
     public class Director extends DirectorAbstract {
-        private static var _instance:Director = null;
+        public var keyboard:Keyboard = Keyboard.instance;
+        public var player1:Creature = null;
+
+        public function Director(singleton_enforcer:SingletonEnforcer):void {}
+
         public static function get instance():Director {
             return Director.getInstance();
         }
@@ -23,22 +31,28 @@ package flf.flatland.game
             if (_instance == null) _instance = new Director(new SingletonEnforcer());
             return _instance;
         }
+
+        public function play():void {
+            loadAssest();
+        }
         
-        private var logger:Logger = Logger.getLogger(this);
+        protected function loadAssest():void {
+            context.loader = new AssetLoader("flf-res.swf", context.loaderContext);
+            context.loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
+            context.loader.load();
+        }
         
-        public var keyboard:Keyboard = Keyboard.instance;
-        public var context:Context = Context.instance;
-        public var player1:Creature = null;
-        
-        public function Director(singleton_enforcer:SingletonEnforcer):void {
-            // TODO -> keyboard process
+        protected function onAssestLoadComplete(e:Event):void 
+        {
+            _logger.debug('资源加载完成');
             context.stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyUp);
             
             scene = new PlayScene(new Rectangle(0, 0, context.width * 2, context.height * 2));
             scene.build();
-
+            
             camera = new Camera(scene);
             action();
+            debug(context.root);
         }
 
         override public function shooting(event:TickEvent):void {
@@ -47,7 +61,6 @@ package flf.flatland.game
             //camera.shooting(scene);
         }
         
-        private var pcf:int = 0;
         public function handleKeyUp(event:KeyboardEvent):void {
             var c:int  = event.keyCode;
             if(c == KeyCode.N) {
@@ -68,6 +81,30 @@ package flf.flatland.game
             if(c == KeyCode.D) {
             }
         }
+
+
+        protected function debug(node:DisplayObject):void {
+            _logger.debug("============= "+(String(node))+" =============");
+            var c:DisplayObjectContainer = node as DisplayObjectContainer;
+            if (c) {
+                if (c.numChildren > 0 ) {
+                    _logger.debug("Number of children of "+(String(c))+": " + c.numChildren);
+                    for (var i:uint=0;i<c.numChildren;i++) {
+                        _logger.debug(c.getChildAt(i));
+                    }
+                    for (var j:uint=0;j<c.numChildren;j++) {
+                        debug(c.getChildAt(j));
+                    }
+                }
+            } else {
+                _logger.debug("DisplayObject(not container): "+(String(node)));
+            }
+        }
+
+        private var pcf:int = 0;
+        private static var _instance:Director = null;
+        private var _logger:Logger = Logger.getLogger(this);
+
     }
 }
 

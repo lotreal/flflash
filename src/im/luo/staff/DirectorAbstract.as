@@ -14,11 +14,10 @@ package im.luo.staff
     import im.luo.scene.IScene;
     
     public class DirectorAbstract extends EventDispatcher {
-        private var logger:Logger = Logger.getLogger(this);
-
         public var camera:ICamera;
         public var scene:IScene;
-        
+        public var context:Context = Context.instance;
+
         public function action():void {
             camera.preShoot(scene);
             Tick.instance.addEventListener(TickEvent.TICK, shooting);
@@ -33,5 +32,7 @@ package im.luo.staff
             scene.play();
             camera.shooting(scene);
         }
+
+        private var _logger:Logger = Logger.getLogger(this);
     }
 }

@@ -6,17 +6,23 @@ package im.luo.scene
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
     import flash.geom.Matrix;
-    
+    import im.luo.role.IRole;
+
     public class SpriteLayer extends SceneLayer implements ISceneLayer {
         protected var screen:Sprite;
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
 
         public function SpriteLayer(rect:Rectangle = null) {
             super(rect);
+            screen = new Sprite();
         }
 
+        //override public function addCharacter(character:IRole):* {
+        //    screen.addChild(character.face.render);
+        //    return character;
+        //}
+
         override public function preShoot(container:DisplayObjectContainer, rect:Rectangle):void {
-            screen = new Sprite();
             for (var i:int = 0, n:int = list.length; i < n; i++) {
                 var el:DisplayObject = list[i];
                 if (inCamera(el, rect)) screen.addChild(el);

@@ -6,7 +6,7 @@ package flf.flatland.fx
     import flash.display.MovieClip;
     import im.luo.geom.Vector2D;
     import im.luo.camera.Camera;
-    import flf.flatland.game.Context;
+    import im.luo.staff.Context;
     
     public class Peng2 {
         private var _logger:Logger = Logger.getLogger(this);

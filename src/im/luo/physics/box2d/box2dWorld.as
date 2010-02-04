@@ -12,7 +12,7 @@ package im.luo.physics.box2d
     import im.luo.events.TickEvent;
     import im.luo.logging.Logger;
     import im.luo.util.Tick;
-    import flf.flatland.game.Context;
+    import im.luo.staff.Context;
     import im.luo.sim.IWorld;
     
     public class box2dWorld implements IWorld {
@@ -25,7 +25,7 @@ package im.luo.physics.box2d
             return _instance;
         }
         
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
         private var world:b2World;
         private var timeStep:Number = 1.0 / 60.0;
         private var iterations:Number = 10;
@@ -54,7 +54,7 @@ package im.luo.physics.box2d
             //while(contactListener.contactStack[0])
             //{
             //    var contactPoint:ContactPoint = contactListener.contactStack.pop();
-            //    //logger.debug('contact!');
+            //    //_logger.debug('contact!');
             //    Collide.process(contactPoint);
             //}
         }
@@ -64,7 +64,7 @@ package im.luo.physics.box2d
             if (contact != null) {
                 var fixtureA:b2Fixture = contact.GetFixtureA();
                 var fixtureB:b2Fixture = contact.GetFixtureB();
-                logger.debug("contact!",fixtureA.GetUserData(),fixtureB.GetUserData());
+                _logger.debug("contact!",fixtureA.GetUserData(),fixtureB.GetUserData());
             }
         }
         

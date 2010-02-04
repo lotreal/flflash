@@ -1,7 +1,7 @@
 package im.luo.action
 {
-    import flash.events.Event;
-    public interface IRoleBehaviour {
+    public interface IRoleAction {
+        function destroy():void;
         function play():void;
         function toString():String;
     }

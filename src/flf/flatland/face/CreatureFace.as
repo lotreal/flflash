@@ -11,7 +11,7 @@ package flf.flatland.face
     import im.luo.face.Face;
     
     public class CreatureFace extends Face {
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
         
         public function CreatureFace(role:Creature) {
             super(role);
@@ -41,9 +41,9 @@ package flf.flatland.face
 
             render.graphics.lineStyle(2, role.color, 1);
             render.graphics.drawPath(commands, data);
-            logger.debug("图形路径数据");
-            logger.debug(commands);
-            logger.debug(data);
+            _logger.debug("图形路径数据");
+            _logger.debug(commands);
+            _logger.debug(data);
         }
         
         override public function paint():void {
@@ -54,7 +54,7 @@ package flf.flatland.face
         
         override public function update(e:Event = null):void {
             var position:Vector2D = role.actor.position;
-            logger.debug(position);
+            _logger.debug(position);
             var rotation:Number = role.actor.angle;
 
             render.rotation = 0; // If not, matrix starts wrong.
@@ -64,7 +64,9 @@ package flf.flatland.face
             m.tx = position.x;
             m.ty = position.y;
             render.alpha = 0.1;
+            render.x += 10;
             render.transform.matrix = m;
+            _logger.debug(position);
             //m = dialogue.transform.matrix;
             //m.tx = camera.rx(position.x);
             //m.ty = camera.ry(position.y);

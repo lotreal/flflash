@@ -10,13 +10,13 @@ package im.luo.actor {
     import im.luo.logging.Logger;
     import caurina.transitions.Tweener;
     import im.luo.geom.Vector2D;
-    import flf.flatland.game.Context;
+    import im.luo.staff.Context;
     import im.luo.sim.IWorld;
     import im.luo.role.RoleAbstract;
     import im.luo.physics.box2d.box2dWorld;
     
     public class box2dActor extends box2dStaticActor implements IActor {
-        private var logger:Logger = Logger.getLogger(this);
+        private var _logger:Logger = Logger.getLogger(this);
 
         public function box2dActor(role:RoleAbstract):void {
             super(role);

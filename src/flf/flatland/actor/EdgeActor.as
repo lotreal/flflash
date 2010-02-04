@@ -23,18 +23,18 @@ package flf.flatland.actor
             var width:int = context.width * 2;
             var height:int = context.height * 2;
             
+            var v1:b2Vec2 = new b2Vec2(0, 0);
+            var v2:b2Vec2 = new b2Vec2(width / 30, 0);
+            var v3:b2Vec2 = new b2Vec2(width / 30, height/30);
+            var v4:b2Vec2 = new b2Vec2(0, height/30);
+            
             var fixtureDef:b2FixtureDef = new b2FixtureDef();
             
-            //var bodyDef:b2BodyDef = new b2BodyDef();
-            //bodyDef.position.Set(0, 0);
-            
-            //var body:b2Body = world.CreateBody(bodyDef);
             
             var boxDef:b2PolygonShape;
             
             boxDef = new b2PolygonShape();
-            boxDef.SetAsOrientedBox(width/2/30, 0.2, new b2Vec2(width/30/2, -0.1), 0);
-            
+            boxDef.SetAsEdge(v1, v2);
             fixtureDef.shape = boxDef;
             fixtureDef.friction = 1;
             fixtureDef.density = 1;
@@ -42,7 +42,7 @@ package flf.flatland.actor
             body.CreateFixture(fixtureDef);
             
             boxDef = new b2PolygonShape();
-            boxDef.SetAsOrientedBox(width/2/30, 0.2, new b2Vec2(width/30/2, height/30+0.1), 0);
+            boxDef.SetAsEdge(v2, v3);
             fixtureDef.shape = boxDef;
             fixtureDef.friction = 1;
             fixtureDef.density = 1;
@@ -51,7 +51,7 @@ package flf.flatland.actor
             
             
             boxDef = new b2PolygonShape();
-            boxDef.SetAsOrientedBox(0.2, height/2/30, new b2Vec2(-0.1, height/2/30), 0);
+            boxDef.SetAsEdge(v3, v4);
             fixtureDef.shape = boxDef;
             fixtureDef.friction = 1;
             fixtureDef.density = 1;
@@ -59,7 +59,7 @@ package flf.flatland.actor
             body.CreateFixture(fixtureDef);
             
             boxDef = new b2PolygonShape();
-            boxDef.SetAsOrientedBox(0.2, height/2/30, new b2Vec2(width/30+0.1, height/2/30), 0);
+            boxDef.SetAsEdge(v4, v1);
             fixtureDef.shape = boxDef;
             fixtureDef.friction = 1;
             fixtureDef.density = 1;
