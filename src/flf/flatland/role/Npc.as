@@ -5,9 +5,9 @@ package flf.flatland.role
     public class Npc extends Creature {
         private var _logger:Logger = Logger.getLogger(this);
         
-        public function Npc(x:int, y:int) {
-            super(x, y);
-            type = Role.NPC;
+        public function Npc(name:String, x:int, y:int) {
+            super(name, x, y);
+            type = Role.CREATURE;
             color = 0xffffff;
         }
     }

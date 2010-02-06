@@ -1,11 +1,14 @@
 package flf.flatland.scene
 {
     import flash.display.Bitmap;
+    import flash.display.DisplayObject;
     import flash.events.*;
     import flash.geom.Rectangle;
     
     import flf.flatland.action.PlayerHotkeyA;
     import flf.flatland.role.Edge;
+    import flf.flatland.role.Gold;
+    import flf.flatland.role.Heart;
     import flf.flatland.role.Npc;
     import flf.flatland.role.Player;
     
@@ -42,33 +45,52 @@ package flf.flatland.scene
             //bgLayer.add(map2);
             //bgLayer.add(map3);
             //bgLayer.add(map4);
-            
+
+            var chatMain:DisplayObject = new (context.loader.getDefinitionOf("hp"))();
+            chatMain.x = 100;
+            chatMain.y = 100;
             var bg:Bitmap = new bgImage();
             bgLayer.add(bg);
+            //bgLayer.add(chatMain);
 
-            _logger.debug("完成游戏场景搭建");
             var mainLayer:ISceneLayer = new SpriteLayer();
 
-            player = new Player(375, 275);
+            player = new Player('user', 375, 275);
             player.action = new PlayerHotkeyA(this, player);
             addCharacter('player', player, mainLayer);
 
-            var edge:Edge = new Edge(0, 0);
+            var edge:Edge = new Edge('edge', 0, 0);
             addCharacter('edge', edge, mainLayer);
 
             var npc:Npc;
             var x:Number, y:Number;
-            for (var i:int = 0; i < 1; i++) {
+            for (var i:int = 0; i < 10; i++) {
                 x = Math.random() * rect.width;
                 y = Math.random() * rect.height;
 
-                npc = new Npc(x, y);
+                npc = new Npc('npc'+i, x, y);
                 addCharacter('npc'+i, npc, mainLayer);
                 npcs.push(npc);
             }
 
+            for (var j:int = 0; j < 10; j++) {
+                x = Math.random() * rect.width;
+                y = Math.random() * rect.height;
+                
+                var gold:Gold = new Gold('gold'+j, x, y);
+                addCharacter('gold'+j, gold, mainLayer);
+            }
+            
+            for (var k:int = 0; k < 10; k++) {
+                x = Math.random() * rect.width;
+                y = Math.random() * rect.height;
+                
+                var heart:Heart = new Heart('heart'+k, x, y);
+                addCharacter('heart'+k, heart, mainLayer);
+            }
+
             var debugLayer:ISceneLayer = new SpriteLayer();
-            debugLayer.add(context.cache['world_debug_draw']);
+            //debugLayer.add(context.cache['world_debug_draw']);
 
             var uiLayer:ISceneLayer = new SpriteLayer();
             uiLayer.add(context.cache['ui']);
@@ -78,9 +100,7 @@ package flf.flatland.scene
             addLayer(debugLayer);
             addLayer(uiLayer);
 
-            _logger.debug(bgLayer.rect);
-            _logger.debug(mainLayer.rect);
-            _logger.debug(debugLayer.rect);
+            _logger.debug("完成游戏场景搭建");
         }
 
         override public function play():void {

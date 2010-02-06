@@ -8,6 +8,9 @@ package im.luo.role
     public interface IRole {
         function get face():Face;
 
+        function get type():String;
+        function set type(value:String):void;
+
         function get position():Vector2D;
         function set position(value:Vector2D):void;
 

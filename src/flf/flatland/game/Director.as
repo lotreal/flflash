@@ -1,4 +1,4 @@
-package flf.flatland.game 
+package flf.flatland.game
 {
     import at.geoathome.utils.loader.AssetLoader;
     
@@ -37,7 +37,7 @@ package flf.flatland.game
         }
         
         protected function loadAssest():void {
-            context.loader = new AssetLoader("flf-res.swf", context.loaderContext);
+            context.loader = new AssetLoader("flf-res1.swf", context.loaderContext);
             context.loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
             context.loader.load();
         }
@@ -52,7 +52,7 @@ package flf.flatland.game
             
             camera = new Camera(scene);
             action();
-            debug(context.root);
+            //debug(context.root);
         }
 
         override public function shooting(event:TickEvent):void {

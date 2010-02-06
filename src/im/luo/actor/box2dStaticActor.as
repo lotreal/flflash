@@ -27,9 +27,17 @@ package im.luo.actor {
         protected var body:b2Body;
         protected var shape:b2Shape;
         protected var fixture:b2Fixture;
+        protected var fixtureDef:b2FixtureDef;
         protected var scale:int = 30;
         
         private var _maxSpeed:Number = 0;
+
+        public function box2dStaticActor(role:RoleAbstract):void {
+            this.role = role;
+            this.fixtureDef = new b2FixtureDef();
+            this.creatBody();
+        }
+
         public function get maxSpeed():Number {
             return _maxSpeed;
         }
@@ -106,17 +114,14 @@ package im.luo.actor {
         }
         
         public function update():void {
-            body.DestroyFixture(fixture);
+            body.DestroyFixture(body.GetFixtureList());
+            _logger.debug('update');
             createShape();
         }
         
         public function destroy():void {
+            _logger.debug('destory', role.name);
             world.destroyBody(body);
-        }
-        
-        public function box2dStaticActor(role:RoleAbstract):void {
-            this.role = role;
-            this.creatBody();
         }
         
         protected function initBodyDef():void {
@@ -139,6 +144,15 @@ package im.luo.actor {
         
         public function play():void {
             role.position = this.position;
+        }
+
+        protected function addFixture(shape:b2Shape, data:* = null):void {
+            fixtureDef.shape = shape;
+            fixtureDef.friction = 1;
+            fixtureDef.density = 1;
+            fixtureDef.restitution = 2;
+            fixtureDef.userData = role;
+            body.CreateFixture(fixtureDef);
         }
     }
 }

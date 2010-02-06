@@ -8,12 +8,16 @@ package im.luo.physics.box2d
     
     import flash.display.*;
     import flash.events.*;
-    
+
+    import flf.flatland.game.Grip;
+
     import im.luo.events.TickEvent;
     import im.luo.logging.Logger;
     import im.luo.util.Tick;
     import im.luo.staff.Context;
     import im.luo.sim.IWorld;
+    import im.luo.geom.Vector2D;
+    import im.luo.util.TimeUtil;
     
     public class box2dWorld implements IWorld {
         private static var _instance:box2dWorld = null;
@@ -37,6 +41,7 @@ package im.luo.physics.box2d
             var gravity:b2Vec2 = new b2Vec2 (0.0, 0.0);
             var doSleep:Boolean = true;
             world = new b2World(gravity, doSleep);
+            world.SetContinuousPhysics(false);
             debugDraw();
             createEdge();
 
@@ -50,21 +55,33 @@ package im.luo.physics.box2d
             world.Step(timeStep, iterations, 10); //10 = positionIterations
             world.ClearForces() 
             world.DrawDebugData();
-            
-            //while(contactListener.contactStack[0])
-            //{
-            //    var contactPoint:ContactPoint = contactListener.contactStack.pop();
-            //    //_logger.debug('contact!');
-            //    Collide.process(contactPoint);
-            //}
         }
-        
+
+        private var contactCooldown:int = 500;
+        private var contactFlag:Boolean = true;
+
         public function contact(event:b2ContactEvent):void {
-            var contact:b2Contact = event.contact;
-            if (contact != null) {
-                var fixtureA:b2Fixture = contact.GetFixtureA();
-                var fixtureB:b2Fixture = contact.GetFixtureB();
-                _logger.debug("contact!",fixtureA.GetUserData(),fixtureB.GetUserData());
+            if (contactFlag) {
+                contactFlag = false;
+                TimeUtil.delay(contactCooldown, function handler():void{ contactFlag= true; });
+                var contact:b2Contact = event.contact;
+                var worldManifold:b2WorldManifold;
+                var contactPoint:b2Vec2;
+                if (contact != null) {
+                    var a:* = contact.GetFixtureA().GetUserData();
+                    var b:* = contact.GetFixtureB().GetUserData();
+
+                    if (Grip.validate(a, b)) {
+                        try {
+                            worldManifold = new b2WorldManifold();
+                            contact.GetWorldManifold(worldManifold);
+                            contactPoint = worldManifold.m_points[0];
+                            Grip.collide(a, b, new Vector2D(contactPoint.x, contactPoint.y));
+                        }
+                        catch (e:Error) {
+                        }
+                    }
+                }
             }
         }
         

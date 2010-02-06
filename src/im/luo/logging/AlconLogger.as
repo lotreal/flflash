@@ -1,6 +1,8 @@
 package im.luo.logging
 {
     import com.hexagonstar.util.debug.Debug;
+    import flash.utils.getTimer;
+
     public class AlconLogger extends Logger {
         public function AlconLogger(cls:*):void {
             super(cls);
@@ -9,7 +11,7 @@ package im.luo.logging
             var str:String = "";
             for (var i:int=0; i<args.length; i++) str += String(args[i]) + "; ";
 
-            Debug.trace(clazz+'#'+str);
+            Debug.trace(getTimer()+':'+clazz+'#'+str);
         }
     }
 }

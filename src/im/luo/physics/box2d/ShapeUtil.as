@@ -23,6 +23,5 @@ package im.luo.physics.box2d
                 return b2PolygonShape.AsVector(vertices, edges);
             }
         }
-
     }
 }

@@ -8,16 +8,19 @@ package flf.flatland.role
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
     import im.luo.role.RoleAbstract;
-    import im.luo.ui.UI;
-    import im.luo.ui.ITextPanel;
-    
-    public class Creature extends RoleAbstract {
+    import im.luo.item.ICanUseItem;
+    import im.luo.item.IItem;
+
+    public class Creature extends RoleAbstract implements ICanUseItem {
         public static var INIT_LEVEL:int = 3;
         public static var MAX_LEVEL:int = 9;
 
         public static const FORWARD:int = 1;
         public static const BACKWARD:int = 2;
         
+        public var score:int = 0;
+        public var gold:int = 0;
+
         public var atk:int = 0;
         public var hp:int = 0;
         public var speed:int = 0; // px/sec
@@ -30,10 +33,12 @@ package flf.flatland.role
         public var forwardSpeed:Number = 24;
         public var backwardSpeed:Number = -9;
         public var strafeSpeed:Number = 20;
+
+        public var invincible:Boolean = false;
         
-        public function Creature(x:int, y:int) {
-            super(x, y);
-            type = Role.NULL;
+        public function Creature(name:String, x:int, y:int) {
+            super(name, x, y);
+            type = Role.CREATURE;
             this.actor = new CreatureActor(this);
             this.face = new CreatureFace(this);
         }
@@ -129,10 +134,12 @@ package flf.flatland.role
         }
         
         public function win():void {
+            //if (!this.invincible) 
+            this.score += 100;
         }
         
         public function lose():void {
-            destroy();
+            //destroy();
         }
         
         public function levelUp():void {
@@ -143,26 +150,30 @@ package flf.flatland.role
             level--;
         }
 
-        override public function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void {
-            uiInfo = UI.textPanel(position, 100, 100, 12, 0x0000);
-            uiInfo.content = toString();
-        };
-
-        override public function shooting(container:DisplayObjectContainer, rectangle:Rectangle):void {
-            uiInfo.position = position;
-            uiInfo.content = toString();
-        };
-
-        public function toString():String {
+        override public function toString():String {
+            return 'Name:' + name + '\n' 
+            + 'Hp:' + hp + '\n' 
+            + 'Score:' + score + '\n' 
+            + 'Gold:' + gold + '\n' 
+            + 'I:' + invincible + '\n'
+            ;
             return 'A:' + atk + '\n' 
             + 'H:' + hp + '\n' 
             + 'S:' + speed + '\n' 
             + 'T:' + type + '\n' 
             + 'N:' + name + '\n'
+            + 'I:' + invincible + '\n'
             ;
+
         }
 
-        protected var uiInfo:ITextPanel;
+        public function activate(item:IItem):void {
+
+        }
+
+        public function deactivate(item:IItem):void {
+
+        }
 
         private var _logger:Logger = Logger.getLogger(this);
         private var _level:int = INIT_LEVEL;

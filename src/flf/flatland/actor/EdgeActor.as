@@ -18,7 +18,6 @@ package flf.flatland.actor
             super(role);
         }
 
-        private var initMassData:b2MassData;
         override protected function createShape():void {
             var width:int = context.width * 2;
             var height:int = context.height * 2;
@@ -35,37 +34,19 @@ package flf.flatland.actor
             
             boxDef = new b2PolygonShape();
             boxDef.SetAsEdge(v1, v2);
-            fixtureDef.shape = boxDef;
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            
-            body.CreateFixture(fixtureDef);
+            addFixture(boxDef);
             
             boxDef = new b2PolygonShape();
             boxDef.SetAsEdge(v2, v3);
-            fixtureDef.shape = boxDef;
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            
-            body.CreateFixture(fixtureDef);
-            
+            addFixture(boxDef);
             
             boxDef = new b2PolygonShape();
             boxDef.SetAsEdge(v3, v4);
-            fixtureDef.shape = boxDef;
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            
-            body.CreateFixture(fixtureDef);
-            
+            addFixture(boxDef);
+
             boxDef = new b2PolygonShape();
             boxDef.SetAsEdge(v4, v1);
-            fixtureDef.shape = boxDef;
-            fixtureDef.friction = 1;
-            fixtureDef.density = 1;
-            
-            body.CreateFixture(fixtureDef);
-
+            addFixture(boxDef);
         }
     }
 }

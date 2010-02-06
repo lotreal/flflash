@@ -18,7 +18,7 @@ package im.luo.ui
         }
 
         public function set content(value:String):void {
-            txt.text = value;
+            if (txt.text != value) txt.text = value;
         }
 
         public function get position():Vector2D {
@@ -34,6 +34,11 @@ package im.luo.ui
         public function render(c:DisplayObjectContainer):void {
             c.addChild(txt);
         }
+
+        public function destroy():void {
+            if (txt.parent != null) txt.parent.removeChild(txt);
+        }
+
         private var _position:Vector2D = null;
     }
 }

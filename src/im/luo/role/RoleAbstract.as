@@ -10,22 +10,42 @@ package im.luo.role
     import im.luo.face.Face;
     import im.luo.action.IRoleAction;
     import flash.geom.Rectangle;
-
+    import im.luo.ui.ITextPanel;
+    
     public class RoleAbstract implements IRole {
         public var x:int;
         public var y:int;
-        public var type:String = "";
-        public var name:String = "";
+
         public var context:Context = Context.instance;
 
-        public function RoleAbstract(x:int, y:int) {
+        protected var uiInfo:ITextPanel;
+
+        public function RoleAbstract(name:String, x:int, y:int) {
+            this.name = name;
             this.x = x;
             this.y = y;
         }
 
+        public function get name():String {
+            return _name;
+        }
+
+        public function set name(value:String):void {
+            _name = value;
+        }
+
+        public function get type():String {
+            return _type;
+        }
+
+        public function set type(value:String):void {
+            _type = value;
+        }
+        
         public function get actor():IActor {
             return _actor;
         }
+
         public function set actor(value:IActor):void {
             _actor = value;
         }
@@ -33,6 +53,7 @@ package im.luo.role
         public function get face():Face {
             return _face;
         }
+
         public function set face(value:Face):void {
             _face = value;
         }
@@ -55,10 +76,25 @@ package im.luo.role
             actor.position = value;
         }
 
-        public function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void {};
-        public function shooting(container:DisplayObjectContainer, rectangle:Rectangle):void {};
         public function postShoot(container:DisplayObjectContainer, rectangle:Rectangle):void {};
-
+        
+        public function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void {
+            uiInfo = UI.textPanel(position, 100, 100, 12, 0x0000);
+            uiInfo.content = toString();
+        };
+        
+        public function shooting(container:DisplayObjectContainer, rectangle:Rectangle):void {
+            uiInfo.position = position;
+            uiInfo.content = toString();
+        };
+        
+        public function toString():String {
+            return '';
+            return 'T:' + type + '\n' 
+                + 'N:' + name + '\n'
+                ;
+        }
+        
         public function play():void {
             actor.play();
             if (action != null) action.play();
@@ -66,8 +102,10 @@ package im.luo.role
         }
 
         public function destroy():void {
-            face.destroy();
-            action.destroy();
+            if (uiInfo != null) uiInfo.destroy();
+
+            if (face != null) face.destroy();
+            if (action != null) action.destroy();
             actor.destroy();
         }
 
@@ -75,6 +113,7 @@ package im.luo.role
         private var _action:IRoleAction = null;
         private var _actor:IActor = null;
         private var _face:Face = null;
-
+        private var _type:String = "unknown type";
+        private var _name:String = "unknown name";
     }
 }

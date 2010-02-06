@@ -12,5 +12,7 @@ package im.luo.ui
         function set content(value:String):void;
         
         function render(c:DisplayObjectContainer):void;
+
+        function destroy():void;
     }
 }
