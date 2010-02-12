@@ -1,3 +1,5 @@
 *.fla
 *.swf
 bin-debug/*
+build/*
+release/*

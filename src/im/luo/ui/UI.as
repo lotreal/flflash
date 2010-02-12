@@ -11,8 +11,8 @@ package im.luo.ui
     import im.luo.staff.Context;
     
     public class UI {
-        private static var screen:Sprite;
-        private static var fixScreen:Sprite;
+        public static var screen:Sprite;
+        public static var fixScreen:Sprite;
 
         public static function get instance():UI {
             return UI.getInstance();
@@ -24,10 +24,9 @@ package im.luo.ui
 
         public function UI(singleton_enforcer:SingletonEnforcer) {
             var context:Context = Context.instance;
-            _tbTip = createTextField(0, 0, context.width, 32,
-                16, 0x089640);
+            _tbTip = createTextField(0, context.height - 18, context.width, 32,
+                12, 0x089640);
 
-            _tbTip.y = 0;
             _tbTip.text = "";
 
             screen = context.cache['ui'];
@@ -72,6 +71,12 @@ package im.luo.ui
             return tp;
         }
 
+        public static function fixTextPanel(position:Vector2D, width:int, height:int, size:int, color:uint):ITextPanel {
+            var tp:ITextPanel = new TextPanel(position, width, height, size, color);
+            tp.render(fixScreen);
+            return tp;
+        }
+        
         private static var _instance:UI = null;
 
         private var _logger:Logger = Logger.getLogger(this);

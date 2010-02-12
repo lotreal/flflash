@@ -1,4 +1,5 @@
-// ~/share/flex4sdk/bin/mxmlc -debug=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -static-link-runtime-shared-libraries=true /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/bin/flf.swf
+// ~/share/flex4sdk/bin/mxmlc -debug=true -static-link-runtime-shared-libraries=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/debug/as3/ /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/build/flf.swf
+// ~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/build/flf.swf
 package {
     import flash.display.Sprite;
     import flash.events.Event;
@@ -7,9 +8,8 @@ package {
     
     import im.luo.staff.Context;
 
-    [SWF(width="750", height="550", backgroundColor="#000000", frameRate="30")]
+    [SWF(width="750", height="485", backgroundColor="#000000", frameRate="30")]
     public class Main extends Sprite {
-        public static var context:Context;
         public function Main() {
             if (stage) init();
             else addEventListener(Event.ADDED_TO_STAGE, init);

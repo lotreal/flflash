@@ -1,15 +1,15 @@
 package flf.flatland.face
 {
-    import flf.flatland.role.Gold;
-    import im.luo.staff.Context;
     import flash.display.DisplayObject;
+    
+    import flf.flatland.role.Gold;
 
     public class GoldFace extends PropFace
     {
         public function GoldFace(role:Gold)
         {
             super(role);
-            var chatMain:DisplayObject = new (Context.instance.loader.getDefinitionOf("coin"))();
+            var chatMain:DisplayObject = new (context.loader.getContent("res").loaderInfo.applicationDomain.getDefinition("Coin") as Class)();
             render.addChild(chatMain);
 
         }

@@ -16,9 +16,8 @@ package flf.flatland.actor
             super(role);
         }
 
-        private var initMassData:b2MassData;
         override protected function createShape():void {
-            var shape:b2PolygonShape = ShapeUtil.equilateral(role.radius, role.level);
+            var shape:b2PolygonShape = ShapeUtil.equilateral(role.radius / scale, role.level);
             addFixture(shape);
         }
     }

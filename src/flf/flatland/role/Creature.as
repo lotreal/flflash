@@ -2,45 +2,73 @@ package flf.flatland.role
 {
     import flf.flatland.actor.CreatureActor;
     import flf.flatland.face.CreatureFace;
-    import flash.display.DisplayObjectContainer;
-    import flash.geom.Rectangle;
+    import flf.flatland.ui.PlaySceneUI;
     
     import im.luo.geom.Vector2D;
-    import im.luo.logging.Logger;
-    import im.luo.role.RoleAbstract;
     import im.luo.item.ICanUseItem;
     import im.luo.item.IItem;
+    import im.luo.logging.Logger;
+    import im.luo.role.RoleAbstract;
 
     public class Creature extends RoleAbstract implements ICanUseItem {
-        public static var INIT_LEVEL:int = 3;
+        public static var INIT_LEVEL:int = 5;
         public static var MAX_LEVEL:int = 9;
 
         public static const FORWARD:int = 1;
         public static const BACKWARD:int = 2;
-        
+
+        public var _level:int = INIT_LEVEL;
         public var score:int = 0;
         public var gold:int = 0;
+        public var combo:int = 0;
 
         public var atk:int = 0;
         public var hp:int = 0;
-        public var speed:int = 0; // px/sec
+        public var speed:int = 30; // px/sec
         public var angular:int = 0;
         public var weight:int = 0;
         public var exp:int = 0;
         
         public var color:uint = 0x990000;
-        public var side:Number = 2;
+        public var side:Number = 56;
         public var forwardSpeed:Number = 24;
         public var backwardSpeed:Number = -9;
         public var strafeSpeed:Number = 20;
 
         public var invincible:Boolean = false;
+
+        private var _logger:Logger = Logger.getLogger(this);
+        private var lastMove:int = 0;
+        private var v0:Number = 0;
         
-        public function Creature(name:String, x:int, y:int) {
+        public function Creature(name:String, x:int, y:int, level:int) {
             super(name, x, y);
-            type = Role.CREATURE;
+            this.type = Role.CREATURE;
+            this._level = level;
+            switch (level) {
+                case 3:
+                    initProp(5, 13, 10, 30, 100);
+                    break;
+                case 4:
+                    initProp(4, 18, 9, 40, 150);
+                    break;
+                case 5:
+                    initProp(3, 24, 8, 50, 200);
+                    break;
+                case 6:
+                    initProp(2, 32, 7, 60, 250);
+                    break;
+            }
             this.actor = new CreatureActor(this);
             this.face = new CreatureFace(this);
+        }
+        
+        public function initProp(attack:int, hp:int, speed:int, weight:int, exp:int):void {
+            this.atk = attack;
+            this.hp = hp;
+            this.speed = speed;
+            this.weight = weight;
+            this.exp = exp;
         }
         
         public function get radius():Number {
@@ -60,7 +88,7 @@ package flf.flatland.role
                 face.repaint();
             }
         }
-
+        
         public function strafeEast(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
             var v:Vector2D = new Vector2D(-strafeSpeed, 0);
@@ -84,6 +112,28 @@ package flf.flatland.role
             var v:Vector2D = new Vector2D(0, strafeSpeed);
             actor.linearVel = v;
         }
+        
+/*        public function strafeEast(t:int):void {
+            var d:Number = speed * t / 1000;
+            _logger.debug('移动前', position, t, d);
+            actor.position = new Vector2D(2,2);
+            _logger.debug('移动后', position);
+        }
+        
+        public function strafeWest(t:int):void {
+            var d:Number = speed * t / 1000;
+            position.x -= d;
+        }
+        
+        public function strafeNorth(t:int):void {
+            var d:Number = speed * t / 1000;
+            position.y -= d;
+        }
+        
+        public function strafeSouth(t:int):void {
+            var d:Number = speed * t / 1000;
+            position.y += d;
+        }*/
         
         
         public function turnLeft():void {
@@ -136,11 +186,24 @@ package flf.flatland.role
         public function win():void {
             //if (!this.invincible) 
             this.score += 100;
-        }
+            if (name == "user") {
+                this.combo++;
+                if (this.combo > 2) PlaySceneUI.instance.combo.content = "" + this.combo;
+                PlaySceneUI.instance.score.content = "Score : " + this.score;
+            }
+         }
         
         public function lose():void {
             //destroy();
         }
+
+        public function setGold(value:int):void {
+            this.gold = value;
+            if (name == "user") {
+                PlaySceneUI.instance.gold.content = "" + 100;
+                PlaySceneUI.instance.gold.position = position;
+            }
+         }
         
         public function levelUp():void {
             level++;
@@ -174,10 +237,5 @@ package flf.flatland.role
         public function deactivate(item:IItem):void {
 
         }
-
-        private var _logger:Logger = Logger.getLogger(this);
-        private var _level:int = INIT_LEVEL;
-        private var lastMove:int = 0;
-        private var v0:Number = 0;
     }
 }

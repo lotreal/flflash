@@ -1,26 +1,36 @@
 package flf.flatland.game
 {
-    import at.geoathome.utils.loader.AssetLoader;
+    import br.com.stimuli.loading.BulkLoader;
     
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
     import flash.events.Event;
-    import flash.events.KeyboardEvent;
-    import flash.geom.Rectangle;
     
-    import flf.flatland.role.Creature;
-    import flf.flatland.scene.PlayScene;
+    import flf.flatland.shooting.PlaySceneSS;
+    import flf.flatland.ui.PlaySceneUI;
     
-    import im.luo.camera.Camera;
-    import im.luo.events.TickEvent;
     import im.luo.logging.Logger;
+    import im.luo.shooting.IShootingSchedule;
     import im.luo.staff.DirectorAbstract;
-    import im.luo.util.KeyCode;
     import im.luo.util.Keyboard;
+    import im.luo.util.MathUtil;
+
+    //import com.facebook.Facebook;
+    //import com.facebook.events.FacebookEvent;
+    //import com.facebook.net.FacebookCall;
+    //import com.facebook.data.users.FacebookUser;
+    //import com.facebook.data.users.GetInfoData;
+    //import com.facebook.commands.users.GetInfo;
+    //import com.facebook.utils.FacebookSessionUtil;
 
     public class Director extends DirectorAbstract {
         public var keyboard:Keyboard = Keyboard.instance;
-        public var player1:Creature = null;
+
+        //private var fbook:Facebook;
+        //private var session:FacebookSessionUtil;
+        
+        //private var API_KEY:String = "9c3b07f55e5e9ee759aa8dc87ac6c64d";
+        //private var SECRET_KEY:String = "7e5237b6d88b72363e546fdf37676e67";
 
         public function Director(singleton_enforcer:SingletonEnforcer):void {}
 
@@ -37,52 +47,43 @@ package flf.flatland.game
         }
         
         protected function loadAssest():void {
-            context.loader = new AssetLoader("flf-res1.swf", context.loaderContext);
-            context.loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
-            context.loader.load();
+            //context.loader = new BulkLoader(Settings.domain + "/swf/flf-res1.swf", context.loaderContext);
+            if (context.loader == null) {
+                context.loader = new BulkLoader('main-site');
+                context.loader.add(Settings.domain + "/flf/resource/FL_Show.swf", {"id":"res"});
+                context.loader.add(Settings.domain + "/flf/resource/map/map0" + MathUtil.randomIn(1,5) + ".png", {"id":"bg"});
+                
+                context.loader.addEventListener(BulkLoader.COMPLETE, onAssestLoadComplete);
+                //context.loader.addEventListener(BulkLoader.PROGRESS, onAllProgress);
+                //context.loader.addEventListener(BulkLoader.ERROR, onAllError);
+                context.loader.start();
+                //context.loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
+                //context.loader.load();
+            }
         }
         
         protected function onAssestLoadComplete(e:Event):void 
         {
             _logger.debug('资源加载完成');
-            context.stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyUp);
-            
-            scene = new PlayScene(new Rectangle(0, 0, context.width * 2, context.height * 2));
-            scene.build();
-            
-            camera = new Camera(scene);
-            action();
+
+           //session=new FacebookSessionUtil(
+           //    API_KEY,
+           //    SECRET_KEY,
+           //    context.root.loaderInfo);
+           //session.addEventListener(FacebookEvent.CONNECT, onConnect);
+           //fbook=session.facebook;
+            PlaySceneUI.instance.build();
+            var ss:IShootingSchedule = new PlaySceneSS();
+            ss.init();
+            ss.action();
             //debug(context.root);
         }
 
-        override public function shooting(event:TickEvent):void {
-            scene.play();
-            camera.follow((scene as PlayScene).player);
-            //camera.shooting(scene);
-        }
+        //private function onConnect(e:FacebookEvent):void {
+        //    _logger.debug("facebook api ready", e);
+        //    session.login();
+        //}
         
-        public function handleKeyUp(event:KeyboardEvent):void {
-            var c:int  = event.keyCode;
-            if(c == KeyCode.N) {
-                player1.levelUp();
-            }
-            
-            if(c == KeyCode.M) {
-                player1.levelDown();
-            }
-            
-            if(c == KeyCode.SPACEBAR) {
-                pcf++;
-                pcf = pcf > 1 ? 0 : pcf;
-                //if (pcf == 1) player1.behaviour = new S2KBController();
-                //else player1.behaviour = new PlayerHotkey();
-            }
-            
-            if(c == KeyCode.D) {
-            }
-        }
-
-
         protected function debug(node:DisplayObject):void {
             _logger.debug("============= "+(String(node))+" =============");
             var c:DisplayObjectContainer = node as DisplayObjectContainer;
@@ -100,8 +101,6 @@ package flf.flatland.game
                 _logger.debug("DisplayObject(not container): "+(String(node)));
             }
         }
-
-        private var pcf:int = 0;
         private static var _instance:Director = null;
         private var _logger:Logger = Logger.getLogger(this);
 

@@ -11,7 +11,9 @@ package im.luo.staff {
     import at.geoathome.utils.loader.AssetLoader;
     import flash.system.LoaderContext;
     import flash.system.ApplicationDomain;
-
+    import br.com.stimuli.loading.BulkLoader;
+    import br.com.stimuli.loading.BulkProgressEvent;
+    
     import flf.*;
     import im.luo.util.*;
     import im.luo.logging.Logger;
@@ -54,10 +56,10 @@ package im.luo.staff {
             _height = value;
         }
         
-        public function get loader():AssetLoader {
+        public function get loader():BulkLoader {
             return _loader;
         }
-        public function set loader(value:AssetLoader):void {
+        public function set loader(value:BulkLoader):void {
             _loader = value;
         }
 
@@ -91,7 +93,7 @@ package im.luo.staff {
         private static var _instance:Context = null;
 
         private var _logger:Logger = Logger.getLogger(this);
-        private var _loader:AssetLoader = null;
+        private var _loader:BulkLoader = null;
         private var _loaderContext:LoaderContext = null;
     }
 }

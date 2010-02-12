@@ -47,6 +47,9 @@ package im.luo.physics.box2d
 
             Tick.instance.addEventListener(TickEvent.TICK, run);
             world.addEventListener(b2World.BEGINCONTACT, contact);
+            //world.addEventListener(b2World.ENDCONTACT, contact2);
+            //world.addEventListener(b2World.PRESOLVE, contact4);
+            //world.addEventListener(b2World.POSTSOLVE, contact3);
         }
         
         public function getWorld():b2World { return world; }
@@ -54,13 +57,26 @@ package im.luo.physics.box2d
         public function run(event:Event = null):void {
             world.Step(timeStep, iterations, 10); //10 = positionIterations
             world.ClearForces() 
-            world.DrawDebugData();
+            //world.DrawDebugData();
         }
 
         private var contactCooldown:int = 500;
         private var contactFlag:Boolean = true;
 
+        public function contact2(event:b2ContactEvent):void {
+            _logger.debug('end contact');
+        }
+
+        public function contact3(event:b2PostSolveEvent):void {
+            _logger.debug('post solve');
+        }
+
+        public function contact4(event:b2PreSolveEvent):void {
+            _logger.debug('pre solve');
+        }
+
         public function contact(event:b2ContactEvent):void {
+            _logger.debug('begin contact');
             if (contactFlag) {
                 contactFlag = false;
                 TimeUtil.delay(contactCooldown, function handler():void{ contactFlag= true; });
@@ -76,7 +92,7 @@ package im.luo.physics.box2d
                             worldManifold = new b2WorldManifold();
                             contact.GetWorldManifold(worldManifold);
                             contactPoint = worldManifold.m_points[0];
-                            Grip.collide(a, b, new Vector2D(contactPoint.x, contactPoint.y));
+                            Grip.collide(a, b, new Vector2D(contactPoint.x * 30, contactPoint.y * 30));
                         }
                         catch (e:Error) {
                         }
