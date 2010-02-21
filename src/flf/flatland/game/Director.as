@@ -47,19 +47,16 @@ package flf.flatland.game
         }
         
         protected function loadAssest():void {
-            //context.loader = new BulkLoader(Settings.domain + "/swf/flf-res1.swf", context.loaderContext);
-            if (context.loader == null) {
-                context.loader = new BulkLoader('main-site');
-                context.loader.add(Settings.domain + "/flf/resource/FL_Show.swf", {"id":"res"});
-                context.loader.add(Settings.domain + "/flf/resource/map/map0" + MathUtil.randomIn(1,5) + ".png", {"id":"bg"});
-                
-                context.loader.addEventListener(BulkLoader.COMPLETE, onAssestLoadComplete);
-                //context.loader.addEventListener(BulkLoader.PROGRESS, onAllProgress);
-                //context.loader.addEventListener(BulkLoader.ERROR, onAllError);
-                context.loader.start();
-                //context.loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
-                //context.loader.load();
-            }
+            //context.loader = new BulkLoader('main-site');
+            context.loader.add(Settings.domain + "/flf/resource/FL_Show.swf", {"id":"res"});
+            context.loader.add(Settings.domain + "/flf/resource/map/map0" + MathUtil.randomIn(1,5) + ".png", {"id":"bg"});
+            
+            context.loader.addEventListener(BulkLoader.COMPLETE, onAssestLoadComplete);
+            //context.loader.addEventListener(BulkLoader.PROGRESS, onAllProgress);
+            //context.loader.addEventListener(BulkLoader.ERROR, onAllError);
+            context.loader.start();
+            //context.loader.addEventListener(Event.COMPLETE, onAssestLoadComplete);
+            //context.loader.load();
         }
         
         protected function onAssestLoadComplete(e:Event):void 

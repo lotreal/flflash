@@ -1,5 +1,5 @@
 // ~/share/flex4sdk/bin/mxmlc -debug=true -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/debug/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/build/loader.swf
-// ~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/build/loader.swf
+// ~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/release/loader.swf
 package
 {
     import br.com.stimuli.loading.BulkLoader;

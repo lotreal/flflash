@@ -56,8 +56,8 @@ package im.luo.physics.box2d
         
         public function run(event:Event = null):void {
             world.Step(timeStep, iterations, 10); //10 = positionIterations
-            world.ClearForces() 
-            //world.DrawDebugData();
+            world.ClearForces();
+            if (Settings.debug) world.DrawDebugData();
         }
 
         private var contactCooldown:int = 500;
@@ -133,6 +133,7 @@ package im.luo.physics.box2d
             //glow.blurY = 12;
             //glow.quality = BitmapFilterQuality.MEDIUM;
             //debugSprite.filters = [glow];
+            //Screen.addTopLayer('world_debug_draw', m_sprite);
             context.cache['world_debug_draw'] = m_sprite;
         }
 
