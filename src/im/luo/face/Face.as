@@ -6,10 +6,12 @@ package im.luo.face
     
     import im.luo.geom.Vector2D;
     import im.luo.role.IRole;
+    import im.luo.staff.Context;
 
     public class Face {
         public var role:*;
         public var render:Sprite = new Sprite();
+        public var context:Context = Context.instance;
 
         public function Face(role:IRole) {
             this.role = role;

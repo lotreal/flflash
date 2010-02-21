@@ -11,7 +11,7 @@ package flf.flatland.item
     {
         public function Invincible()
         {
-            this.cooldown = 4500;
+            this.cooldown = 1000;
         }
         
         override public function activate(role:IRole):void

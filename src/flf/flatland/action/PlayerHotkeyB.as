@@ -1,14 +1,17 @@
-package flf.flatland.game
+package flf.flatland.action
 {
     import flash.events.*;
     import im.luo.logging.Logger;
+    import im.luo.action.KeyboardAction;
+    import flf.flatland.role.Player;
+    import flf.flatland.scene.PlayScene;
     
-    public class PlayerHotkeyB extends ActionAbstract {
+    public class PlayerHotkeyB extends KeyboardAction {
         public function PlayerHotkeyB(scene:PlayScene, role:Player):void {
             super(scene, role);
         }
         
-        override public function play(e:Event):void {
+        override public function play():void {
             if (keyboard.pressed("W")) {
                 role.strafeNorth(keyboard.timePressed("W"));
             }

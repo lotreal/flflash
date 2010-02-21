@@ -51,24 +51,28 @@ package flf.flatland.game
                 _logger.debug('invincible');
                 return void;
             }
-            _logger.debug('collidByCreature');
-            new Invincible().apply(a);
-            new Invincible().apply(b);
             var distance1:Number = a.radius - a.position.dist(position);
             var distance2:Number = b.radius - b.position.dist(position);
-
+            _logger.debug('collidByCreature', position, distance1, distance2);
             if (distance1 < distance2) {
                 a.win();
                 b.lose();
+                _logger.debug('a.win');
             } else if (distance1 > distance2) {
                 a.lose();
                 b.win();
+                _logger.debug('b.win');
             } else {
+                _logger.debug('unknown');
             }
+
+            new Invincible().apply(a);
+            new Invincible().apply(b);
+
         }
 
         public static function collidByGold(a:Creature, b:Gold, position:Vector2D):void {
-            a.gold += 100;
+            a.setGold(a.gold + 100);
             TimeUtil.delay(100, function handler():void{ b.destroy(); });
         }
 

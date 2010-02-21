@@ -1,28 +1,32 @@
 package im.luo.staff {
-    import com.hexagonstar.util.debug.Debug;
-    import flash.display.*;
-    
-    import flash.events.*;
-    import flash.display.MovieClip;
-    import flash.display.StageScaleMode;
-    import flash.events.*;
-    import Box2D.Dynamics.*;
-    
-    import at.geoathome.utils.loader.AssetLoader;
+    import flash.display.DisplayObjectContainer;
+    import flash.display.Stage;
+    import flash.display.Sprite;
     import flash.system.LoaderContext;
     import flash.system.ApplicationDomain;
+    
+    import br.com.stimuli.loading.BulkLoader;
+    import com.hexagonstar.util.debug.Debug;
 
-    import flf.*;
-    import im.luo.util.*;
     import im.luo.logging.Logger;
+    
+    /**
+     * 提供 flash 运行时的上下文环境信息，比如舞台，根，宽，高等。
+     */
+    public final class Context {
+        private static var _instance:Context = null;
 
-    public class Context {
         public var cache:Object = new Object();
         public var root:DisplayObjectContainer;
         public var stage:Stage;
 
-        protected var _width:int = 640;
-        protected var _height:int = 480;
+        private var _logger:Logger = Logger.getLogger(this);
+
+        private var _loader:BulkLoader = null;
+        private var _loaderContext:LoaderContext = null;
+
+        private var _width:int = 640;
+        private var _height:int = 480;
 
         public function Context(singleton_enforcer:SingletonEnforcer) {
             cache['ui'] = new Sprite();
@@ -32,10 +36,12 @@ package im.luo.staff {
         public static function get instance():Context {
             return Context.getInstance();
         }
+
         public static function getInstance():Context {
             if (_instance == null) _instance = new Context(new SingletonEnforcer());
             return _instance;
         }
+
         public static function Init(root:DisplayObjectContainer):void {
             Context.instance.init(root);
         }
@@ -43,6 +49,7 @@ package im.luo.staff {
         public function get width():int {
             return _width;
         }
+
         public function set width(value:int):void {
             _width = value;
         }
@@ -50,14 +57,16 @@ package im.luo.staff {
         public function get height():int {
             return _height;
         }
+        
         public function set height(value:int):void {
             _height = value;
         }
         
-        public function get loader():AssetLoader {
+        public function get loader():BulkLoader {
             return _loader;
         }
-        public function set loader(value:AssetLoader):void {
+        
+        public function set loader(value:BulkLoader):void {
             _loader = value;
         }
 
@@ -71,31 +80,22 @@ package im.luo.staff {
             _loaderContext = value;
         }
 
-
         public function init(root:DisplayObjectContainer):void {
             this.root = root;
             if(root != null && stage == null && root.stage != null) {
                 initStage(root.stage);
             }
         }
+        
         protected function initStage(stage:Stage):void {
             if(this.stage == null) {
-                Debug.monitor(stage, 1000);
-                stage.scaleMode = StageScaleMode.NO_SCALE;
+                if (Settings.debug) Debug.monitor(stage, 1000);
                 this.stage = stage;
                 this.width = stage.stageWidth;
                 this.height = stage.stageHeight;
             }
         }
-        
-        private static var _instance:Context = null;
-
-        private var _logger:Logger = Logger.getLogger(this);
-        private var _loader:AssetLoader = null;
-        private var _loaderContext:LoaderContext = null;
     }
 }
-
-
 // SingletonEnforcer
 class SingletonEnforcer {}

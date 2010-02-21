@@ -29,6 +29,14 @@ package im.luo.scene
             tile = new BitmapData(buffer.width, buffer.height, true);
             tile.draw(buffer);
 
+            var tileBuffer:Sprite = new Sprite();
+            tileBuffer.graphics.beginBitmapFill(tile);
+            tileBuffer.graphics.drawRect(0, 0, 750 * 2, 485 * 2);
+            tileBuffer.graphics.endFill();
+
+            tile = new BitmapData(750 * 2, 485 * 2, true);
+            tile.draw(tileBuffer);
+
             _logger.debug("tile~~~~~~~~~~~");
             _logger.debug(tile.rect);
             data = new BitmapData(rect.width, rect.height, true);

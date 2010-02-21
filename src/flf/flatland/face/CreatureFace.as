@@ -21,7 +21,7 @@ package flf.flatland.face
             
             var data:Vector.<Number> = new Vector.<Number>();
             
-            var radius:Number = 30;
+            var radius:Number = role.radius;
             var edges:int = role.level;
             var innerangle:Number = (2 * Math.PI) / edges;
             var x:Number, y:Number;

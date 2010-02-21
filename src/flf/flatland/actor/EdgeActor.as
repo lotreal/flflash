@@ -8,13 +8,14 @@ package flf.flatland.actor
     
     import flf.flatland.role.Edge;
     
-    import im.luo.actor.box2dStaticActor;
+    import im.luo.actor.box2dActor;
     import im.luo.logging.Logger;
 
-    public class EdgeActor extends box2dStaticActor {
+    public class EdgeActor extends box2dActor {
         private var _logger:Logger = Logger.getLogger(this);
 
         public function EdgeActor(role:Edge) {
+            lockPosition = true;
             super(role);
         }
 

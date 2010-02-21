@@ -4,24 +4,17 @@ package im.luo.action
     import im.luo.role.IRole;
     import im.luo.util.Keyboard;
     
-    public class KeyboardAction implements IRoleAction
+    public class KeyboardAction extends RoleAction
     {
-        public var scene:*; //IScene;
-        public var role:*; //IRole;
         public var keyboard:Keyboard;
         
         public function KeyboardAction(scene:IScene, role:IRole)
         {
-            this.role = role;
-            this.scene = scene;
+            super(scene, role);
             this.keyboard = Keyboard.instance;
         }
         
-        public function play():void {}
-        
-        public function destroy():void {}
-        
-        public function toString():String {
+        override public function toString():String {
             return "键盘控制器";
         };
     }

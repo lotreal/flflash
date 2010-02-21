@@ -96,8 +96,8 @@ package im.luo.role
         }
         
         public function play():void {
-            actor.play();
             if (action != null) action.play();
+            actor.play();
             if (face != null) face.update();
         }
 
