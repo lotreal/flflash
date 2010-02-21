@@ -22,10 +22,10 @@ package im.luo.scene
             return child;
         }
 
-        public function addCharacter(character:IRole):* {
-            add(character.face.render);
-            return character;
-        }
+        //public function addCharacter(character:IRole):* {
+        //    add(character.face);
+        //    return character;
+        //}
 
         protected function inCamera(el:DisplayObject, rect:Rectangle):Boolean {
             return true;

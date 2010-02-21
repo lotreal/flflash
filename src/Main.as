@@ -2,6 +2,7 @@
 // ~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/release/flf.swf
 package {
     import flash.display.Sprite;
+    import flash.display.StageScaleMode;
     import flash.events.Event;
     
     import flf.flatland.game.Director;
@@ -15,6 +16,7 @@ package {
             else addEventListener(Event.ADDED_TO_STAGE, init);
         }
         public function init(event:Event = null):void {
+            stage.scaleMode = StageScaleMode.NO_SCALE;
             Context.Init(this);
             Director.instance.play();
         }

@@ -1,10 +1,18 @@
 package flf.flatland.ui
 {    
+<<<<<<< HEAD:src/flf/flatland/ui/PlaySceneUI.as
     import flf.flatland.fx.Combo;
     import flf.flatland.fx.GetGold;
 
     import flash.display.Shape;
 
+=======
+    import flash.display.Shape;
+    
+    import flf.flatland.fx.Combo;
+    import flf.flatland.fx.GetGold;
+    
+>>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/flf/flatland/ui/PlaySceneUI.as
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
     import im.luo.staff.Context;
@@ -17,7 +25,12 @@ package flf.flatland.ui
         public var combo:Combo;
         public var gold:GetGold;
         public var score:ITextPanel;
+<<<<<<< HEAD:src/flf/flatland/ui/PlaySceneUI.as
 
+=======
+        public var time:ITextPanel;
+        
+>>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/flf/flatland/ui/PlaySceneUI.as
         private static var _instance:PlaySceneUI = null;
         private var _logger:Logger = Logger.getLogger(this);
 
@@ -49,7 +62,11 @@ package flf.flatland.ui
 
             score = UI.fixTextPanel(new Vector2D(9, 0), context.width, 18, 12, 0x0066cc);
             score.content = "Score : 0";
+<<<<<<< HEAD:src/flf/flatland/ui/PlaySceneUI.as
             var time:ITextPanel = UI.fixTextPanel(new Vector2D(700, 0), 72, 18, 12, 0x008964);
+=======
+            time = UI.fixTextPanel(new Vector2D(700, 0), 72, 18, 12, 0x008964);
+>>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/flf/flatland/ui/PlaySceneUI.as
             time.content = "time";
         }
     }
