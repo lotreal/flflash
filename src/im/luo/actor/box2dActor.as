@@ -7,14 +7,7 @@ package im.luo.actor {
     import flash.geom.*;
     
     import im.luo.geom.Vector2D;
-<<<<<<< HEAD:src/im/luo/actor/box2dActor.as
-    import im.luo.staff.Context;
-    import im.luo.sim.IWorld;
-    import im.luo.sim.IMoveable;
-    import im.luo.role.RoleAbstract;
-=======
     import im.luo.logging.Logger;
->>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/im/luo/actor/box2dActor.as
     import im.luo.physics.box2d.box2dWorld;
     import im.luo.role.IRole;
     import im.luo.role.RoleAbstract;
@@ -22,11 +15,6 @@ package im.luo.actor {
     import im.luo.staff.Context;
 
     
-<<<<<<< HEAD:src/im/luo/actor/box2dActor.as
-    public class box2dActor extends box2dStaticActor implements IMoveable {
-        public function box2dActor(role:RoleAbstract):void {
-            super(role);
-=======
     public class box2dActor implements IActor {
         public function box2dActor(role:RoleAbstract):void {
             this.role = role;

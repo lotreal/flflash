@@ -56,11 +56,7 @@ package im.luo.physics.box2d
         
         public function run(event:Event = null):void {
             world.Step(timeStep, iterations, 10); //10 = positionIterations
-<<<<<<< HEAD:src/im/luo/physics/box2d/box2dWorld.as
             world.ClearForces();
-=======
-            world.ClearForces() 
->>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/im/luo/physics/box2d/box2dWorld.as
             if (Settings.debug) world.DrawDebugData();
         }
 
@@ -81,27 +77,6 @@ package im.luo.physics.box2d
 
         public function contact(event:b2ContactEvent):void {
             _logger.debug('begin contact');
-<<<<<<< HEAD:src/im/luo/physics/box2d/box2dWorld.as
-            if (contactFlag) {
-                contactFlag = false;
-                TimeUtil.delay(contactCooldown, function handler():void{ contactFlag= true; });
-                var contact:b2Contact = event.contact;
-                var worldManifold:b2WorldManifold;
-                var contactPoint:b2Vec2;
-                if (contact != null) {
-                    var a:* = contact.GetFixtureA().GetUserData();
-                    var b:* = contact.GetFixtureB().GetUserData();
-
-                    if (Grip.validate(a, b)) {
-                        try {
-                            worldManifold = new b2WorldManifold();
-                            contact.GetWorldManifold(worldManifold);
-                            contactPoint = worldManifold.m_points[0];
-                            Grip.collide(a, b, new Vector2D(contactPoint.x * 30, contactPoint.y * 30));
-                        }
-                        catch (e:Error) {
-                        }
-=======
             var contact:b2Contact = event.contact;
             var worldManifold:b2WorldManifold;
             var contactPoint:b2Vec2;
@@ -117,7 +92,6 @@ package im.luo.physics.box2d
                         Grip.collide(a, b, new Vector2D(contactPoint.x * 30, contactPoint.y * 30));
                     }
                     catch (e:Error) {
->>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/im/luo/physics/box2d/box2dWorld.as
                     }
                 }
             }

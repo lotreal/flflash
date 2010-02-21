@@ -7,23 +7,14 @@ package im.luo.face
     import im.luo.geom.Vector2D;
     import im.luo.role.IRole;
     import im.luo.staff.Context;
-<<<<<<< HEAD:src/im/luo/face/Face.as
-=======
+
     import im.luo.logging.Logger;
->>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/im/luo/face/Face.as
 
     // Face 类提供角色的造型描述，用来把角色显示到屏幕上。
     public class Face extends Sprite {
         public var role:*;
-<<<<<<< HEAD:src/im/luo/face/Face.as
-        public var render:Sprite = new Sprite();
-        public var context:Context = Context.instance;
-
-=======
-        //public var canvas:Sprite = new Sprite();
         public var context:Context = Context.instance;
         private var logger:Logger = Logger.getLogger(this);
->>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/im/luo/face/Face.as
         public function Face(role:IRole) {
             this.role = role;
         }
