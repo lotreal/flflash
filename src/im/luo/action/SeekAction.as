@@ -13,7 +13,8 @@ package im.luo.action
         override public function play():void
         {
             //role.actor.seek(scene.player1.position);
-            role.actor.flock(scene.npc_actors);
+            //role.actor.flock(scene.npc_actors);
+            role.actor.wander();
         }
         
         override public function toString():String

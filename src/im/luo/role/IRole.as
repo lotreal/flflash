@@ -1,9 +1,10 @@
 package im.luo.role
 {
-    import im.luo.geom.Vector2D;
-    import im.luo.face.Face;
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
+    
+    import im.luo.face.Face;
+    import im.luo.geom.Vector2D;
 
     public interface IRole {
         function get face():Face;
@@ -13,7 +14,9 @@ package im.luo.role
 
         function get position():Vector2D;
         function set position(value:Vector2D):void;
-
+        
+        function get radius():Number;
+        
         function play():void;
 
         function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void;

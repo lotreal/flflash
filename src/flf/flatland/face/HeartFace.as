@@ -10,7 +10,7 @@ package flf.flatland.face
         {
             super(role);
             var chatMain:DisplayObject = new (context.loader.getContent("res").loaderInfo.applicationDomain.getDefinition("HP") as Class)();
-            render.addChild(chatMain);
+            addChild(chatMain);
             //#CD1821
         }
     }

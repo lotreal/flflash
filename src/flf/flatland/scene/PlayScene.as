@@ -48,7 +48,7 @@ package flf.flatland.scene
             var mainLayer:ISceneLayer = new SpriteLayer();
 
             player1 = new Player('user', 375, 275, 3);
-            player1.action = new PlayerHotkeyA(this, player1);
+            player1.action = new PlayerHotkeyB(this, player1);
             addCharacter('player', player1, mainLayer);
 
             var edge:Edge = new Edge('edge', 0, 0);

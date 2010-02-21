@@ -33,7 +33,7 @@ package flf.flatland.role
         public var side:Number = 56;
         public var forwardSpeed:Number = 24;
         public var backwardSpeed:Number = -9;
-        public var strafeSpeed:Number = 20;
+        public var wanderSpeed:Number = 20;
 
         public var invincible:Boolean = false;
 
@@ -71,7 +71,7 @@ package flf.flatland.role
             this.exp = exp;
         }
         
-        public function get radius():Number {
+        override public function get radius():Number {
             var innerangle:Number = (2 * Math.PI) / level;
             return (side / 2) / Math.sin(innerangle / 2);
         }
@@ -91,26 +91,26 @@ package flf.flatland.role
         
         public function strafeEast(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
-            var v:Vector2D = new Vector2D(-strafeSpeed, 0);
-            actor.linearVel = v;
+            var v:Vector2D = new Vector2D(-wanderSpeed, 0);
+            actor.linearVel = actor.linearVel.add(v).truncate(wanderSpeed);
         }
         
         public function strafeWest(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
-            var v:Vector2D = new Vector2D(strafeSpeed, 0);
-            actor.linearVel = v;
+            var v:Vector2D = new Vector2D(wanderSpeed, 0);
+            actor.linearVel = actor.linearVel.add(v).truncate(wanderSpeed);
         }
         
         public function strafeNorth(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
-            var v:Vector2D = new Vector2D(0, -strafeSpeed);
-            actor.linearVel = v;
+            var v:Vector2D = new Vector2D(0, -wanderSpeed);
+            actor.linearVel = actor.linearVel.add(v).truncate(wanderSpeed);
         }
         
         public function strafeSouth(t:int = -1):void {
             var v1:Number = evalLinearVel(20, t, 30);
-            var v:Vector2D = new Vector2D(0, strafeSpeed);
-            actor.linearVel = v;
+            var v:Vector2D = new Vector2D(0, wanderSpeed);
+            actor.linearVel = actor.linearVel.add(v).truncate(wanderSpeed);
         }
         
 /*        public function strafeEast(t:int):void {

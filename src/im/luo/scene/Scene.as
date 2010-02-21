@@ -40,7 +40,8 @@ package im.luo.scene
         }
 
         public function addCharacter(name:String, character:IRole, layer:ISceneLayer):* {
-            layer.add(character.face.render);
+            character.face.paint();
+            layer.add(character.face);
             _roles.push(character);
             return character;
         }

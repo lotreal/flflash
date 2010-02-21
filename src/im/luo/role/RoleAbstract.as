@@ -1,29 +1,43 @@
 package im.luo.role
 {
-    import im.luo.logging.Logger;
     import flash.display.DisplayObjectContainer;
-    import flash.events.Event;
-    import im.luo.ui.UI;
-    import im.luo.staff.Context;
-    import im.luo.geom.Vector2D;
+    import flash.geom.Rectangle;
+    
+    import im.luo.action.IRoleAction;
     import im.luo.actor.IActor;
     import im.luo.face.Face;
-    import im.luo.action.IRoleAction;
-    import flash.geom.Rectangle;
+    import im.luo.geom.Vector2D;
+    import im.luo.logging.Logger;
+    import im.luo.staff.Context;
     import im.luo.ui.ITextPanel;
+    import im.luo.ui.UI;
     
     public class RoleAbstract implements IRole {
+        // 角色位置，单位为像素
         public var x:int;
         public var y:int;
 
         public var context:Context = Context.instance;
 
+        // 角色信息显示面板，目前为调试用
         protected var uiInfo:ITextPanel;
 
+        /**
+        * @parm name 角色名
+        */
         public function RoleAbstract(name:String, x:int, y:int) {
             this.name = name;
             this.x = x;
             this.y = y;
+        }
+
+        // 分组 id，用于敌我判断。
+        private var _groupid:int = 0;
+        public function get groupid():int {
+            return _groupid;
+        }
+        public function set groupid(value:int):void {
+            _groupid = value;
         }
 
         public function get name():String {
@@ -40,6 +54,15 @@ package im.luo.role
 
         public function set type(value:String):void {
             _type = value;
+        }
+        
+        private var _radius:Number;
+        public function get radius():Number {
+            return _radius;
+        }
+        
+        public function set radius(value:Number):void {
+            _radius = value;
         }
         
         public function get actor():IActor {
@@ -64,7 +87,6 @@ package im.luo.role
 
         public function set action(value:IRoleAction):void {
             if (_action != null) _action.destroy();
-            UI.instance.tips("当前操作方案: "+ value.toString() +" [切换操作方案: 空格键]");
             _action = value;
         }
 
