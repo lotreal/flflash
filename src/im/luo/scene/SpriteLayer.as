@@ -17,11 +17,6 @@ package im.luo.scene
             screen = new Sprite();
         }
 
-        //override public function addCharacter(character:IRole):* {
-        //    screen.addChild(character.face.render);
-        //    return character;
-        //}
-
         override public function preShoot(container:DisplayObjectContainer, rect:Rectangle):void {
             for (var i:int = 0, n:int = list.length; i < n; i++) {
                 var el:DisplayObject = list[i];

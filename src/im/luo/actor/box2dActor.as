@@ -22,15 +22,6 @@ package im.luo.actor {
             this.createBody();
         }
         
-        public function seek(target:Vector2D):void
-        {
-            var desiredVelocity:Vector2D = target.subtract(position);
-            desiredVelocity.normalize();
-            desiredVelocity = desiredVelocity.multiply(maxSpeed);
-            var force:Vector2D = desiredVelocity.subtract(velocity);
-            _steeringForce = _steeringForce.add(force);
-        }
-        
         private var _maxForce:Number = 1;
         private var _steeringForce:Vector2D = new Vector2D();
 
@@ -382,7 +373,6 @@ package im.luo.actor {
             
             if(dotProd < 0) return false;
             return true;
->>>>>>> ba6ebb2d7cc9f0c2f4ed767bf601c9584eefe642:src/im/luo/actor/box2dActor.as
         }
         
         public function tooClose(vehicle:IActor):Boolean
@@ -390,20 +380,6 @@ package im.luo.actor {
             return _position.dist(vehicle.position) < _tooCloseDist;
         }
 
-        override protected function creatBody():void {
-            super.creatBody();
-            body.SetSleepingAllowed(false);
-        }
-        
-        override public function play():void
-        {
-            //_steeringForce.truncate(_maxForce);
-            //_steeringForce = _steeringForce.divide(mass);
-            //velocity = velocity.add(_steeringForce);
-            //_steeringForce = new Vector2D();
-            //super.play();
-        }
-        
         public function seek(target:Vector2D):void
         {
             var desiredVelocity:Vector2D = target.subtract(position);
@@ -412,9 +388,5 @@ package im.luo.actor {
             var force:Vector2D = desiredVelocity.subtract(velocity);
             _steeringForce = _steeringForce.add(force);
         }
-        
-        private var _maxForce:Number = 1;
-        private var _steeringForce:Vector2D = new Vector2D();
-        private var _logger:Logger = Logger.getLogger(this);
     }
 }

@@ -11,8 +11,8 @@ package im.luo.staff {
     import im.luo.logging.Logger;
     
     /**
-     * 提供 flash 运行时的上下文环境信息，比如舞台，根，宽，高等。
-     */
+    * 提供 flash 运行时的上下文环境信息，比如舞台，根，宽，高等。
+    */
     public final class Context {
         private static var _instance:Context = null;
 
@@ -45,10 +45,6 @@ package im.luo.staff {
             Context.instance.init(root);
         }
 
-        public function get loader():BulkLoader {
-            if (_loader == null) _loader = BulkLoader.createUniqueNamedLoader();
-        }
-
         public function get width():int {
             return _width;
         }
@@ -65,6 +61,11 @@ package im.luo.staff {
             _height = value;
         }
         
+        public function get loader():BulkLoader {
+            if (_loader == null) _loader = BulkLoader.createUniqueNamedLoader();
+            return _loader;
+        }
+
         public function set loader(value:BulkLoader):void {
             _loader = value;
         }
@@ -74,9 +75,6 @@ package im.luo.staff {
             this.stage = root.stage;
             this.width = this.stage.stageWidth;
             this.height = this.stage.stageHeight;
-
-            this.stage.scaleMode = StageScaleMode.NO_SCALE;
-        }
         }
     }
 }

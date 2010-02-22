@@ -36,16 +36,13 @@ package flf.flatland.game
          * 载入所有资源文件
          */
         protected function loadAssest():void {
-            if (context.loader == null) {
-                context.loader = BulkLoader.createUniqueNamedLoader();
-                context.loader.add(Settings.domain + "/flf/resource/FL_Show.swf", {"id":"res"});
-                context.loader.add(Settings.domain + "/flf/resource/map/map0" + MathUtil.randomIn(1,5) + ".png", {"id":"bg"});
-                
-                context.loader.addEventListener(BulkLoader.COMPLETE, onAssestLoadComplete);
-                //context.loader.addEventListener(BulkLoader.PROGRESS, onAllProgress);
-                //context.loader.addEventListener(BulkLoader.ERROR, onAllError);
-                context.loader.start();
-            }
+            context.loader.add(Settings.domain + "/flf/resource/FL_Show.swf", {"id":"res"});
+            context.loader.add(Settings.domain + "/flf/resource/map/map0" + MathUtil.randomIn(1,5) + ".png", {"id":"bg"});
+            
+            context.loader.addEventListener(BulkLoader.COMPLETE, onAssestLoadComplete);
+            //context.loader.addEventListener(BulkLoader.PROGRESS, onAllProgress);
+            //context.loader.addEventListener(BulkLoader.ERROR, onAllError);
+            context.loader.start();
         }
         
         protected function onAssestLoadComplete(e:Event):void 
