@@ -1,10 +1,10 @@
 package flf.flatland.game
 {
     import flf.flatland.item.Invincible;
-    import flf.flatland.role.Creature;
+    import flf.flatland.role.Citizen;
     import flf.flatland.role.Gold;
     import flf.flatland.role.Heart;
-    import flf.flatland.role.Role;
+    import flf.flatland.role.Roles;
     import im.luo.item.IItem;
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
@@ -28,25 +28,25 @@ package flf.flatland.game
             //if (a.type == Role.CREATURE || b.type == Role.CREATURE) return true;
             //return false;
 
-            if (a.type == Role.EDGE || b.type == Role.EDGE) return false;
+            if (a.type == Roles.EDGE || b.type == Roles.EDGE) return false;
             return true;
         }
 
         public static function collide(a:IRole, b:IRole, p:Vector2D):void {
-            if (a.type == Role.CREATURE && b.type == Role.CREATURE) {
-                collidByCreature(a as Creature, b as Creature, p);
-            } else if (a.type == Role.CREATURE && b.type == Role.GOLD) {
-                collidByGold(a as Creature, b as Gold, p);
-            } else if (b.type == Role.CREATURE && a.type == Role.GOLD) {
-                collidByGold(b as Creature, a as Gold, p);
-            } else if (a.type == Role.CREATURE && b.type == Role.HEART) {
-                collidByHeart(a as Creature, b as Heart, p);
-            } else if (b.type == Role.CREATURE && a.type == Role.HEART) {
-                collidByHeart(b as Creature, a as Heart, p);
+            if (a.type == Roles.CITIZEN && b.type == Roles.CITIZEN) {
+                collidByCreature(a as Citizen, b as Citizen, p);
+            } else if (a.type == Roles.CITIZEN && b.type == Roles.GOLD) {
+                collidByGold(a as Citizen, b as Gold, p);
+            } else if (b.type == Roles.CITIZEN && a.type == Roles.GOLD) {
+                collidByGold(b as Citizen, a as Gold, p);
+            } else if (a.type == Roles.CITIZEN && b.type == Roles.HEART) {
+                collidByHeart(a as Citizen, b as Heart, p);
+            } else if (b.type == Roles.CITIZEN && a.type == Roles.HEART) {
+                collidByHeart(b as Citizen, a as Heart, p);
             }
         }
 
-        public static function collidByCreature(a:Creature, b:Creature, position:Vector2D):void {
+        public static function collidByCreature(a:Citizen, b:Citizen, position:Vector2D):void {
             if (a.invincible || b.invincible) {
                 _logger.debug('invincible');
                 return void;
@@ -55,13 +55,9 @@ package flf.flatland.game
             var distance2:Number = b.radius - b.position.dist(position);
             _logger.debug('collidByCreature', position, distance1, distance2);
             if (distance1 < distance2) {
-                a.win();
-                b.lose();
-                _logger.debug('a.win');
+                //a.attack(b);
             } else if (distance1 > distance2) {
-                a.lose();
-                b.win();
-                _logger.debug('b.win');
+                //b.attack(a);
             } else {
                 _logger.debug('unknown');
             }
@@ -71,12 +67,12 @@ package flf.flatland.game
 
         }
 
-        public static function collidByGold(a:Creature, b:Gold, position:Vector2D):void {
+        public static function collidByGold(a:Citizen, b:Gold, position:Vector2D):void {
             a.setGold(a.gold + 100);
             TimeUtil.delay(100, function handler():void{ b.destroy(); });
         }
 
-        public static function collidByHeart(a:Creature, b:Heart, position:Vector2D):void {
+        public static function collidByHeart(a:Citizen, b:Heart, position:Vector2D):void {
             a.hp += 1;
             TimeUtil.delay(100, function handler():void{ b.destroy(); });
         }

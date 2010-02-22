@@ -2,7 +2,7 @@ package flf.flatland.role
 {
     import flf.flatland.face.GoldFace;
     
-    import im.luo.role.RoleAbstract;
+    import im.luo.role.Role;
     import flf.flatland.actor.PropActor;
     import flf.flatland.face.GoldFace;
     
@@ -11,7 +11,7 @@ package flf.flatland.role
         public function Gold(name:String, x:int, y:int)
         {
             super(name, x, y);
-            this.type = Role.GOLD;
+            this.type = Roles.GOLD;
             this.color = 0xFFD700;
             this.actor = new PropActor(this);
             this.face = new GoldFace(this);

@@ -1,8 +1,8 @@
 package flf.flatland.role
 {
-    import im.luo.role.RoleAbstract;
+    import im.luo.role.Role;
     
-    public class Prop extends RoleAbstract
+    public class Prop extends Role
     {
         public var color:uint;
         

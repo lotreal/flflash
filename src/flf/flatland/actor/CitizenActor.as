@@ -4,15 +4,15 @@ package flf.flatland.actor
     import Box2D.Collision.Shapes.b2PolygonShape;
     import Box2D.Collision.Shapes.b2MassData;
     import im.luo.geom.Vector2D;
-    import flf.flatland.role.Creature;
+    import flf.flatland.role.Citizen;
     import Box2D.Dynamics.b2FixtureDef;
     import im.luo.physics.box2d.ShapeUtil;
     import im.luo.actor.box2dActor;
 
-    public class CreatureActor extends box2dActor {
+    public class CitizenActor extends box2dActor {
         private var _logger:Logger = Logger.getLogger(this);
 
-        public function CreatureActor(role:Creature) {
+        public function CitizenActor(role:Citizen) {
             super(role);
         }
 

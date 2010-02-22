@@ -5,7 +5,7 @@ package flf.flatland.item
     import im.luo.role.IRole;
     import im.luo.logging.Logger;
 
-    import flf.flatland.role.Creature;
+    import flf.flatland.role.Citizen;
     
     public class Invincible extends ItemAbstract
     {
@@ -16,14 +16,14 @@ package flf.flatland.item
         
         override public function activate(role:IRole):void
         {
-            var creature:Creature = role as Creature;
+            var creature:Citizen = role as Citizen;
             creature.invincible = true;
             _logger.debug('activate', creature.name);
         }
         
         override public function deactivate(role:IRole):void
         {
-            var creature:Creature = role as Creature;
+            var creature:Citizen = role as Citizen;
             creature.invincible = false;
             _logger.debug('deactivate', creature.name);
         }

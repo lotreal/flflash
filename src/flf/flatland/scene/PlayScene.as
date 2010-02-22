@@ -8,7 +8,7 @@ package flf.flatland.scene
     
     import flf.flatland.action.PlayerHotkeyA;
     import flf.flatland.action.PlayerHotkeyB;
-    import flf.flatland.actor.CreatureActor;
+    import flf.flatland.actor.CitizenActor;
     import flf.flatland.role.Edge;
     import flf.flatland.role.Gold;
     import flf.flatland.role.Heart;
@@ -47,7 +47,7 @@ package flf.flatland.scene
 
             var mainLayer:ISceneLayer = new SpriteLayer();
 
-            player1 = new Player('user', 375, 275, 3);
+            player1 = new Player('user', rect.width / 2, rect.height / 2, 3);
             player1.action = new PlayerHotkeyB(this, player1);
             addCharacter('player', player1, mainLayer);
 

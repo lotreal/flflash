@@ -3,12 +3,12 @@ package flf.flatland.role
     import im.luo.action.IRoleAction;
     import im.luo.ui.UI;
     
-    public class Player extends Creature
+    public class Player extends Citizen
     {
         public function Player(name:String, x:int, y:int, level:int)
         {
             super(name, x, y, level);
-            type = Role.CREATURE;
+            type = Roles.CITIZEN;
         }
 
         override public function set action(value:IRoleAction):void {

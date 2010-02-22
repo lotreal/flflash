@@ -10,13 +10,13 @@ package im.luo.actor {
     import im.luo.logging.Logger;
     import im.luo.physics.box2d.box2dWorld;
     import im.luo.role.IRole;
-    import im.luo.role.RoleAbstract;
+    import im.luo.role.Role;
     import im.luo.sim.IWorld;
     import im.luo.staff.Context;
 
     
     public class box2dActor implements IActor {
-        public function box2dActor(role:RoleAbstract):void {
+        public function box2dActor(role:Role):void {
             this.role = role;
             this.fixtureDef = new b2FixtureDef();
             this.createBody();

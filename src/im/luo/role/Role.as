@@ -12,7 +12,8 @@ package im.luo.role
     import im.luo.ui.ITextPanel;
     import im.luo.ui.UI;
     
-    public class RoleAbstract implements IRole {
+    // 角色具备演员（身体）和外观两大属性。
+    public class Role implements IRole {
         // 角色位置，单位为像素
         public var x:int;
         public var y:int;
@@ -22,13 +23,16 @@ package im.luo.role
         // 角色信息显示面板，目前为调试用
         protected var uiInfo:ITextPanel;
 
+        public static var UUID_SEED:int = 0;
+        public var uuid:int = 0;
         /**
         * @parm name 角色名
         */
-        public function RoleAbstract(name:String, x:int, y:int) {
+        public function Role(name:String, x:int, y:int) {
             this.name = name;
             this.x = x;
             this.y = y;
+            uuid = UUID_SEED++;
         }
 
         // 分组 id，用于敌我判断。

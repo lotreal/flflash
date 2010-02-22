@@ -4,16 +4,16 @@ package flf.flatland.face
     import flash.events.Event;
     import flash.geom.Matrix;
     import im.luo.geom.Vector2D;
-    import flf.flatland.role.Creature;
+    import flf.flatland.role.Citizen;
     
     import flash.display.GraphicsPathCommand;
     import flash.display.Sprite;
     import im.luo.face.Face;
     
-    public class CreatureFace extends Face {
+    public class CitizenFace extends Face {
         private var _logger:Logger = Logger.getLogger(this);
         
-        public function CreatureFace(role:Creature) {
+        public function CitizenFace(role:Citizen) {
             super(role);
         }
         

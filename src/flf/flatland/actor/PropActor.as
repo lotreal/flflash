@@ -4,11 +4,11 @@ package flf.flatland.actor
     import Box2D.Dynamics.b2FixtureDef;
     
     import im.luo.actor.box2dActor;
-    import im.luo.role.RoleAbstract;
+    import im.luo.role.Role;
     
     public class PropActor extends box2dActor
     {
-        public function PropActor(role:RoleAbstract)
+        public function PropActor(role:Role)
         {
             super(role);
         }

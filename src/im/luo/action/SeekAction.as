@@ -1,11 +1,11 @@
 package im.luo.action
 {
-    import flf.flatland.role.Creature;
+    import flf.flatland.role.Citizen;
     import flf.flatland.scene.PlayScene;
     
     public class SeekAction extends RoleAction
     {
-        public function SeekAction(scene:PlayScene, role:Creature)
+        public function SeekAction(scene:PlayScene, role:Citizen)
         {
             super(scene, role);
         }
