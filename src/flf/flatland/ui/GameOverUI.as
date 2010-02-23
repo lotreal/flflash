@@ -5,13 +5,14 @@ package flf.flatland.ui
     import flash.events.MouseEvent;
     import flash.text.TextField;
     
+    import im.luo.logging.Logger;
     import im.luo.staff.Context;
     import im.luo.ui.UI;
-    import im.luo.logging.Logger;
     
     public class GameOverUI
     {
         public var context:Context = Context.instance;
+        public var fight_profile:String;
         
         private var _logger:Logger = Logger.getLogger(this);
         
@@ -27,10 +28,7 @@ package flf.flatland.ui
             UI.fixScreen.addChild(gameover);
             
             var txt:TextField = gameover.getChildByName("TxtProfile") as TextField;
-            txt.text = "Kills: 12" + "\n"
-                + "Exp: 3100" + "\n"
-                + "Golds: 1500" + "\n"
-                + "Best Combos: 11" + "\n";    
+            txt.text = fight_profile;    
             
             var replay:MovieClip = gameover.getChildByName("BtnReplay") as MovieClip;
             replay.addEventListener(MouseEvent.CLICK, onReplay);

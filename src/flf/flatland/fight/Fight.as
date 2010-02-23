@@ -1,12 +1,13 @@
 package flf.flatland.fight
 {
     import flash.utils.getTimer;
+    
     import flf.flatland.game.Groups;
     import flf.flatland.game.States;
     import flf.flatland.role.Citizen;
     
-    import im.luo.vw.Manifold;
     import im.luo.logging.Logger;
+    import im.luo.vw.Manifold;
     
     public class Fight
     {
@@ -71,39 +72,6 @@ package flf.flatland.fight
             // 计算伤害值(转移到 role 计算)
             of.hit(df);
             _logger.debug(of.name,"hit",df.name);
-            if (of.groupid == Groups.PLAYER) evalCombo(mf);
-            else clearCombo();
-        }
-        
-        private var hitCount:int = 0;
-        private var lastHit:int;
-
-        public function evalCombo(mf:Manifold):void 
-        {
-            hitCount++;
-            if (hitCount == 1) 
-            {
-                lastHit = getTimer();
-            } else {
-                var thisHit:int = getTimer();
-                if (thisHit - lastHit <= 10000)
-                {
-                    lastHit = thisHit;
-                    _logger.debug(hitCount);
-                    if (hitCount >= 2) mf.scene.ui.combo.content = "" + hitCount;
-                }
-                else
-                {
-                    clearCombo();
-                    hitCount++;
-                    lastHit = getTimer();
-                }
-            }
-        }
-
-        public function clearCombo():void 
-        {
-            hitCount = 0;
         }
 
         private var _logger:Logger = Logger.getLogger(this);

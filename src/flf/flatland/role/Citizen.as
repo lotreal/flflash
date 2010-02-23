@@ -13,6 +13,7 @@ package flf.flatland.role
     import im.luo.motion.IBasicMotion;
     import im.luo.role.Role;
     import im.luo.util.TimerUtil;
+    import flf.flatland.game.Roles;
     
     /**
     * 平面国公民角色。Player 和 Npc 皆继承此类。

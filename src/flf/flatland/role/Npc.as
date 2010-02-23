@@ -2,6 +2,7 @@ package flf.flatland.role
 {
     import im.luo.logging.Logger;
     import im.luo.util.MathUtil;
+    import flf.flatland.game.Roles;
     
     public class Npc extends Citizen {
         private var _logger:Logger = Logger.getLogger(this);

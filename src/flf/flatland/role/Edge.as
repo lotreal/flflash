@@ -10,6 +10,7 @@ package flf.flatland.role
     import im.luo.role.Role;
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
+    import flf.flatland.game.Roles;
 
 
     public class Edge extends Role {

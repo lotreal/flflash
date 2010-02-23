@@ -13,7 +13,7 @@ package flf.flatland.scene
     import flf.flatland.role.Heart;
     import flf.flatland.role.Npc;
     import flf.flatland.role.Player;
-    import flf.flatland.role.Roles;
+    import flf.flatland.game.Roles;
     import flf.flatland.ui.GameOverUI;
     import flf.flatland.ui.PlaySceneUI;
     
@@ -69,27 +69,6 @@ package flf.flatland.scene
 
         }
         
-        public function collidByCreature(a:Citizen, b:Citizen, position:Vector2D):void {
-            if (a.invincible || b.invincible) {
-                _logger.debug('invincible');
-                return void;
-            }
-            var distance1:Number = a.radius - a.position.dist(position);
-            var distance2:Number = b.radius - b.position.dist(position);
-            _logger.debug('collidByCreature', position, distance1, distance2);
-            if (distance1 < distance2) {
-                //a.attack(b);
-            } else if (distance1 > distance2) {
-                //b.attack(a);
-            } else {
-                _logger.debug('unknown');
-            }
-
-            new InjuryProtect().apply(a);
-            new InjuryProtect().apply(b);
-
-        }
-
         public function collidByGold(a:Citizen, b:Gold, position:Vector2D):void {
             a.setGold(a.gold + 100);
             TimerUtil.delay(100, function handler():void{ b.destroy(); });
@@ -115,7 +94,12 @@ package flf.flatland.scene
             player1 = new Player('user', rect.width / 2, rect.height / 2, 3);
             player1.action = new PlayerHotkeyB(this, player1);
             addCharacter('player', player1, mainLayer);
+            
+            //player1 = Roles.getPlayer();
+            //Roles.layoutRole(this, mainLayer, player1, x, y);
 
+            //Roles.layoutNpc(this, mainLayer, generator(35, 20));
+            
             var edge:Edge = new Edge('edge', 0, 0);
             addCharacter('edge', edge, mainLayer);
 
@@ -166,13 +150,10 @@ package flf.flatland.scene
 
             _logger.debug("完成游戏场景搭建");
             
-            timerUtil = new TimerUtil(120 * 1000, 1000, true);
+            timerUtil = new TimerUtil(30 * 1000, 1000, true);
             timerUtil.addEventListener(TimerEvent.TIMER, timerHandler);
             timerUtil.addEventListener(TimerEvent.TIMER_COMPLETE, completeHandler);
             timerUtil.start();
-            
-            var gameover_ui:GameOverUI = new GameOverUI();
-            gameover_ui.build();
         }
 
         private function timerHandler(event:TimerEvent):void
@@ -181,7 +162,11 @@ package flf.flatland.scene
         }
         
         private function completeHandler(event:TimerEvent):void {
-            _logger.debug(timerUtil.getTimeString());
+            _logger.debug("game over");
+            
+            var gameover_ui:GameOverUI = new GameOverUI();
+            gameover_ui.fight_profile = player1.fightProfile.toString();
+            gameover_ui.build();
         }
         
         override public function play():void {

@@ -4,6 +4,7 @@ package flf.flatland.role
     import flf.flatland.face.HeartFace;
     
     import im.luo.role.Role;
+    import flf.flatland.game.Roles;
     
     public class Heart extends Prop
     {

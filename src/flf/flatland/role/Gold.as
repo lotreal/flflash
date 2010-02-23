@@ -5,6 +5,7 @@ package flf.flatland.role
     import im.luo.role.Role;
     import flf.flatland.actor.PropActor;
     import flf.flatland.face.GoldFace;
+    import flf.flatland.game.Roles;
     
     public class Gold extends Prop
     {

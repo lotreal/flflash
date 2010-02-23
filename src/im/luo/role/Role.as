@@ -1,6 +1,7 @@
 package im.luo.role
 {
     import flash.display.DisplayObjectContainer;
+    import flash.display.Scene;
     import flash.geom.Rectangle;
     
     import im.luo.action.IRoleAction;
@@ -8,6 +9,7 @@ package im.luo.role
     import im.luo.face.Face;
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
+    import im.luo.scene.ISceneLayer;
     import im.luo.staff.Context;
     import im.luo.ui.ITextPanel;
     import im.luo.ui.UI;
@@ -21,6 +23,9 @@ package im.luo.role
 
         public var context:Context = Context.instance;
 
+        public var scene:Scene;
+        public var sceneLayer:ISceneLayer;
+        
         // 角色信息显示面板，目前为调试用
         protected var uiInfo:ITextPanel;
 
