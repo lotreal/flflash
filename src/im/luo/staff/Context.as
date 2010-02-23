@@ -1,13 +1,11 @@
 package im.luo.staff {
-    import flash.display.DisplayObjectContainer;
-    import flash.display.Stage;
-    import flash.display.Sprite;
-    import flash.system.LoaderContext;
-    import flash.system.ApplicationDomain;
-    
     import br.com.stimuli.loading.BulkLoader;
-    import com.hexagonstar.util.debug.Debug;
-
+    
+    import flash.display.DisplayObjectContainer;
+    import flash.display.Sprite;
+    import flash.display.Stage;
+    import flash.system.LoaderContext;
+    
     import im.luo.logging.Logger;
     
     /**
@@ -70,6 +68,18 @@ package im.luo.staff {
             _loader = value;
         }
 
+        /**
+         * 从资源文件中通过 id 读出指定的 Class 
+         * @param id 资源 id
+         * @param content 资源文件 id, 参见 BulkLoader，默认为 "res"
+         * @return Class
+         * 
+         */        
+        public function getLoadedClass(id:String, content:String = "res"):Class
+        {
+            return loader.getContent(content).loaderInfo.applicationDomain.getDefinition(id) as Class;
+        }
+        
         public function init(root:DisplayObjectContainer):void {
             this.root = root;
             this.stage = root.stage;

@@ -8,15 +8,15 @@ package im.luo.actor {
     
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
-    import im.luo.physics.box2d.box2dWorld;
+    import im.luo.vw.box2d.Box2DWorld;
     import im.luo.role.IRole;
     import im.luo.role.Role;
-    import im.luo.sim.IWorld;
+    import im.luo.vw.IWorld;
     import im.luo.staff.Context;
 
     
-    public class box2dActor implements IActor {
-        public function box2dActor(role:Role):void {
+    public class Box2DActor implements IActor {
+        public function Box2DActor(role:Role):void {
             this.role = role;
             this.fixtureDef = new b2FixtureDef();
             this.createBody();
@@ -34,7 +34,7 @@ package im.luo.actor {
         
         private var _logger:Logger = Logger.getLogger(this);
         
-        protected var _world:IWorld = box2dWorld.instance;
+        protected var _world:IWorld = Box2DWorld.instance;
         protected var bodyDef:b2BodyDef = new b2BodyDef();
         protected var body:b2Body;
         protected var shape:b2Shape;

@@ -8,10 +8,10 @@ package flf.flatland.actor
     
     import flf.flatland.role.Edge;
     
-    import im.luo.actor.box2dActor;
+    import im.luo.actor.Box2DActor;
     import im.luo.logging.Logger;
 
-    public class EdgeActor extends box2dActor {
+    public class EdgeActor extends Box2DActor {
         private var _logger:Logger = Logger.getLogger(this);
 
         public function EdgeActor(role:Edge) {

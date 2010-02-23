@@ -61,5 +61,12 @@ package im.luo.util
         private function completeHandler(event:TimerEvent):void {
             dispatchEvent(event);
         }
+
+        // 延迟时间（以毫秒为单位）。
+        public static function delay(delay:Number, func:Function):void {
+            var myTimer:Timer = new Timer(delay, 1);
+            myTimer.addEventListener("timer", function timerHandler(event:TimerEvent):void{ func(); } );
+            myTimer.start();
+        }
     }
 }

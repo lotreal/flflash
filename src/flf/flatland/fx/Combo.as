@@ -16,7 +16,7 @@ package flf.flatland.fx
         
         public function Combo()
         {
-            effect = new (context.loader.getContent("res").loaderInfo.applicationDomain.getDefinition("Combo") as Class)();
+            effect = new (context.getLoadedClass("Combo"))();
             effect.gotoAndStop(effect.totalFrames);
             
             UI.fixScreen.addChild(effect);

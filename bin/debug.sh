@@ -7,4 +7,4 @@ cp "$FLF/html-template/" "$FLF/build" -r
 
 ~/share/flex4sdk/bin/mxmlc -debug=true -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/debug/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/build/loader.swf
 
-cp "$FLF/resource/" "$FLF/build/" -r
+ln -s "$FLF/resource/" "$FLF/build/"

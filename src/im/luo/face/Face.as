@@ -5,18 +5,15 @@ package im.luo.face
     import flash.geom.Matrix;
     
     import im.luo.geom.Vector2D;
+    import im.luo.logging.Logger;
     import im.luo.role.IRole;
     import im.luo.staff.Context;
 
-    import im.luo.logging.Logger;
-
     // Face 类提供角色的造型描述，用来把角色显示到屏幕上。
     public class Face extends Sprite {
-        public var role:*;
-        public var context:Context = Context.instance;
-        private var logger:Logger = Logger.getLogger(this);
         public function Face(role:IRole) {
             this.role = role;
+            addChildAt(body, 0);
         }
 
         public function paint():void {
@@ -27,22 +24,49 @@ package im.luo.face
 
         // 根据角色的位置和角度更新外观的位置和角度
         public function update(e:Event = null):void {
-            var position:Vector2D = role.actor.position;
+            position = role.actor.position;
+
+            x = position.x;
+            y = position.y;
             
-            rotation = 0; // If not, matrix starts wrong.
-            var m:Matrix; // = new Matrix(1,0,0,1, position.x, position.y);
-            m = transform.matrix;
+            var m:Matrix;
+            body.rotation = 0; // If not, matrix starts wrong.
+            m = body.transform.matrix;
             m.a = 1;
             m.d = 1;
             m.rotate(role.actor.angle);
-            m.tx = position.x;
-            m.ty = position.y;
-            transform.matrix = m;
+            body.transform.matrix = m;
             //logger.debug(m);
         }
+        
+        /**
+         * 根据描述作出相应的表情，通常是播放动画 
+         * @param desc 动画描述
+         * 
+         */        
+        public function express(desc:String):void {}
 
-        public function destroy():void {
+        public function destroy():void
+        {
             if (parent != null) parent.removeChild(this);
         }
+        
+        public function get ui():Sprite
+        {
+            if (_ui==null)
+            {
+                _ui = new Sprite();
+                addChild(_ui);
+            }
+            return _ui;
+        }
+        
+        public var role:*;
+        public var context:Context = Context.instance;
+        public var position:Vector2D = new Vector2D(0, 0);
+        public var body:Sprite = new Sprite();
+        public var _ui:Sprite = null;
+        
+        private var logger:Logger = Logger.getLogger(this);
     }
 }

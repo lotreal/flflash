@@ -1,8 +1,13 @@
 package flf.flatland.fight
 {
-    import flf.flatland.role.Citizen;
     import flash.utils.getTimer;
-
+    import flf.flatland.game.Groups;
+    import flf.flatland.game.States;
+    import flf.flatland.role.Citizen;
+    
+    import im.luo.vw.Manifold;
+    import im.luo.logging.Logger;
+    
     public class Fight
     {
         // 战斗结果之击中对方
@@ -32,33 +37,42 @@ package flf.flatland.fight
         */
         public function attackRolls(mf:Manifold):void 
         {
-            if (mf.p1.state.has(State.PROTECTED) || mf.p2.state.has(State.PROTECTED))
-            {
-                mf.p1.face.showProtected();
-                mf.p2.face.showProtected();
-                return void;
-            }
+            var role1:Citizen = mf.role1 as Citizen;
+            var role2:Citizen = mf.role2 as Citizen;
 
-            var of:Citizen = mf.p1; // 进攻方
-            var df:Citizen = mf.p2; // 防守方
+            _logger.debug(role1.state, role2.state);
+            if (role1.state.has(States.PROTECTED) || role2.state.has(States.PROTECTED))
+            {
+//                role1.face.showProtected();
+//                role2.face.showProtected();
+                _logger.debug("in protected");
+                return;
+            }
+            else if (role1.state.has(States.DIED) || role2.state.has(States.DIED))
+            {
+                return;
+            }
+            var of:Citizen = role1; // 进攻方
+            var df:Citizen = role2; // 防守方
 
             var d1:Number = of.radius - of.position.dist(mf.attackPoint);
             var d2:Number = df.radius - df.position.dist(mf.attackPoint);
 
             if (d1 == d2) {
-                mf.p1.face.showDraw();
-                mf.p2.face.showDraw();
+//                role1.face.showDraw();
+//                role2.face.showDraw();
+                _logger.debug("draw");
                 return;
             } else if (d1 > d2) {
-                of = bf.p2;
-                df = bf.p1;
+                of = role2;
+                df = role1;
             }
 
             // 计算伤害值(转移到 role 计算)
             of.hit(df);
-            //var hurt:int = of.attack;
-            //df.getHurt(hurt);
+            _logger.debug(of.name,"hit",df.name);
             if (of.groupid == Groups.PLAYER) evalCombo(mf);
+            else clearCombo();
         }
         
         private var hitCount:int = 0;
@@ -75,12 +89,14 @@ package flf.flatland.fight
                 if (thisHit - lastHit <= 10000)
                 {
                     lastHit = thisHit;
+                    _logger.debug(hitCount);
                     if (hitCount >= 2) mf.scene.ui.combo.content = "" + hitCount;
-                    //PlaySceneUI.instance.combo.content = "" + this.combo;
                 }
                 else
                 {
                     clearCombo();
+                    hitCount++;
+                    lastHit = getTimer();
                 }
             }
         }
@@ -90,7 +106,6 @@ package flf.flatland.fight
             hitCount = 0;
         }
 
-
-
+        private var _logger:Logger = Logger.getLogger(this);
     }
 }

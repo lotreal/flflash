@@ -11,6 +11,7 @@ package im.luo.role
     import im.luo.staff.Context;
     import im.luo.ui.ITextPanel;
     import im.luo.ui.UI;
+    import im.luo.util.Tags;
     
     // 角色具备演员（身体）和外观两大属性。
     public class Role implements IRole {
@@ -33,6 +34,14 @@ package im.luo.role
             this.x = x;
             this.y = y;
             uuid = UUID_SEED++;
+        }
+
+        private var _state:Tags = new Tags();
+        public function get state():Tags {
+            return _state;
+        }
+        public function set state(value:Tags):void {
+            _state = value;
         }
 
         // 分组 id，用于敌我判断。

@@ -1,18 +1,15 @@
 package flf.flatland.face
 {
-    import im.luo.logging.Logger;
-    import flash.events.Event;
-    import flash.geom.Matrix;
-    import im.luo.geom.Vector2D;
+    import flash.display.GraphicsPathCommand;
+    import flash.display.MovieClip;
+    
     import flf.flatland.role.Citizen;
     
-    import flash.display.GraphicsPathCommand;
-    import flash.display.Sprite;
     import im.luo.face.Face;
+    import im.luo.logging.Logger;
+    import im.luo.ui.UI;
     
     public class CitizenFace extends Face {
-        private var _logger:Logger = Logger.getLogger(this);
-        
         public function CitizenFace(role:Citizen) {
             super(role);
         }
@@ -38,13 +35,28 @@ package flf.flatland.face
             commands.push(GraphicsPathCommand.LINE_TO);
             data.push(data[0]);
             data.push(data[1]);
-
-            //commands.push(GraphicsPathCommand.LINE_TO);
-            //data.push(0);
-            //data.push(0);
-
-            graphics.lineStyle(2, role.color, 1);
-            graphics.drawPath(commands, data);
+            
+            body.graphics.lineStyle(2, role.color, 1);
+            body.graphics.beginFill(role.color);
+            body.graphics.drawPath(commands, data);
+            body.graphics.endFill();
         }
+
+        override public function express(desc:String):void
+        {
+            if (desc == HURT) {
+                var effect:MovieClip = new (context.getLoadedClass(HURT))();
+                effect.x = effect.width / -2;
+                ui.addChild(effect);
+                
+                var hpPct:Number = role.hp / role.init_hp;
+                body.alpha = hpPct;
+                _logger.debug('express hurt');
+            }
+        }
+        
+        public static var HURT:String = "Hurt"; 
+        
+        private var _logger:Logger = Logger.getLogger(this);
     }
 }

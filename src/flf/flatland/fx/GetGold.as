@@ -16,7 +16,7 @@ package flf.flatland.fx
         
         public function GetGold()
         {
-            effect = new (context.loader.getContent("res").loaderInfo.applicationDomain.getDefinition("Money") as Class)();
+            effect = new (context.getLoadedClass("Money"))();
             effect.gotoAndStop(effect.totalFrames);
             
             UI.screen.addChild(effect);

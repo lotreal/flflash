@@ -1,43 +1,108 @@
 package flf.flatland.scene
 {
     import flash.display.Bitmap;
-    import flash.display.DisplayObject;
-    import flash.display.Sprite;
-    import flash.events.*;
+    import flash.events.TimerEvent;
     import flash.geom.Rectangle;
     
-    import flf.flatland.action.PlayerHotkeyA;
     import flf.flatland.action.PlayerHotkeyB;
-    import flf.flatland.actor.CitizenActor;
+    import flf.flatland.fight.Fight;
+    import flf.flatland.item.InjuryProtect;
+    import flf.flatland.role.Citizen;
     import flf.flatland.role.Edge;
     import flf.flatland.role.Gold;
     import flf.flatland.role.Heart;
     import flf.flatland.role.Npc;
     import flf.flatland.role.Player;
+    import flf.flatland.role.Roles;
+    import flf.flatland.ui.GameOverUI;
     import flf.flatland.ui.PlaySceneUI;
     
     import im.luo.action.SeekAction;
     import im.luo.actor.IActor;
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
+    import im.luo.role.IRole;
     import im.luo.scene.ISceneLayer;
     import im.luo.scene.Scene;
     import im.luo.scene.SpriteLayer;
     import im.luo.scene.TileLayer;
-    import im.luo.util.MathUtil;
     import im.luo.util.TimerUtil;
+    import im.luo.vw.IContactEvent;
+    import im.luo.vw.IWorld;
+    import im.luo.vw.World;
     
+    // 战斗场景
     public class PlayScene extends Scene {
         public var player1:Player;
         public var npcs:Vector.<Npc>;
         public var npc_actors:Vector.<IActor> = new Vector.<IActor>();
+        private var fight:Fight = new Fight();
         
         public function PlayScene(rect:Rectangle = null) {
             super(rect);
             npcs = new Vector.<Npc>();
         }
+        
+        public function beginContact(event:IContactEvent):void {
+            _logger.debug('begin contact', event.getContactPoint());
+            var a:IRole = event.manifold.role1;
+            var b:IRole = event.manifold.role2;
+
+            if (a.groupid == b.groupid) return;
+            if (a.type == Roles.EDGE || b.type == Roles.EDGE) return;
+
+            var p:Vector2D = event.getContactPoint();
+            if (a.type == Roles.CITIZEN && b.type == Roles.CITIZEN) {
+                //collidByCreature(a as Citizen, b as Citizen, p);
+                event.manifold.attackPoint = p;
+                event.manifold.scene = this;
+                fight.attackRolls(event.manifold);
+            } else if (a.type == Roles.CITIZEN && b.type == Roles.GOLD) {
+                collidByGold(a as Citizen, b as Gold, p);
+            } else if (b.type == Roles.CITIZEN && a.type == Roles.GOLD) {
+                collidByGold(b as Citizen, a as Gold, p);
+            } else if (a.type == Roles.CITIZEN && b.type == Roles.HEART) {
+                collidByHeart(a as Citizen, b as Heart, p);
+            } else if (b.type == Roles.CITIZEN && a.type == Roles.HEART) {
+                collidByHeart(b as Citizen, a as Heart, p);
+            }
+
+        }
+        
+        public function collidByCreature(a:Citizen, b:Citizen, position:Vector2D):void {
+            if (a.invincible || b.invincible) {
+                _logger.debug('invincible');
+                return void;
+            }
+            var distance1:Number = a.radius - a.position.dist(position);
+            var distance2:Number = b.radius - b.position.dist(position);
+            _logger.debug('collidByCreature', position, distance1, distance2);
+            if (distance1 < distance2) {
+                //a.attack(b);
+            } else if (distance1 > distance2) {
+                //b.attack(a);
+            } else {
+                _logger.debug('unknown');
+            }
+
+            new InjuryProtect().apply(a);
+            new InjuryProtect().apply(b);
+
+        }
+
+        public function collidByGold(a:Citizen, b:Gold, position:Vector2D):void {
+            a.setGold(a.gold + 100);
+            TimerUtil.delay(100, function handler():void{ b.destroy(); });
+        }
+
+        public function collidByHeart(a:Citizen, b:Heart, position:Vector2D):void {
+            a.hp += 1;
+            TimerUtil.delay(100, function handler():void{ b.destroy(); });
+        }
 
         override public function build():void {
+            var world:IWorld = World.instance;
+            world.addEventListener(World.BEGINCONTACT, beginContact);
             PlaySceneUI.instance.build();
 
             var bgLayer:ISceneLayer = new TileLayer();
@@ -105,6 +170,9 @@ package flf.flatland.scene
             timerUtil.addEventListener(TimerEvent.TIMER, timerHandler);
             timerUtil.addEventListener(TimerEvent.TIMER_COMPLETE, completeHandler);
             timerUtil.start();
+            
+            var gameover_ui:GameOverUI = new GameOverUI();
+            gameover_ui.build();
         }
 
         private function timerHandler(event:TimerEvent):void
@@ -122,7 +190,7 @@ package flf.flatland.scene
             }
         }
         
-        private var ui:PlaySceneUI = PlaySceneUI.instance;
+        public var ui:PlaySceneUI = PlaySceneUI.instance;
         private var timerUtil:TimerUtil;
         private var _logger:Logger = Logger.getLogger(this);
     }

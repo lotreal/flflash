@@ -3,8 +3,8 @@ package flf.flatland.role
     import flf.flatland.actor.CitizenActor;
     import flf.flatland.face.CitizenFace;
     import flf.flatland.game.States;
+    import flf.flatland.item.InjuryProtect;
     import flf.flatland.ui.PlaySceneUI;
-    import flf.flatland.item.Invincible;
     
     import im.luo.geom.Vector2D;
     import im.luo.item.ICanUseItem;
@@ -12,8 +12,8 @@ package flf.flatland.role
     import im.luo.logging.Logger;
     import im.luo.motion.IBasicMotion;
     import im.luo.role.Role;
-    import im.luo.util.Tags;
-
+    import im.luo.util.TimerUtil;
+    
     /**
     * 平面国公民角色。Player 和 Npc 皆继承此类。
     */
@@ -29,8 +29,9 @@ package flf.flatland.role
         public var gold:int = 0;
         public var combo:int = 0;
 
-        public var state:Tags = new Tags();
         // ********* 战斗相关属性 *********
+        // 初始血量
+        public var init_hp:int = 0;
         // 血量
         public var hp:int = 0;
         // 攻击力
@@ -98,6 +99,7 @@ package flf.flatland.role
         // 初始化角色的基本属性
         public function initProp(attack:int, hp:int, speed:int, weight:int, exp:int):void {
             this.attack = attack;
+            this.init_hp = hp;
             this.hp = hp;
             this.speed = speed;
             this.weight = weight;
@@ -133,6 +135,7 @@ package flf.flatland.role
             enemy.getHurt(hurt);
             if (enemy.state.has(States.DIED))
             {
+                enemy.die();
                 var _score:int = enemy.exp;
                 this.score += _score;
                 PlaySceneUI.instance.score.content = "Score : " + this.score;
@@ -145,23 +148,26 @@ package flf.flatland.role
         */
         public function getHurt(hurt:int):void {
             this.hp -= hurt;
-            if (this.hp <=0) this.state.clear().add(States.DIED);
-            else new Invincible().apply(this);
+            if (this.hp <=0)
+            {
+                this.state.clear().add(States.DIED);
+            }
+            else
+            {
+                face.express(CitizenFace.HURT);
+                new InjuryProtect().apply(this);
+            }
         }
-
-        //public function win():void {
-        //    //if (!this.invincible) 
-        //    this.score += 100;
-        //    if (name == "user") {
-        //        this.combo++;
-        //        if (this.combo > 2) PlaySceneUI.instance.combo.content = "" + this.combo;
-        //        PlaySceneUI.instance.score.content = "Score : " + this.score;
-        //    }
-        // }
         
-        //public function lose():void {
-        //    //destroy();
-        //}
+        /**
+         * 角色死亡 
+         */        
+        public function die():void
+        {
+            // destroy();
+            // 不能在事件中销毁对象
+            TimerUtil.delay(100, function handler():void{ destroy(); });
+        }
 
         public function setGold(value:int):void {
             this.gold = value;
@@ -184,18 +190,10 @@ package flf.flatland.role
             + 'Hp:' + hp + '\n' 
             + 'Score:' + score + '\n' 
             + 'Gold:' + gold + '\n' 
-            + 'I:' + invincible + '\n'
-            + 'UUID:' + uuid + '\n'
+            + 'State:' + state + '\n'
+            + 'uuid:' + uuid + '\n'
             ;
-            return 'A:' + attack + '\n' 
-            + 'H:' + hp + '\n' 
-            + 'S:' + speed + '\n' 
-            + 'T:' + type + '\n' 
-            + 'N:' + name + '\n'
-            + 'I:' + invincible + '\n'
-            ;
-
-        }
+         }
 
         public function activate(item:IItem):void {
 

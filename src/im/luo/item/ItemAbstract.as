@@ -1,6 +1,6 @@
 package im.luo.item
 {
-    import im.luo.util.TimeUtil;
+    import im.luo.util.TimerUtil;
     import im.luo.role.IRole;
     import im.luo.item.IItem;
     
@@ -14,9 +14,9 @@ package im.luo.item
         public function apply(role:IRole):void {
             if (!inCooldown) {
                 inCooldown = true;
-                TimeUtil.delay(cooldown, function ahandler():void{ inCooldown = false; });
+                TimerUtil.delay(cooldown, function ahandler():void{ inCooldown = false; });
                 this.activate(role);
-                TimeUtil.delay(cooldown, function handler():void{deactivate(role); });
+                TimerUtil.delay(cooldown, function handler():void{deactivate(role); });
             }
         }
 

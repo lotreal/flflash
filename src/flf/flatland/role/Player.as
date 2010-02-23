@@ -1,5 +1,7 @@
 package flf.flatland.role
 {
+    import flf.flatland.game.Groups;
+    
     import im.luo.action.IRoleAction;
     import im.luo.ui.UI;
     
@@ -9,6 +11,7 @@ package flf.flatland.role
         {
             super(name, x, y, level);
             type = Roles.CITIZEN;
+            groupid = Groups.PLAYER;
         }
 
         override public function set action(value:IRoleAction):void {

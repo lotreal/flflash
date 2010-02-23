@@ -7,7 +7,10 @@ package im.luo.scene
     import flash.geom.Rectangle;
     import flash.geom.Matrix;
     import im.luo.role.IRole;
-
+    
+    /**
+     * Sprite 图层，用于搭建 Scene。 
+     */
     public class SpriteLayer extends SceneLayer implements ISceneLayer {
         protected var screen:Sprite;
         private var _logger:Logger = Logger.getLogger(this);
