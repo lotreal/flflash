@@ -133,7 +133,7 @@ package flf.flatland.scene
             
             _logger.debug("完成游戏场景搭建");
             
-            timerUtil = new TimerUtil(2 * 1000, 1000, true);
+            timerUtil = new TimerUtil(12000 * 1000, 1000, true);
             timerUtil.addEventListener(TimerEvent.TIMER, timerHandler);
             timerUtil.addEventListener(TimerEvent.TIMER_COMPLETE, completeHandler);
             timerUtil.start();
