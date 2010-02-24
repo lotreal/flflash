@@ -13,6 +13,8 @@ package im.luo.actor
          */
         function set position(value:Vector2D):void;
         function get position():Vector2D;
+        // 设置坐标引起跳出边界问题的暂时解决方案
+        function initPosition(value:Vector2D):void;
         /**
          * Sets / gets x position of character.
          */

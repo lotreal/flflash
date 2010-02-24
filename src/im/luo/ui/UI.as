@@ -9,6 +9,7 @@ package im.luo.ui
     import flash.text.TextFormatAlign;
     import flash.text.TextFieldAutoSize;
     import im.luo.staff.Context;
+    import im.luo.staff.Screen;
     
     public class UI {
         public static var screen:Sprite;
@@ -29,8 +30,8 @@ package im.luo.ui
 
             _tbTip.text = "";
 
-            screen = context.cache['ui'];
-            fixScreen = context.cache['static'];
+            screen = context.screen.getLayer(Screen.SCENE_UI) as Sprite;
+            fixScreen = context.screen.addChild(context.screen.getLayer(Screen.SCREEN_UI), true) as Sprite;
             fixScreen.addChild(_tbTip);
             //context.root.addChild(_tbTip);
         }

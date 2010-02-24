@@ -6,9 +6,9 @@ package flf.flatland.role
     {
         public var color:uint;
         
-        public function Prop(name:String, x:int, y:int)
+        public function Prop(name:String)
         {
-            super(name, x, y);
+            super(name);
             radius = 10;
         }
     }

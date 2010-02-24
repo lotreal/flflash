@@ -39,7 +39,7 @@ package flf.flatland.role
         public var attack:int = 0;
         // 正常行动速度
         //public var speed:int = 30; // px/sec
-        public var wanderSpeed:Number = 30;
+        public var wanderSpeed:Number = 40;
         // 角度
         public var angular:int = 0;
         // 负重
@@ -49,7 +49,7 @@ package flf.flatland.role
 
 
         // 得到最大速度数值
-        public function get speed():Number { return 18; }
+        public function get speed():Number { return 24; }
         public function set speed(value:Number):void{}
 
         // ********* 角色造型相关属性 *********
@@ -66,8 +66,8 @@ package flf.flatland.role
 
         private var _logger:Logger = Logger.getLogger(this);
         
-        public function Citizen(name:String, x:int, y:int, level:int) {
-            super(name, x, y);
+        public function Citizen(name:String, level:int) {
+            super(name);
             this.type = Roles.CITIZEN;
             this._level = level;
             switch (level) {
@@ -139,7 +139,6 @@ package flf.flatland.role
                 enemy.die();
                 var _score:int = enemy.exp;
                 this.score += _score;
-                PlaySceneUI.instance.score.content = "Score : " + this.score;
             }
         }
         
@@ -170,12 +169,8 @@ package flf.flatland.role
             TimerUtil.delay(100, function handler():void{ destroy(); });
         }
 
-        public function setGold(value:int):void {
-            this.gold = value;
-            if (name == "user") {
-                PlaySceneUI.instance.gold.content = "" + 100;
-                PlaySceneUI.instance.gold.position = position;
-            }
+        public function pickGold(gold:int):void {
+            this.gold += gold;
          }
         
         public function levelUp():void {

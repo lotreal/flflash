@@ -43,10 +43,15 @@ package im.luo.util
             myTimer.start();
         }
         
+        public function stop():void
+        {
+            myTimer.stop();
+        }
+        
         public function getTimeString():String
         {
             countDate = new Date(count);
-            var _h:String =("0"+countDate.getHours ()).substr(-2);
+            var _h:String =("0"+countDate.getHours()).substr(-2);
             var _m:String =("0"+countDate.getMinutes()).substr(-2);
             var _s:String =("0"+countDate.getSeconds()).substr(-2);
             return _m + ":" + _s;

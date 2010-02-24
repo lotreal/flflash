@@ -1,9 +1,9 @@
 package im.luo.scene
 {
-    import im.luo.logging.Logger;
+    import flash.events.EventDispatcher;
     import flash.geom.Rectangle;
 
-    public class SceneAbstract {
+    public class SceneAbstract extends EventDispatcher {
         protected var _rect:Rectangle = null;
         public function get rect():Rectangle {
             return _rect;

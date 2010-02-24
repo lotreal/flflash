@@ -16,6 +16,8 @@ package im.luo.scene
             super(rect);
             list = new Vector.<DisplayObject>();
         }
+        
+        public virtual function destroy():void {}
 
         public function add(child:*):* {
             list.push(child);

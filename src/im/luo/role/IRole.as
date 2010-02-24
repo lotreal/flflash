@@ -6,6 +6,7 @@ package im.luo.role
     import im.luo.face.Face;
     import im.luo.geom.Vector2D;
     import im.luo.util.Tags;
+    import im.luo.scene.IScene;
 
     public interface IRole {
         function get face():Face;
@@ -18,6 +19,9 @@ package im.luo.role
 
         function get position():Vector2D;
         function set position(value:Vector2D):void;
+
+        function get scene():IScene;
+        function set scene(value:IScene):void;
         
         function get radius():Number;
 
@@ -26,7 +30,8 @@ package im.luo.role
         function set state(value:Tags):void;
         
         function play():void;
-
+        function destroy():void;
+        
         function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void;
         function shooting(container:DisplayObjectContainer, rectangle:Rectangle):void;
         function postShoot(container:DisplayObjectContainer, rectangle:Rectangle):void;

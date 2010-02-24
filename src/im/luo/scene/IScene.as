@@ -6,7 +6,12 @@ package im.luo.scene
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
 
+    /**
+     * 场景 
+     * 场景由层组成，层包含角色
+     */    
     public interface IScene {
+        // 所有图层中的角色的引用
         function get roles():Vector.<IRole>;
         function set roles(value:Vector.<IRole>):void;
 
@@ -20,6 +25,8 @@ package im.luo.scene
         function addCharacter(name:String, character:IRole, layer:ISceneLayer):*;
 
         function build():void;
+        function destroy():void;
+        function showUI(id:String):void;
         function play():void;
 
         function preShoot(container:DisplayObjectContainer, rect:Rectangle):void;

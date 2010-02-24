@@ -46,12 +46,21 @@ package im.luo.scene
             return character;
         }
 
-        public virtual function build():void {
-        }
+        public virtual function build():void {}
 
-        public virtual function destroy():void {
+        public virtual function destroy():void 
+        {
+            for (var j:int = 0, k:int = roles.length; j < k; j++) {
+                roles[j].destroy();
+            }
+            
+            for (var i:int = 0, n:int = this.layers.length; i < n; i++) {
+                this.layers[i].destroy();
+            }
         }
-
+        
+        public virtual function showUI(id:String):void {}
+            
         public virtual function play():void {}
 
         public function preShoot(container:DisplayObjectContainer, rect:Rectangle):void {

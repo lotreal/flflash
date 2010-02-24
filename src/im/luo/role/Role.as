@@ -1,7 +1,6 @@
 package im.luo.role
 {
     import flash.display.DisplayObjectContainer;
-    import flash.display.Scene;
     import flash.geom.Rectangle;
     
     import im.luo.action.IRoleAction;
@@ -9,6 +8,7 @@ package im.luo.role
     import im.luo.face.Face;
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
+    import im.luo.scene.IScene;
     import im.luo.scene.ISceneLayer;
     import im.luo.staff.Context;
     import im.luo.ui.ITextPanel;
@@ -23,7 +23,14 @@ package im.luo.role
 
         public var context:Context = Context.instance;
 
-        public var scene:Scene;
+        private var _scene:IScene = null;
+        public function get scene():IScene {
+            return _scene;
+        }
+        public function set scene(value:IScene):void {
+            _scene = value;
+        }
+
         public var sceneLayer:ISceneLayer;
         
         // 角色信息显示面板，目前为调试用
@@ -34,10 +41,10 @@ package im.luo.role
         /**
         * @parm name 角色名
         */
-        public function Role(name:String, x:int, y:int) {
+        public function Role(name:String) {
             this.name = name;
-            this.x = x;
-            this.y = y;
+            //this.x = x;
+            //this.y = y;
             uuid = UUID_SEED++;
         }
 
@@ -113,7 +120,7 @@ package im.luo.role
         }
 
         public function set position(value:Vector2D):void {
-            actor.position = value;
+            actor.initPosition(value);
         }
 
         public function postShoot(container:DisplayObjectContainer, rectangle:Rectangle):void {};

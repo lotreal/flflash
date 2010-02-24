@@ -19,6 +19,11 @@ package im.luo.scene
             super();
         }
 
+        override public function destroy():void
+        {
+            
+        }
+        
         override public function preShoot(container:DisplayObjectContainer, rect:Rectangle):void {
             var buffer:Sprite = new Sprite();
             for (var i:int = 0, n:int = list.length; i < n; i++) {

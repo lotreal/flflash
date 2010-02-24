@@ -14,7 +14,6 @@ package im.luo.staff {
     public final class Context {
         private static var _instance:Context = null;
 
-        public var cache:Object = new Object();
         public var root:DisplayObjectContainer;
         public var stage:Stage;
         private var _logger:Logger = Logger.getLogger(this);
@@ -25,10 +24,7 @@ package im.luo.staff {
         private var _width:int = 640;
         private var _height:int = 480;
 
-        public function Context(singleton_enforcer:SingletonEnforcer) {
-            cache['ui'] = new Sprite();
-            cache['static'] = new Sprite();
-        }
+        public function Context(singleton_enforcer:SingletonEnforcer) {}
 
         public static function get instance():Context {
             return Context.getInstance();
@@ -42,7 +38,23 @@ package im.luo.staff {
         public static function Init(root:DisplayObjectContainer):void {
             Context.instance.init(root);
         }
+        
+        private static var _director:Director = null;
+        public static function get director():Director {
+            if (_director == null) _director = new Director();
+            return _director;
+        }
 
+        private var _screen:Screen = null;
+        public function get screen():Screen {
+            if (_screen == null)
+            {
+                _screen = new Screen();
+                _screen.root = root;
+            }
+            return _screen;
+        }
+        
         public function get width():int {
             return _width;
         }

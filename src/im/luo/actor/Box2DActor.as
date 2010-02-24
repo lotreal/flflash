@@ -8,11 +8,11 @@ package im.luo.actor {
     
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
-    import im.luo.vw.box2d.Box2DWorld;
     import im.luo.role.IRole;
     import im.luo.role.Role;
-    import im.luo.vw.IWorld;
     import im.luo.staff.Context;
+    import im.luo.vw.IWorld;
+    import im.luo.vw.box2d.Box2DWorld;
 
     
     public class Box2DActor implements IActor {
@@ -47,7 +47,7 @@ package im.luo.actor {
         protected var _mass:Number = 1.0;
         protected var _position:Vector2D = new Vector2D();
         protected var _velocity:Vector2D = new Vector2D();
-        protected var _maxSpeed:Number = 10;
+        protected var _maxSpeed:Number = 30;
         
         public function get world():IWorld {
             return _world;
@@ -83,7 +83,12 @@ package im.luo.actor {
         }
         
         public function set position(value:Vector2D):void {
-            bodyDef.position.Set(value.x / scale, value.y/ scale);
+            //body.SetPosition(new b2Vec2(value.x / scale, value.y/ scale));
+            //bodyDef.position.Set();
+        }
+
+        public function initPosition(value:Vector2D):void {
+            body.SetPosition(new b2Vec2(value.x / scale, value.y/ scale));
         }
         
         public function get maxSpeed():Number {
@@ -151,7 +156,7 @@ package im.luo.actor {
         }
         
         protected function initBodyDef():void {
-            position = new Vector2D(role.x, role.y);
+            //position = new Vector2D(role.x, role.y);
             
             bodyDef.linearDamping = 6;
             bodyDef.angularDamping = 12;
@@ -165,6 +170,7 @@ package im.luo.actor {
             initBodyDef();
             body = world.createBody(bodyDef);
             body.SetUserData(this);
+            body.SetBullet(true);
             if (!lockPosition) body.SetSleepingAllowed(false);
 
             createShape();
@@ -179,8 +185,8 @@ package im.luo.actor {
             position = position.add(velocity);
             
             // update position of sprite
-            x = position.x;
-            y = position.y;
+            //x = position.x;
+            //y = position.y;
             
             // rotate heading to match velocity
             angle = velocity.angle; // * 180 / Math.PI;

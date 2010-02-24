@@ -39,7 +39,7 @@ package im.luo.vw.box2d
         public function run(event:Event = null):void {
             world.Step(timeStep, iterations, 10); //10 = positionIterations
             world.ClearForces();
-            //if (Settings.debug) world.DrawDebugData();
+            if (Settings.debug) world.DrawDebugData();
         }
         
         public function contact(event:b2ContactEvent):void {
@@ -76,7 +76,7 @@ package im.luo.vw.box2d
             dbgDraw.SetFlags(b2DebugDraw.e_shapeBit|b2DebugDraw.e_pairBit|b2DebugDraw.e_centerOfMassBit);
             world.SetDebugDraw(dbgDraw);
             
-            context.cache['world_debug_draw'] = m_sprite;
+            context.screen.setLayer("world_debug_draw", m_sprite);
         }
         
         private static var _instance:Box2DWorld = null;

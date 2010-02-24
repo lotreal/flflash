@@ -23,11 +23,13 @@ package im.luo.shooting
         * 通常在这里初始化场景，摄像机。
         */
         public virtual function init():void {}
-
+        public virtual function destroy():void {
+            scene.destroy();
+        }
+        
         /**
         * 开始拍摄场景
         */
-
         public function action():void {
             camera.preShoot(scene);
             Tick.instance.addEventListener(TickEvent.TICK, shooting);

@@ -14,9 +14,9 @@ package flf.flatland.role
     {
         public var fightProfile:FightProfile = new FightProfile();
         
-        public function Player(name:String, x:int, y:int, level:int)
+        public function Player(name:String)
         {
-            super(name, x, y, level);
+            super(name, 3);
             type = Roles.CITIZEN;
             groupid = Groups.PLAYER;
         }
@@ -32,13 +32,30 @@ package flf.flatland.role
             fightProfile.evalCombo();
             if (fightProfile.combo >= 2) PlaySceneUI.instance.combo.content = "" + fightProfile.combo;
             // scene.ui.setContent('combo', combo)
-            if (enemy.state.has(States.DIED)) fightProfile.kills++;
+            if (enemy.state.has(States.DIED)) {
+                fightProfile.kills++;
+                fightProfile.exp = this.score;
+                PlaySceneUI.instance.score.content = "Score : " + this.score;
+            }
         }
         
         override public function getHurt(hurt:int):void 
         {
             super.getHurt(hurt);
             fightProfile.clearCombo();
+        }
+ 
+        override public function die():void
+        {
+            super.die();
+            scene.showUI(PlayScene.GAMEOVER);
+        }
+       
+        override public function pickGold(gold:int):void {
+            super.pickGold(gold);
+            this.fightProfile.golds += gold;
+            PlaySceneUI.instance.gold.content = "" + 100;
+            PlaySceneUI.instance.gold.position = position;
         }
     }
 }

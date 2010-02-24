@@ -10,7 +10,9 @@ package im.luo.scene
 
         function get rect():Rectangle;
         function set rect(value:Rectangle):void;
-
+        
+        function destroy():void;
+        
         function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void;
         function shooting(container:DisplayObjectContainer, rectangle:Rectangle):void;
         function postShoot(container:DisplayObjectContainer, rectangle:Rectangle):void;

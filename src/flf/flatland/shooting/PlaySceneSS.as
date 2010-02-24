@@ -1,17 +1,19 @@
 package flf.flatland.shooting
 {
-    import im.luo.camera.Camera;
-    import im.luo.logging.Logger;
-    import flf.flatland.scene.PlayScene;
-    import im.luo.shooting.ShootingSchedule;
-    import im.luo.events.TickEvent;
-    import flash.geom.Rectangle;
-    import im.luo.staff.Context;
-    import im.luo.util.Keyboard;
+    import flash.events.Event;
     import flash.events.KeyboardEvent;
-    import im.luo.util.KeyCode;
+    import flash.geom.Rectangle;
+    
     import flf.flatland.action.PlayerHotkeyA;
     import flf.flatland.action.PlayerHotkeyB;
+    import flf.flatland.scene.PlayScene;
+    
+    import im.luo.camera.Camera;
+    import im.luo.events.TickEvent;
+    import im.luo.logging.Logger;
+    import im.luo.shooting.ShootingSchedule;
+    import im.luo.util.KeyCode;
+    import im.luo.staff.Context;
     
     public class PlaySceneSS extends ShootingSchedule
     {
@@ -27,6 +29,12 @@ package flf.flatland.shooting
             this.scene = new PlayScene(new Rectangle(0, 0, context.width * 2, context.height * 2));
             this.scene.build();
             this.camera = new Camera(this.scene);
+            this.scene.addEventListener(PlayScene.REPLAY, replay);
+        }
+        
+        public function replay(event:Event):void
+        {
+            Context.director.remake(this);
         }
         
         override public function action():void

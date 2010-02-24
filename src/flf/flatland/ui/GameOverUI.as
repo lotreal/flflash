@@ -2,14 +2,17 @@ package flf.flatland.ui
 {
     import flash.display.MovieClip;
     import flash.events.Event;
+    import flash.events.EventDispatcher;
     import flash.events.MouseEvent;
     import flash.text.TextField;
+    
+    import flf.flatland.scene.PlayScene;
     
     import im.luo.logging.Logger;
     import im.luo.staff.Context;
     import im.luo.ui.UI;
     
-    public class GameOverUI
+    public class GameOverUI extends EventDispatcher
     {
         public var context:Context = Context.instance;
         public var fight_profile:String;
@@ -36,7 +39,8 @@ package flf.flatland.ui
         
         public function onReplay(event:Event):void
         {
-            _logger.debug('replay');   
+            _logger.debug('replay');
+            this.dispatchEvent(new Event(PlayScene.REPLAY));
         }
     }
 }

@@ -20,6 +20,11 @@ package im.luo.scene
             screen = new Sprite();
         }
 
+        override public function destroy():void
+        {
+            screen.parent.removeChild(screen);
+        }
+            
         override public function preShoot(container:DisplayObjectContainer, rect:Rectangle):void {
             for (var i:int = 0, n:int = list.length; i < n; i++) {
                 var el:DisplayObject = list[i];
