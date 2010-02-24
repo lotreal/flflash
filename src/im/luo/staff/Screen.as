@@ -3,14 +3,29 @@ package im.luo.staff
     import flash.display.DisplayObjectContainer;
     import flash.display.Sprite;
     import flash.display.Stage;
-    import flash.display.DisplayObject;
     
     import im.luo.logging.Logger;
     
     public class Screen {
         public function Screen() {}
 
-        public function addChild(s:DisplayObject, top:Boolean = false):DisplayObject {
+        /**
+         * 如果指定名字的屏幕图层不存在,则创建并添加到当前屏幕 
+         * @param name 屏幕图层的名字
+         * @param top 置顶标记
+         * @return 
+         * 
+         */        
+        public function addScreenByName(name:String, top:Boolean = false):DisplayObjectContainer {
+            if (!layers.hasOwnProperty(name))
+            {
+                layers[name] = new Sprite();
+                addScreen(layers[name], top);
+            }
+            return layers[name];
+        }
+
+        public function addScreen(s:DisplayObjectContainer, top:Boolean = false):DisplayObjectContainer {
             sumLayers++;
             if (top) {
                 numTopLayers++;

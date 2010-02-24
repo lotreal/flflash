@@ -12,9 +12,6 @@ package im.luo.ui
     import im.luo.staff.Screen;
     
     public class UI {
-        public static var screen:Sprite;
-        public static var fixScreen:Sprite;
-
         public static function get instance():UI {
             return UI.getInstance();
         }
@@ -30,8 +27,7 @@ package im.luo.ui
 
             _tbTip.text = "";
 
-            screen = context.screen.getLayer(Screen.SCENE_UI) as Sprite;
-            fixScreen = context.screen.addChild(context.screen.getLayer(Screen.SCREEN_UI), true) as Sprite;
+            var fixScreen:Sprite = context.screen.addScreen(context.screen.getLayer(Screen.SCREEN_UI), true) as Sprite;
             fixScreen.addChild(_tbTip);
             //context.root.addChild(_tbTip);
         }
@@ -57,7 +53,6 @@ package im.luo.ui
         }
 
         public function tips(msg:String):void {
-            _tbTip.text = msg;
         }
 
         public function showMe(x:int, y:int, msg:String):void {
@@ -68,16 +63,23 @@ package im.luo.ui
 
         public static function textPanel(position:Vector2D, width:int, height:int, size:int, color:uint):ITextPanel {
             var tp:ITextPanel = new TextPanel(position, width, height, size, color);
+            var context:Context = Context.instance;
+            var screen:Sprite = context.screen.getLayer(Screen.SCENE_UI) as Sprite;
             tp.render(screen);
             return tp;
         }
 
         public static function fixTextPanel(position:Vector2D, width:int, height:int, size:int, color:uint):ITextPanel {
             var tp:ITextPanel = new TextPanel(position, width, height, size, color);
-            tp.render(fixScreen);
+            var context:Context = Context.instance;
+            var screen:Sprite = context.screen.getLayer(Screen.SCENE_UI) as Sprite;
+            tp.render(screen);
             return tp;
         }
-        
+
+        public static var screen:Sprite = new Sprite();
+        public static var fixScreen:Sprite = new Sprite();
+
         private static var _instance:UI = null;
 
         private var _logger:Logger = Logger.getLogger(this);

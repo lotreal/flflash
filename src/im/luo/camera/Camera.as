@@ -58,7 +58,7 @@ package im.luo.camera
 
         public function preShoot(scene:IScene):void {
             screen = new Sprite();
-            context.screen.addChild(screen);
+            context.screen.addScreen(screen);
             
             scene.preShoot(screen, this.rect);
 
