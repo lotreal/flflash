@@ -26,15 +26,23 @@ package im.luo.scene
         }
             
         override public function preShoot(container:DisplayObjectContainer, rect:Rectangle):void {
+            super.preShoot(container, rect);
             for (var i:int = 0, n:int = list.length; i < n; i++) {
                 var el:DisplayObject = list[i];
-                if (inCamera(el, rect)) screen.addChild(el);
+                if (inCamera(el, rect) && (! onScreen[i]) ) screen.addChild(el);
+                onScreen[i] = true;
             }
 
             container.addChild(screen);
         }
 
         override public function shooting(container:DisplayObjectContainer, rect:Rectangle):void {
+            super.shooting(container, rect);
+            for (var i:int = 0, n:int = list.length; i < n; i++) {
+                var el:DisplayObject = list[i];
+                if (inCamera(el, rect) && (! onScreen[i]) ) screen.addChild(el);
+                onScreen[i] = true;
+            }
             var m:Matrix=screen.transform.matrix;
             m.tx = rect.x * -1;
             m.ty = rect.y * -1;

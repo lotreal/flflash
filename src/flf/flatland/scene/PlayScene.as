@@ -28,12 +28,13 @@ package flf.flatland.scene
     import im.luo.scene.Scene;
     import im.luo.scene.SpriteLayer;
     import im.luo.scene.TileLayer;
+    import im.luo.staff.Context;
+    import im.luo.staff.Screen;
     import im.luo.util.TimerUtil;
     import im.luo.vw.IContactEvent;
     import im.luo.vw.IWorld;
+    import im.luo.vw.RoleEvent;
     import im.luo.vw.World;
-    import im.luo.staff.Context;
-    import im.luo.staff.Screen;
     
     // 战斗场景
     public class PlayScene extends Scene {
@@ -54,26 +55,35 @@ package flf.flatland.scene
             world.removeEventListener(World.BEGINCONTACT, beginContact);
         }
         
+        private function addNpc(layer:ISceneLayer):void
+        {
+            var x:int = Math.random() * rect.width;
+            var y:int = Math.random() * rect.height;
+            
+            var npc:Npc = new Npc('npc'+x);
+            npc.action = new SeekAction(this, npc);
+            Roles.layoutRole(this, layer, npc, new Vector2D(x, y));
+            
+            npc.addEventListener(World.REMOVEROLE, onNpcDied);
+            //npcs.push(npc);
+            //npc_actors.push(npc.actor);
+        }
+        
         override public function build():void {
             var world:IWorld = World.instance;
             world.addEventListener(World.BEGINCONTACT, beginContact);
-            PlaySceneUI.instance.build();
+            _ui = new PlaySceneUI();
+            _ui.build();
             
             var bgLayer:ISceneLayer = new TileLayer();
             
             var bg:Bitmap = context.loader.getBitmap("bg");
             bgLayer.add(bg);
             
-            var mainLayer:ISceneLayer = new SpriteLayer();
+            mainLayer = new SpriteLayer();
             
             player1 = Roles.registerPlayer();
             Roles.layoutRole(this, mainLayer, player1, new Vector2D(rect.width / 2, rect.height / 2));
-/*            new Player('user', rect.width / 2, rect.height / 2, 3);
-            player1.action = new PlayerHotkeyB(this, player1);
-*/          //addCharacter('player', player1, mainLayer);
-            
-            //player1 = Roles.getPlayer();
-            //Roles.layoutRole(this, mainLayer, player1, x, y);
             
             //Roles.layoutNpc(this, mainLayer, generator(35, 20));
             
@@ -83,26 +93,19 @@ package flf.flatland.scene
             var npc:Npc;
             var x:Number, y:Number;
             
-            var npcCount:int = 9;
-            var goldCount:int = 9;
-            var heartCount:int = 9;
+            var npcCount:int = 10;
+            var goldCount:int = 10;
+            var heartCount:int = 10;
             
             for (var i:int = 0; i < npcCount; i++) {
-                x = Math.random() * rect.width;
-                y = Math.random() * rect.height;
-                
-                npc = new Npc('npc'+i);
-                npc.action = new SeekAction(this, npc);
-                Roles.layoutRole(this, mainLayer, npc, new Vector2D(x, y));
-                npcs.push(npc);
-                npc_actors.push(npc.actor);
+                addNpc(mainLayer);
             }
             
             for (var j:int = 0; j < goldCount; j++) {
                 x = Math.random() * rect.width;
                 y = Math.random() * rect.height;
                 
-                var gold:Gold = new Gold('gold'+j);
+                var gold:Gold = new Gold();
                 Roles.layoutRole(this, mainLayer, gold, new Vector2D(x, y));
             }
             
@@ -133,7 +136,7 @@ package flf.flatland.scene
             
             _logger.debug("完成游戏场景搭建");
             
-            timerUtil = new TimerUtil(12000 * 1000, 1000, true);
+            timerUtil = new TimerUtil(120 * 1000, 1000, true);
             timerUtil.addEventListener(TimerEvent.TIMER, timerHandler);
             timerUtil.addEventListener(TimerEvent.TIMER_COMPLETE, completeHandler);
             timerUtil.start();
@@ -141,13 +144,19 @@ package flf.flatland.scene
         
         private function timerHandler(event:TimerEvent):void
         {
-            ui.time.content = timerUtil.getTimeString();
+            ui.setValue('time', timerUtil.getTimeString());
         }
         
         private function completeHandler(event:TimerEvent):void {
             _logger.debug("game over");
             timerUtil.stop();
             showUI(GAMEOVER);
+        }
+        
+        private function onNpcDied(event:RoleEvent):void
+        {
+            _logger.debug("npc died", event.role.name);
+            this.addNpc(mainLayer);
         }
         
         override public function play():void {
@@ -202,18 +211,18 @@ package flf.flatland.scene
         }
         
         public function collidByGold(a:Citizen, b:Gold, position:Vector2D):void {
-            a.pickGold(100);
+            a.pickGold(b.gold);
             TimerUtil.delay(100, function handler():void{ b.destroy(); });
         }
 
         public function collidByHeart(a:Citizen, b:Heart, position:Vector2D):void {
-            a.hp += 1;
+            a.heal(1);
             TimerUtil.delay(100, function handler():void{ b.destroy(); });
         }
         
-        public var ui:PlaySceneUI = PlaySceneUI.instance;
         private var timerUtil:TimerUtil;
         private var _logger:Logger = Logger.getLogger(this);
+        private var mainLayer:ISceneLayer;
         
         public static var GAMEOVER:String = "GameOver";
         public static var REPLAY:String = "replay";

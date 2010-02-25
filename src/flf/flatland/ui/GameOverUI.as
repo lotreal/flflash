@@ -24,11 +24,10 @@ package flf.flatland.ui
         }
         
         public function build():void {
-            UI.instance;
             var gameover:MovieClip = new (context.getLoadedClass("GameOver"))();
             gameover.x = (context.width - gameover.width) / 2;
             gameover.y = (context.height - gameover.height) / 2;
-            UI.fixScreen.addChild(gameover);
+            context.screen.getUIScreen().addChild(gameover);
             
             var txt:TextField = gameover.getChildByName("TxtProfile") as TextField;
             txt.text = fight_profile;    

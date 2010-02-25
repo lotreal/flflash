@@ -1,10 +1,10 @@
 package im.luo.scene
 {
-    import flash.geom.Rectangle;
-    import im.luo.camera.ICamera;
-    import im.luo.role.IRole;
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
+    
+    import im.luo.role.IRole;
+    import im.luo.ui.UI;
 
     /**
      * 场景 
@@ -20,6 +20,8 @@ package im.luo.scene
 
         function get rect():Rectangle;
         function set rect(value:Rectangle):void;
+        
+        function get ui():UI;
 
         function addLayer(layer:ISceneLayer):ISceneLayer;
         function addCharacter(name:String, character:IRole, layer:ISceneLayer):*;

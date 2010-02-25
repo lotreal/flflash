@@ -1,36 +1,26 @@
 package im.luo.ui
 {
-    import im.luo.logging.Logger;
-    import im.luo.geom.Vector2D;
-
-    import flash.display.Sprite;
-    import flash.text.TextFormat;
+    import flash.display.DisplayObjectContainer;
     import flash.text.TextField;
+    import flash.text.TextFormat;
     import flash.text.TextFormatAlign;
-    import flash.text.TextFieldAutoSize;
+    
+    import im.luo.geom.Vector2D;
+    import im.luo.logging.Logger;
     import im.luo.staff.Context;
     import im.luo.staff.Screen;
     
+    /**
+     * UI - 用户界面 目前分三级： 全局， 场景相关，角色相关 
+     */    
     public class UI {
-        public static function get instance():UI {
-            return UI.getInstance();
+        public function UI() {
+            //_tbTip = createTextField(0, context.height - 18, context.width, 32, 12, 0x089640);
+            this.scene_ui = context.screen.getLayer(Screen.SCENE_UI);
+            this.screen_ui = context.screen.getUIScreen();
         }
-        public static function getInstance():UI {
-            if (_instance == null) _instance = new UI(new SingletonEnforcer());
-            return _instance;
-        }
-
-        public function UI(singleton_enforcer:SingletonEnforcer) {
-            var context:Context = Context.instance;
-            _tbTip = createTextField(0, context.height - 18, context.width, 32,
-                12, 0x089640);
-
-            _tbTip.text = "";
-
-            var fixScreen:Sprite = context.screen.addScreen(context.screen.getLayer(Screen.SCREEN_UI), true) as Sprite;
-            fixScreen.addChild(_tbTip);
-            //context.root.addChild(_tbTip);
-        }
+        
+        public function build():void {}
 
         public static function createTextField(x:int, y:int, width:int, height:int, size:int, color:uint):TextField {
             var fi:TextField = new TextField();
@@ -58,34 +48,36 @@ package im.luo.ui
         public function showMe(x:int, y:int, msg:String):void {
             var txt:TextField = createTextField(x, y, 100, 100, 10, 0x000000);
             txt.text = msg;
-            screen.addChild(txt);
+            //screen.addChild(txt);
         }
 
-        public static function textPanel(position:Vector2D, width:int, height:int, size:int, color:uint):ITextPanel {
+        public function textPanel(position:Vector2D, width:int, height:int, size:int, color:uint):ITextPanel {
             var tp:ITextPanel = new TextPanel(position, width, height, size, color);
-            var context:Context = Context.instance;
-            var screen:Sprite = context.screen.getLayer(Screen.SCENE_UI) as Sprite;
-            tp.render(screen);
+            tp.render(this.scene_ui);
             return tp;
         }
 
-        public static function fixTextPanel(position:Vector2D, width:int, height:int, size:int, color:uint):ITextPanel {
+        public function fixTextPanel(position:Vector2D, width:int, height:int, size:int, color:uint):ITextPanel {
             var tp:ITextPanel = new TextPanel(position, width, height, size, color);
-            var context:Context = Context.instance;
-            var screen:Sprite = context.screen.getLayer(Screen.SCENE_UI) as Sprite;
-            tp.render(screen);
+            tp.render(this.screen_ui);
             return tp;
         }
-
-        public static var screen:Sprite = new Sprite();
-        public static var fixScreen:Sprite = new Sprite();
-
-        private static var _instance:UI = null;
-
+        
+        public function register(name:String, ui:ITextPanel):void
+        {
+            ui_elements[name] = ui;
+        }
+        
+        public function setValue(name:String, value:*):void
+        {
+            (ui_elements[name] as ITextPanel).content = String(value);
+        }
+        
+        public var context:Context = Context.instance;
+        public var scene_ui:DisplayObjectContainer;
+        public var screen_ui:DisplayObjectContainer;
+        
+        public var ui_elements:Object = new Object();
         private var _logger:Logger = Logger.getLogger(this);
-        private var _tbTip:TextField;
     }
 }
-
-// SingletonEnforcer
-class SingletonEnforcer {}

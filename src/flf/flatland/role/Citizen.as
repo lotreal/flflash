@@ -2,9 +2,9 @@ package flf.flatland.role
 {
     import flf.flatland.actor.CitizenActor;
     import flf.flatland.face.CitizenFace;
+    import flf.flatland.game.Roles;
     import flf.flatland.game.States;
     import flf.flatland.item.InjuryProtect;
-    import flf.flatland.ui.PlaySceneUI;
     
     import im.luo.geom.Vector2D;
     import im.luo.item.ICanUseItem;
@@ -13,7 +13,6 @@ package flf.flatland.role
     import im.luo.motion.IBasicMotion;
     import im.luo.role.Role;
     import im.luo.util.TimerUtil;
-    import flf.flatland.game.Roles;
     
     /**
     * 平面国公民角色。Player 和 Npc 皆继承此类。
@@ -34,7 +33,22 @@ package flf.flatland.role
         // 初始血量
         public var init_hp:int = 0;
         // 血量
-        public var hp:int = 0;
+        public var _hp:int = 0;
+        public function get hp():int
+        {
+            return _hp;
+        }
+        public function set hp(value:int):void
+        {
+            _hp = value;
+        }
+        
+        public function heal(num:int):void
+        {
+            hp += num;
+            face.express(CitizenFace.HEAL);
+        }
+        
         // 攻击力
         public var attack:int = 0;
         // 正常行动速度
@@ -164,8 +178,7 @@ package flf.flatland.role
          */        
         public function die():void
         {
-            // destroy();
-            // 不能在事件中销毁对象
+            // 不能在事件中销毁对象 @TODO 更好地解决方案
             TimerUtil.delay(100, function handler():void{ destroy(); });
         }
 

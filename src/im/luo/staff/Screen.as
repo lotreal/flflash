@@ -36,6 +36,11 @@ package im.luo.staff
             return s;
         }
         
+        public function getUIScreen():DisplayObjectContainer
+        {
+            return addScreenByName(Screen.SCREEN_UI, true);
+        }
+        
         public function setLayer(name:String, layer:DisplayObjectContainer):void
         {
             layers[name] = layer;

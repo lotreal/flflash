@@ -16,12 +16,17 @@ package flf.flatland.game
         public function Roles()
         {
         }
+        public function getRoleByName():void
+        {
+        }
         
         public static function layoutRole(scene:IScene, layer:ISceneLayer, role:IRole, position:Vector2D):IRole {
             _logger.debug(position);
             role.position = position;
             role.scene = scene;
+            role.sceneLayer = layer;
             scene.addCharacter("", role, layer);
+            layer.roles.push(role);
             //role.face.paint();
             //layer.add(role.face);
             return role;

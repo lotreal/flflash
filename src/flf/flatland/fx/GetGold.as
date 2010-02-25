@@ -6,9 +6,9 @@ package flf.flatland.fx
     
     import im.luo.geom.Vector2D;
     import im.luo.staff.Context;
-    import im.luo.ui.UI;
+    import im.luo.ui.ITextPanel;
     
-    public class GetGold
+    public class GetGold implements ITextPanel
     {
         public var context:Context = Context.instance;
         public var effect:MovieClip;
@@ -18,8 +18,9 @@ package flf.flatland.fx
         {
             effect = new (context.getLoadedClass("Money"))();
             effect.gotoAndStop(effect.totalFrames);
-            
-            UI.screen.addChild(effect);
+            effect.x = (context.width - effect.width) /2 - 120;
+            effect.y = (context.height - effect.height) /2 - 32;
+            context.screen.getUIScreen().addChild(effect);
         }
         
         public function get position():Vector2D

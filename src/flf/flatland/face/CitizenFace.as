@@ -44,18 +44,31 @@ package flf.flatland.face
 
         override public function express(desc:String):void
         {
+            var effect:MovieClip;
+            var hpPct:Number;
             if (desc == HURT) {
-                var effect:MovieClip = new (context.getLoadedClass(HURT))();
+                effect = new (context.getLoadedClass(HURT))();
                 effect.x = effect.width / -2;
                 ui.addChild(effect);
                 
-                var hpPct:Number = role.hp / role.init_hp;
+                hpPct = role.hp / role.init_hp;
                 body.alpha = hpPct;
                 _logger.debug('express hurt');
             }
+            
+            if (desc == HEAL) {
+                effect = new (context.getLoadedClass(HEAL))();
+                effect.x = effect.width / -2;
+                ui.addChild(effect);
+                
+                hpPct = role.hp / role.init_hp;
+                body.alpha = hpPct;
+                _logger.debug('express heal');
+            }
         }
         
-        public static var HURT:String = "Hurt"; 
+        public static var HURT:String = "Hurt";
+        public static var HEAL:String = "Recover"; 
         
         private var _logger:Logger = Logger.getLogger(this);
     }

@@ -1,14 +1,19 @@
 package im.luo.role
 {
     import flash.display.DisplayObjectContainer;
+    import flash.events.IEventDispatcher;
     import flash.geom.Rectangle;
     
     import im.luo.face.Face;
     import im.luo.geom.Vector2D;
-    import im.luo.util.Tags;
     import im.luo.scene.IScene;
+    import im.luo.scene.ISceneLayer;
+    import im.luo.util.Tags;
 
-    public interface IRole {
+    public interface IRole extends IEventDispatcher {
+        function get name():String;
+        function set name(value:String):void;
+        
         function get face():Face;
 
         function get groupid():int;
@@ -23,6 +28,9 @@ package im.luo.role
         function get scene():IScene;
         function set scene(value:IScene):void;
         
+        function get sceneLayer():ISceneLayer;
+        function set sceneLayer(value:ISceneLayer):void;
+            
         function get radius():Number;
 
         // 角色状态

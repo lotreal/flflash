@@ -11,30 +11,25 @@ package im.luo.camera
     import im.luo.scene.IScene;
     
     public class Camera implements ICamera {
-        public static const FIXED:String = "fixed";
-        public static const FOLLOW:String = "follow";
-
-        public var context:Context = Context.instance;
-        public var shootMode:String = Camera.FIXED;
-        public var followTarget:IRole;
-        public var scale:Number = 30;
-        public var scene:IScene;
-        
-        protected var screen:Sprite;
-
         public function Camera(scene:IScene):void {
             this.scene = scene;
             _rect = new Rectangle(0, 0, context.width, context.height);
-            _logger.debug(rect);
             debug();
         }
-
-        private var _rect:Rectangle = null;
-        public function get rect():Rectangle {
-            return _rect;
+        
+        public function preShoot(scene:IScene):void {
+            screen = new Sprite();
+            context.screen.addScreen(screen);
+            
+            scene.preShoot(screen, this.rect);
         }
-        public function set rect(value:Rectangle):void {
-            _rect = value;
+        
+        public function shooting(scene:IScene):void {
+            scene.shooting(screen, this.rect);
+        }
+        
+        public function postShoot(scene:IScene):void {
+            scene.postShoot(screen, this.rect);
         }
 
         public function follow(role:IRole):void {
@@ -50,41 +45,32 @@ package im.luo.camera
 
             shooting(scene);
         }
-
+        
+        public function get rect():Rectangle {
+            return _rect;
+        }
+        
+        public function set rect(value:Rectangle):void {
+            _rect = value;
+        }
+        
         public function debug():void {
             _logger.debug('初始化摄影机');
             _logger.debug('view rect', rect);
         }
-
-        public function preShoot(scene:IScene):void {
-            screen = new Sprite();
-            context.screen.addScreen(screen);
-            
-            scene.preShoot(screen, this.rect);
-
-            for (var i:int = 0, l:int = scene.layers.length; i < l; i++) {
-                scene.layers[i].preShoot(screen, this.rect);
-            }
-        }
-
-        public function shooting(scene:IScene):void {
-            scene.shooting(screen, this.rect);
-
-            for (var i:int = 0, l:int = scene.layers.length; i < l; i++) {
-                scene.layers[i].shooting(screen, this.rect);
-            }
-        }
-
-        public function postShoot(scene:IScene):void {
-            for (var i:int = 0, l:int = scene.layers.length; i < l; i++) {
-                scene.layers[i].postShoot(screen, this.rect);
-            }
-        }
-
-        public function add(child:*):* {
-            return screen.addChild(child);
-        }
         
+        public static const FIXED:String = "fixed";
+        public static const FOLLOW:String = "follow";
+        
+        public var context:Context = Context.instance;
+        public var shootMode:String = Camera.FIXED;
+        public var followTarget:IRole;
+        public var scale:Number = 30;
+        public var scene:IScene;
+        
+        protected var screen:Sprite;
+        
+        private var _rect:Rectangle = null;
         private var _logger:Logger = Logger.getLogger(this);
     }
 }

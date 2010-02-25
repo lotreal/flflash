@@ -25,6 +25,7 @@ package im.luo.scene
         }
         
         override public function preShoot(container:DisplayObjectContainer, rect:Rectangle):void {
+            super.postShoot(container, rect);
             var buffer:Sprite = new Sprite();
             for (var i:int = 0, n:int = list.length; i < n; i++) {
                 var el:DisplayObject = list[i];
@@ -53,6 +54,7 @@ package im.luo.scene
         }
 
         override public function shooting(container:DisplayObjectContainer, rect:Rectangle):void {
+            super.shooting(container, rect);
             data.copyPixels(tile, rect, new Point(0, 0));
             //data.setVector(data.rect, tile.getVector(rect));
         }

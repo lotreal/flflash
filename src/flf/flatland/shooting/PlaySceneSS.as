@@ -40,7 +40,7 @@ package flf.flatland.shooting
         override public function action():void
         {
             super.action();
-            context.stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyUp);
+            //context.stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyUp);
         }
         
         override public function shooting(event:TickEvent):void
@@ -51,7 +51,7 @@ package flf.flatland.shooting
         
         /**
          * 场景快捷键：N=升级，M=降级，空格=切换操作方案。
-         */
+
         public function handleKeyUp(event:KeyboardEvent):void {
             var c:int  = event.keyCode;
             if(c == KeyCode.N) {
@@ -71,6 +71,6 @@ package flf.flatland.shooting
             
             if(c == KeyCode.D) {
             }
-        }
+        }         */
     }
 }

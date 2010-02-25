@@ -151,7 +151,7 @@ package im.luo.actor {
         }
         
         public function destroy():void {
-            _logger.debug('destory', role.name);
+            _logger.debug('destory actor', role.name);
             world.destroyBody(body);
         }
         

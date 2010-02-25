@@ -6,9 +6,9 @@ package flf.flatland.fx
     
     import im.luo.geom.Vector2D;
     import im.luo.staff.Context;
-    import im.luo.ui.UI;
+    import im.luo.ui.ITextPanel;
     
-    public class Combo
+    public class Combo implements ITextPanel
     {
         public var context:Context = Context.instance;
         public var effect:MovieClip;
@@ -18,8 +18,7 @@ package flf.flatland.fx
         {
             effect = new (context.getLoadedClass("Combo"))();
             effect.gotoAndStop(effect.totalFrames);
-            
-            UI.fixScreen.addChild(effect);
+            context.screen.getUIScreen().addChild(effect);
         }
         
         public function get position():Vector2D

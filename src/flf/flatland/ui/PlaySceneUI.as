@@ -13,31 +13,18 @@ package flf.flatland.ui
     import im.luo.ui.ITextPanel;
     import im.luo.ui.UI;
     
-    public class PlaySceneUI
+    public class PlaySceneUI extends UI
     {
-        public var context:Context = Context.instance;
         public var combo:Combo;
         public var gold:GetGold;
         public var score:ITextPanel;
         public var time:ITextPanel;
 
-        private static var _instance:PlaySceneUI = null;
         private var _logger:Logger = Logger.getLogger(this);
 
-        public function PlaySceneUI(singleton_enforcer:SingletonEnforcer) {}
+        public function PlaySceneUI() { super(); }
 
-        public static function get instance():PlaySceneUI {
-            return PlaySceneUI.getInstance();
-        }
-
-        public static function getInstance():PlaySceneUI {
-            if (_instance == null) _instance = new PlaySceneUI(new SingletonEnforcer());
-            return _instance;
-        }
-
-        public function build():void {
-            UI.instance;
-
+        override public function build():void {
             var child:Shape = new Shape();
             child.graphics.beginFill(0xffffff);
             child.graphics.lineStyle(1, 0xffffff);
@@ -53,12 +40,16 @@ package flf.flatland.ui
             combo.position = new Vector2D(context.width - 166, 32);
             gold = new GetGold();
 
-            score = UI.fixTextPanel(new Vector2D(9, 0), context.width, 18, 12, 0x0066cc);
+            score = fixTextPanel(new Vector2D(9, 0), context.width, 18, 12, 0x0066cc);
             score.content = "Score : 0";
-            time = UI.fixTextPanel(new Vector2D(700, 0), 72, 18, 12, 0x008964);
+            
+            time = fixTextPanel(new Vector2D(700, 0), 72, 18, 12, 0x008964);
             time.content = "time";
+            
+            register('combo', combo);
+            register('gold', gold);
+            register('score', score);
+            register('time', time);
         }
     }
 }
-// SingletonEnforcer
-class SingletonEnforcer {}

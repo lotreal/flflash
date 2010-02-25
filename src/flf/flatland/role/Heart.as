@@ -9,7 +9,7 @@ package flf.flatland.role
     
     public class Heart extends Prop
     {
-        public function Heart(name:String)
+        public function Heart(name:String = "")
         {
             super(name);
             type = Roles.HEART;

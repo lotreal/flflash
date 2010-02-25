@@ -20,22 +20,26 @@ package flf.flatland.role
             type = Roles.CITIZEN;
             groupid = Groups.PLAYER;
         }
-
-        override public function set action(value:IRoleAction):void {
-            super.action = value;
-            UI.instance.tips("当前操作方案: "+ value.toString() +" [切换操作方案: 空格键]");
-        }
         
+        /*
+        override public function initProp(attack:int, hp:int, speed:int, weight:int, exp:int):void {
+            this.attack = attack * 100;
+            this.init_hp = hp * 100;
+            this.hp = hp * 100;
+            this.speed = speed;
+            this.weight = weight;
+            this.exp = exp;
+        }*/
+
         override public function hit(enemy:Citizen):void
         {
             super.hit(enemy);
             fightProfile.evalCombo();
-            if (fightProfile.combo >= 2) PlaySceneUI.instance.combo.content = "" + fightProfile.combo;
-            // scene.ui.setContent('combo', combo)
+            if (fightProfile.combo >= 2) this.scene.ui.setValue('combo', fightProfile.combo);
             if (enemy.state.has(States.DIED)) {
                 fightProfile.kills++;
                 fightProfile.exp = this.score;
-                PlaySceneUI.instance.score.content = "Score : " + this.score;
+                this.scene.ui.setValue('score', "Score : " + this.score);
             }
         }
         
@@ -54,8 +58,12 @@ package flf.flatland.role
         override public function pickGold(gold:int):void {
             super.pickGold(gold);
             this.fightProfile.golds += gold;
-            PlaySceneUI.instance.gold.content = "" + 100;
-            PlaySceneUI.instance.gold.position = position;
+            this.scene.ui.setValue('gold', gold);
+        }
+        
+        override public function set action(value:IRoleAction):void {
+            super.action = value;
+            //UI.instance.tips("当前操作方案: "+ value.toString() +" [切换操作方案: 空格键]");
         }
     }
 }

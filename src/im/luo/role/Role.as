@@ -1,6 +1,7 @@
 package im.luo.role
 {
     import flash.display.DisplayObjectContainer;
+    import flash.events.EventDispatcher;
     import flash.geom.Rectangle;
     
     import im.luo.action.IRoleAction;
@@ -12,11 +13,17 @@ package im.luo.role
     import im.luo.scene.ISceneLayer;
     import im.luo.staff.Context;
     import im.luo.ui.ITextPanel;
-    import im.luo.ui.UI;
     import im.luo.util.Tags;
+    import im.luo.vw.RoleEvent;
+    import im.luo.vw.World;
     
-    // 角色具备演员（身体）和外观两大属性。
-    public class Role implements IRole {
+    /**
+     * 角色具备演员（身体）和外观两大属性。
+     * @TODO 进一步解耦 Actor , actor = World.newActor
+     * @author Lot
+     * 
+     */    
+    public class Role extends EventDispatcher implements IRole {
         // 角色位置，单位为像素
         public var x:int;
         public var y:int;
@@ -31,7 +38,13 @@ package im.luo.role
             _scene = value;
         }
 
-        public var sceneLayer:ISceneLayer;
+        public var _sceneLayer:ISceneLayer;
+        public function get sceneLayer():ISceneLayer {
+            return _sceneLayer;
+        }
+        public function set sceneLayer(value:ISceneLayer):void {
+            _sceneLayer = value;
+        }
         
         // 角色信息显示面板，目前为调试用
         protected var uiInfo:ITextPanel;
@@ -126,22 +139,24 @@ package im.luo.role
         public function postShoot(container:DisplayObjectContainer, rectangle:Rectangle):void {};
         
         public function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void {
-            uiInfo = UI.textPanel(position, 100, 100, 12, 0x0000);
-            uiInfo.content = toString();
+            //uiInfo = UI.textPanel(position, 100, 100, 12, 0x0000);
+            //uiInfo.content = toString();
         };
         
         public function shooting(container:DisplayObjectContainer, rectangle:Rectangle):void {
-            uiInfo.position = position;
-            uiInfo.content = toString();
+            //play();
+            //uiInfo.position = position;
+            //uiInfo.content = toString();
         };
         
-        public function toString():String {
+        override public function toString():String {
             return '';
             return 'T:' + type + '\n' 
                 + 'N:' + name + '\n'
                 ;
         }
         
+        // 角色在 play 函数里更新自己的坐标，外观等
         public function play():void {
             if (action != null) action.play();
             actor.play();
@@ -149,11 +164,15 @@ package im.luo.role
         }
 
         public function destroy():void {
+            var event:RoleEvent = new RoleEvent(World.REMOVEROLE);
+            event.role = this;
+            this.dispatchEvent(event);
+            
             if (uiInfo != null) uiInfo.destroy();
-
             if (face != null) face.destroy();
             if (action != null) action.destroy();
             actor.destroy();
+            _logger.debug(this.name, "destroy");
         }
 
         private var _logger:Logger = Logger.getLogger(this);
