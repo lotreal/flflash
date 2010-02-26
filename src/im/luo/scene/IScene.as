@@ -3,17 +3,21 @@ package im.luo.scene
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
     
+    import flf.flatland.game.Roles;
+    
     import im.luo.role.IRole;
     import im.luo.ui.UI;
-
+    import im.luo.util.Tags;
+    
     /**
      * 场景 
      * 场景由层组成，层包含角色
      */    
     public interface IScene {
+        function get state():Tags
         // 所有图层中的角色的引用
-        function get roles():Vector.<IRole>;
-        function set roles(value:Vector.<IRole>):void;
+        function get roles():Roles
+        function set roles(value:Roles):void;
 
         function get layers():Vector.<ISceneLayer>;
         function set layers(value:Vector.<ISceneLayer>):void;

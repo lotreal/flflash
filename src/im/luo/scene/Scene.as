@@ -4,26 +4,34 @@ package im.luo.scene
     import flash.events.*;
     import flash.geom.Rectangle;
     
+    import flf.flatland.game.Roles;
+    
     import im.luo.camera.ICamera;
     import im.luo.logging.Logger;
     import im.luo.role.IRole;
     import im.luo.staff.Context;
     import im.luo.ui.UI;
-
+    import im.luo.util.Tags;
+    
     public class Scene extends SceneAbstract implements IScene {
         public var context:Context = Context.instance;
 
         public function Scene(rect:Rectangle = null) {
             super(rect);
             _layers = new Vector.<ISceneLayer>();
-            _roles = new Vector.<IRole>();
+            _roles = new Roles();
         }
-
-        public function get roles():Vector.<IRole> {
+        
+        private var _state:Tags = new Tags();
+        public function get state():Tags {
+            return _state;
+        }
+        
+        public function get roles():Roles {
             return _roles;
         }
 
-        public function set roles(value:Vector.<IRole>):void {
+        public function set roles(value:Roles):void {
             _roles = value;
         }
 
@@ -43,13 +51,13 @@ package im.luo.scene
         public function addLayer(layer:ISceneLayer):ISceneLayer {
             if (layer.rect.isEmpty()) layer.rect = this.rect;
             _layers.push(layer);
+            layer.scene = this;
             return layer;
         }
 
         public function addCharacter(name:String, character:IRole, layer:ISceneLayer):* {
             character.face.paint();
             layer.add(character.face);
-            _roles.push(character);
             return character;
         }
 
@@ -57,15 +65,12 @@ package im.luo.scene
 
         public virtual function destroy():void 
         {
-            _logger.debug('摧毁场景，回收资源');
-            for (var j:int = 0, k:int = roles.length; j < k; j++) {
-                roles[j].destroy();
-            }
-import im.luo.ui.UI;
-            
+            _logger.debug('摧毁场景开始');
+            this.roles.destroy(this.roles.all);
             for (var i:int = 0, n:int = this.layers.length; i < n; i++) {
                 this.layers[i].destroy();
             }
+            _logger.debug('完成摧毁场景');
         }
         
         public virtual function showUI(id:String):void {}
@@ -91,6 +96,6 @@ import im.luo.ui.UI;
         protected var _ui:UI;
         private var _logger:Logger = Logger.getLogger(this);
         private var _layers:Vector.<ISceneLayer> = null;
-        private var _roles:Vector.<IRole> = null;
+        private var _roles:Roles = new Roles();
     }
 }

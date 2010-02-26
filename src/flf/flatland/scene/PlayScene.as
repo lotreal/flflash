@@ -39,20 +39,22 @@ package flf.flatland.scene
     // 战斗场景
     public class PlayScene extends Scene {
         public var player1:Player;
-        public var npcs:Vector.<Npc>;
-        public var npc_actors:Vector.<IActor> = new Vector.<IActor>();
+        //public var npcs:Vector.<Npc>;
+        //public var npc_actors:Vector.<IActor> = new Vector.<IActor>();
         private var fight:Fight = new Fight();
         
         public function PlayScene(rect:Rectangle = null) {
             super(rect);
-            npcs = new Vector.<Npc>();
+            //npcs = new Vector.<Npc>();
         }
         
         override public function destroy():void
         {
             super.destroy();
+            this.state.clear().add(GAMEOVER);
             var world:IWorld = World.instance;
             world.removeEventListener(World.BEGINCONTACT, beginContact);
+            timerUtil.stop();
         }
         
         private function addNpc(layer:ISceneLayer):void
@@ -62,7 +64,7 @@ package flf.flatland.scene
             
             var npc:Npc = new Npc('npc'+x);
             npc.action = new SeekAction(this, npc);
-            Roles.layoutRole(this, layer, npc, new Vector2D(x, y));
+            this.roles.layoutRole(this, layer, npc, new Vector2D(x, y));
             
             npc.addEventListener(World.REMOVEROLE, onNpcDied);
             //npcs.push(npc);
@@ -70,6 +72,7 @@ package flf.flatland.scene
         }
         
         override public function build():void {
+            this.state.clear().add(BUILD);
             var world:IWorld = World.instance;
             world.addEventListener(World.BEGINCONTACT, beginContact);
             _ui = new PlaySceneUI();
@@ -82,13 +85,13 @@ package flf.flatland.scene
             
             mainLayer = new SpriteLayer();
             
-            player1 = Roles.registerPlayer();
-            Roles.layoutRole(this, mainLayer, player1, new Vector2D(rect.width / 2, rect.height / 2));
+            player1 = this.roles.registerPlayer();
+            this.roles.layoutRole(this, mainLayer, player1, new Vector2D(rect.width / 2, rect.height / 2));
             
             //Roles.layoutNpc(this, mainLayer, generator(35, 20));
             
             var edge:Edge = new Edge('edge');
-            Roles.layoutRole(this, mainLayer, edge, new Vector2D(0, 0));
+            this.roles.layoutRole(this, mainLayer, edge, new Vector2D(0, 0));
             
             var npc:Npc;
             var x:Number, y:Number;
@@ -106,7 +109,7 @@ package flf.flatland.scene
                 y = Math.random() * rect.height;
                 
                 var gold:Gold = new Gold();
-                Roles.layoutRole(this, mainLayer, gold, new Vector2D(x, y));
+                this.roles.layoutRole(this, mainLayer, gold, new Vector2D(x, y));
             }
             
             for (var k:int = 0; k < heartCount; k++) {
@@ -114,7 +117,7 @@ package flf.flatland.scene
                 y = Math.random() * rect.height;
                 
                 var heart:Heart = new Heart('heart'+k);
-                Roles.layoutRole(this, mainLayer, heart, new Vector2D(x, y));
+                this.roles.layoutRole(this, mainLayer, heart, new Vector2D(x, y));
             }
             
            
@@ -140,6 +143,7 @@ package flf.flatland.scene
             timerUtil.addEventListener(TimerEvent.TIMER, timerHandler);
             timerUtil.addEventListener(TimerEvent.TIMER_COMPLETE, completeHandler);
             timerUtil.start();
+            this.state.clear().add(PLAYING);
         }
         
         private function timerHandler(event:TimerEvent):void
@@ -155,20 +159,22 @@ package flf.flatland.scene
         
         private function onNpcDied(event:RoleEvent):void
         {
-            _logger.debug("npc died", event.role.name);
-            this.addNpc(mainLayer);
+            if (this.state.has(PLAYING))
+            {
+                _logger.debug("重新刷新一个死亡的NPC");
+                this.addNpc(mainLayer);
+            }
         }
         
         override public function play():void {
-            for (var i:int = 0, l:int = roles.length; i < l; i++) {
-                roles[i].play();
-            }
+            roles.play(roles.all);
         }
         
         override public function showUI(id:String):void
         {
             if (id == GAMEOVER)
             {
+                this.state.clear().add(GAMEOVER);
                 var gameover_ui:GameOverUI = new GameOverUI();
                 gameover_ui.fight_profile = player1.fightProfile.toString();
                 gameover_ui.build();
@@ -180,31 +186,32 @@ package flf.flatland.scene
         public function restart(event:Event):void
         {
             this.dispatchEvent(event);
+            trace ("playScene发送replay");
             //destroy();
             //build();
         }
         
         public function beginContact(event:IContactEvent):void {
-            _logger.debug('begin contact', event.getContactPoint());
+            //_logger.debug('begin contact', event.getContactPoint());
             var a:IRole = event.manifold.role1;
             var b:IRole = event.manifold.role2;
 
-            if (a.groupid == b.groupid) return;
-            if (a.type == Roles.EDGE || b.type == Roles.EDGE) return;
+            if (a.groups.eq(b.groups)) return;
+            if (a.groups.has(Roles.EDGE) || b.groups.has(Roles.EDGE)) return;
 
             var p:Vector2D = event.getContactPoint();
-            if (a.type == Roles.CITIZEN && b.type == Roles.CITIZEN) {
+            if (a.groups.has(Roles.CITIZEN) && b.groups.has(Roles.CITIZEN)) {
                 //collidByCreature(a as Citizen, b as Citizen, p);
                 event.manifold.attackPoint = p;
                 event.manifold.scene = this;
                 fight.attackRolls(event.manifold);
-            } else if (a.type == Roles.CITIZEN && b.type == Roles.GOLD) {
+            } else if (a.groups.has(Roles.CITIZEN) && b.groups.has(Roles.GOLD)) {
                 collidByGold(a as Citizen, b as Gold, p);
-            } else if (b.type == Roles.CITIZEN && a.type == Roles.GOLD) {
+            } else if (b.groups.has(Roles.CITIZEN) && a.groups.has(Roles.GOLD)) {
                 collidByGold(b as Citizen, a as Gold, p);
-            } else if (a.type == Roles.CITIZEN && b.type == Roles.HEART) {
+            } else if (a.groups.has(Roles.CITIZEN) && b.groups.has(Roles.HEART)) {
                 collidByHeart(a as Citizen, b as Heart, p);
-            } else if (b.type == Roles.CITIZEN && a.type == Roles.HEART) {
+            } else if (b.groups.has(Roles.CITIZEN) && a.groups.has(Roles.HEART)) {
                 collidByHeart(b as Citizen, a as Heart, p);
             }
 
@@ -224,6 +231,8 @@ package flf.flatland.scene
         private var _logger:Logger = Logger.getLogger(this);
         private var mainLayer:ISceneLayer;
         
+        public static var BUILD:String = "build";
+        public static var PLAYING:String = "playing";
         public static var GAMEOVER:String = "GameOver";
         public static var REPLAY:String = "replay";
     }

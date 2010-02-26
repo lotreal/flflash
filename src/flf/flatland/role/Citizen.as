@@ -10,6 +10,7 @@ package flf.flatland.role
     import im.luo.item.ICanUseItem;
     import im.luo.item.IItem;
     import im.luo.logging.Logger;
+    import im.luo.motion.IAdvancedMotion;
     import im.luo.motion.IBasicMotion;
     import im.luo.role.Role;
     import im.luo.util.TimerUtil;
@@ -17,7 +18,7 @@ package flf.flatland.role
     /**
     * 平面国公民角色。Player 和 Npc 皆继承此类。
     */
-    public class Citizen extends Role implements ICanUseItem, IBasicMotion {
+    public class Citizen extends Role implements ICanUseItem, IBasicMotion, IAdvancedMotion {
         public static var INIT_LEVEL:int = 5;
         public static var MAX_LEVEL:int = 9;
 
@@ -82,7 +83,8 @@ package flf.flatland.role
         
         public function Citizen(name:String, level:int) {
             super(name);
-            this.type = Roles.CITIZEN;
+            this.groups.add(Roles.CITIZEN);
+
             this._level = level;
             switch (level) {
                 case 3:
@@ -103,13 +105,22 @@ package flf.flatland.role
         }
         
         public function get velocity():Vector2D {
-            return actor.linearVel;
+            return actor.velocity;
         }
 
         public function set velocity(value:Vector2D):void {
-            actor.linearVel = value;
+            actor.velocity = value;
         }
         
+        public function get steeringForce():Vector2D
+        {
+            return actor.steeringForce;
+        }
+        
+        public function set steeringForce(value:Vector2D):void
+        {
+            actor.steeringForce = value;
+        }
         
         // 初始化角色的基本属性
         public function initProp(attack:int, hp:int, speed:int, weight:int, exp:int):void {
@@ -179,7 +190,7 @@ package flf.flatland.role
         public function die():void
         {
             // 不能在事件中销毁对象 @TODO 更好地解决方案
-            TimerUtil.delay(100, function handler():void{ destroy(); });
+            this.scene.roles.removeRole(this);
         }
 
         public function pickGold(gold:int):void {

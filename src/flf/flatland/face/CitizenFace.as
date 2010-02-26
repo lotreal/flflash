@@ -40,6 +40,8 @@ package flf.flatland.face
             body.graphics.beginFill(role.color);
             body.graphics.drawPath(commands, data);
             body.graphics.endFill();
+            
+            //body.graphics.drawCircle(0, 0, 160);
         }
 
         override public function express(desc:String):void

@@ -49,8 +49,17 @@ package im.luo.role
         // 角色信息显示面板，目前为调试用
         protected var uiInfo:ITextPanel;
 
-        public static var UUID_SEED:int = 0;
-        public var uuid:int = 0;
+        public static var UUID_SEED:int = 100;
+        public var _uuid:int = 0;
+        public function get uuid():int
+        {
+            return _uuid;
+        }
+        
+        public function set uuid(value:int):void
+        {
+            _uuid = value;
+        }
         /**
         * @parm name 角色名
         */
@@ -68,14 +77,14 @@ package im.luo.role
         public function set state(value:Tags):void {
             _state = value;
         }
-
-        // 分组 id，用于敌我判断。
-        private var _groupid:int = 0;
-        public function get groupid():int {
-            return _groupid;
+        
+        // 组别，为 Tag 方式，一个角色可以有多个分组
+        private var _groups:Tags = new Tags();
+        public function get groups():Tags {
+            return _groups;
         }
-        public function set groupid(value:int):void {
-            _groupid = value;
+        public function set groups(value:Tags):void {
+            _groups = value;
         }
 
         public function get name():String {
@@ -84,14 +93,6 @@ package im.luo.role
 
         public function set name(value:String):void {
             _name = value;
-        }
-
-        public function get type():String {
-            return _type;
-        }
-
-        public function set type(value:String):void {
-            _type = value;
         }
         
         private var _radius:Number;
@@ -170,7 +171,12 @@ package im.luo.role
             
             if (uiInfo != null) uiInfo.destroy();
             if (face != null) face.destroy();
-            if (action != null) action.destroy();
+            if (action != null)
+            {
+                action.destroy();
+                action = null;
+            }
+
             actor.destroy();
             _logger.debug(this.name, "destroy");
         }

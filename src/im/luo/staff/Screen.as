@@ -54,19 +54,23 @@ package im.luo.staff
  
         public function clear():void {
             _root.removeChild(canvas);
-            canvas = null;
+            //canvas = null;
             layers = new Object();
-            canvas = new Sprite();
-            _root.addChild(canvas);
+            initCanvas();
             numTopLayers = 0;
             sumLayers = 0;
+        }
+        
+        private function initCanvas():void
+        {
+            canvas = new Sprite();
+            _root.addChild(canvas);
         }
 
         public function set root(value:DisplayObjectContainer):void
         {
             _root = value;
-            canvas = new Sprite();
-            _root.addChild(canvas);
+            initCanvas();
         }
 
         public static var SCENE_UI:String = "scene_ui";

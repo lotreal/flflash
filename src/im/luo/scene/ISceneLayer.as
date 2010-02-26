@@ -2,15 +2,16 @@ package im.luo.scene
 {
     import flash.display.DisplayObjectContainer;
     import flash.geom.Rectangle;
-    
-    import im.luo.role.IRole;
 
     //import im.luo.role.IRole;
 
     public interface ISceneLayer {
         // 读写本图层中的所有角色
-        function get roles():Vector.<IRole>;
-        function set roles(value:Vector.<IRole>):void;
+        //function get roles():Vector.<IRole>;
+        //function set roles(value:Vector.<IRole>):void;
+        
+        function get scene():IScene;
+        function set scene(value:IScene):void;
         
         function add(child:*):*;
         //function addCharacter(character:IRole):*;

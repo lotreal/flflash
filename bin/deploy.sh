@@ -1,4 +1,11 @@
 #!/bin/bash
+
+FLF="/home/lot/workspace/flflash/flf/release"
+OUTDIR="$FLF/flf/release"
+
+rm "$FLF/build" -r
+cp "$FLF/html-template/" "$FLF/build" -r
+
 rm /home/lot/workspace/flflash/release/ -rf
 mkdir /home/lot/workspace/flflash/release/
 ~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/release/loader.swf

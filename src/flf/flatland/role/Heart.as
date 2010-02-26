@@ -12,11 +12,10 @@ package flf.flatland.role
         public function Heart(name:String = "")
         {
             super(name);
-            type = Roles.HEART;
+            this.groups.add(Roles.HEART);
             this.color = 0xCD1821;
             this.actor = new PropActor(this);
             this.face = new HeartFace(this);
-            groupid = Groups.HEART;
         }
     }
 }

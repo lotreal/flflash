@@ -17,7 +17,7 @@ package flf.flatland.role
         private var _logger:Logger = Logger.getLogger(this);
         public function Edge(name:String) {
             super(name);
-            type = Roles.EDGE;
+            this.groups.add(Roles.EDGE);
             this.actor = new EdgeActor(this);
             this.face = new Face(this);
         }

@@ -17,19 +17,10 @@ package flf.flatland.role
         public function Player(name:String)
         {
             super(name, 3);
-            type = Roles.CITIZEN;
-            groupid = Groups.PLAYER;
+            this.groups.add(Roles.PLAYER);
+            if (Settings.debug) this.attack *= 100;
         }
-        
-        /*
-        override public function initProp(attack:int, hp:int, speed:int, weight:int, exp:int):void {
-            this.attack = attack * 100;
-            this.init_hp = hp * 100;
-            this.hp = hp * 100;
-            this.speed = speed;
-            this.weight = weight;
-            this.exp = exp;
-        }*/
+
 
         override public function hit(enemy:Citizen):void
         {

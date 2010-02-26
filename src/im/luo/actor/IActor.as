@@ -1,9 +1,9 @@
 package im.luo.actor
 {
 	import im.luo.geom.Vector2D;
-	import im.luo.vw.IMoveable;
+	import im.luo.motion.IAdvancedMotion;
 
-    public interface IActor extends IMoveable {
+    public interface IActor extends IAdvancedMotion {
         function play():void;
         function update():void;
         function destroy():void;

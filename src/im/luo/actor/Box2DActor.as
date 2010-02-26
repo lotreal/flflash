@@ -8,6 +8,7 @@ package im.luo.actor {
     
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
+    import im.luo.motion.IAdvancedMotion;
     import im.luo.role.IRole;
     import im.luo.role.Role;
     import im.luo.staff.Context;
@@ -15,16 +16,25 @@ package im.luo.actor {
     import im.luo.vw.box2d.Box2DWorld;
 
     
-    public class Box2DActor implements IActor {
+    public class Box2DActor implements IActor, IAdvancedMotion {
         public function Box2DActor(role:Role):void {
             this.role = role;
             this.fixtureDef = new b2FixtureDef();
             this.createBody();
         }
-        
+        public function get speed():Number { return 24; }
+        public function set speed(value:Number):void{}
         private var _maxForce:Number = 1;
         private var _steeringForce:Vector2D = new Vector2D();
-
+        public function get steeringForce():Vector2D
+        {
+            return _steeringForce;
+        }
+        public function set steeringForce(value:Vector2D):void
+        {
+            _steeringForce = value;
+        }
+        
         public var context:Context = Context.instance;
         
         /**
@@ -355,7 +365,7 @@ package im.luo.actor {
                 var vehicle:IActor = actors[i];
                 if(vehicle != this && inSight(vehicle))
                 {
-                    averageVelocity = averageVelocity.add(vehicle.linearVel);
+                    averageVelocity = averageVelocity.add(vehicle.velocity);
                     averagePosition = averagePosition.add(vehicle.position);
                     if(tooClose(vehicle)) flee(vehicle.position);
                     inSightCount++;

@@ -13,6 +13,16 @@ package im.luo.scene
         protected var list:Vector.<DisplayObject>;
         protected var onScreen:Vector.<Boolean>;
         
+        public var _scene:IScene;
+        public function get scene():IScene
+        {
+            return _scene;
+        }
+        public function set scene(value:IScene):void
+        {
+            _scene = value;
+        }
+        
         public function SceneLayer(rect:Rectangle = null) {
             super(rect);
             list = new Vector.<DisplayObject>();
@@ -21,6 +31,7 @@ package im.luo.scene
         
         public virtual function destroy():void {}
         
+        /*
         public function get roles():Vector.<IRole> {
             return _roles;
         }
@@ -28,6 +39,7 @@ package im.luo.scene
         public function set roles(value:Vector.<IRole>):void {
             _roles = value;
         }
+        */
         
         public function add(child:*):* {
             list.push(child);
@@ -44,25 +56,19 @@ package im.luo.scene
             return true;
         }
 
-        public function preShoot(container:DisplayObjectContainer, rectangle:Rectangle):void 
+        public function preShoot(container:DisplayObjectContainer, rect:Rectangle):void 
         {
-            for (var i:int = 0, n:int = roles.length; i < n; i++) {
-                roles[i].preShoot(container, rect);
-            }
+            scene.roles.preShoot(scene.roles.byLayer(this), container, rect);
         }
         
-        public function shooting(container:DisplayObjectContainer, rectangle:Rectangle):void
+        public function shooting(container:DisplayObjectContainer, rect:Rectangle):void
         {
-            for (var i:int = 0, n:int = roles.length; i < n; i++) {
-                roles[i].shooting(container, rect);
-            }
+            scene.roles.shooting(scene.roles.byLayer(this), container, rect);
         }
         
-        public function postShoot(container:DisplayObjectContainer, rectangle:Rectangle):void
+        public function postShoot(container:DisplayObjectContainer, rect:Rectangle):void
         {
-            for (var i:int = 0, n:int = roles.length; i < n; i++) {
-                roles[i].postShoot(container, rect);
-            }
+            scene.roles.postShoot(scene.roles.byLayer(this), container, rect);
         }
         
         private var _roles:Vector.<IRole> = new Vector.<IRole>();

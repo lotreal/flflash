@@ -17,10 +17,9 @@ package flf.flatland.role
         public function Npc(name:String) {
             var level:int = MathUtil.randomIn(3, 6);
             super(name, level);
-            type = Roles.CITIZEN;
+            this.groups.add(Roles.NPC);
             color = 0xffffff;
-            groupid = Groups.NPC;
-        }
+         }
         
         override public function die():void
         {
@@ -37,7 +36,7 @@ package flf.flatland.role
                 {
                     var gold:Gold = new Gold(money);
                     //new InjuryProtect().apply(gold);
-                    Roles.layoutRole(scene, layer, gold, p);
+                    scene.roles.layoutRole(scene, layer, gold, p);
                 });
             }
 
@@ -46,7 +45,7 @@ package flf.flatland.role
                 TimerUtil.delay(200, function handler():void
                 {
                     var heart:Heart = new Heart();
-                    Roles.layoutRole(scene, layer, heart, p);
+                    scene.roles.layoutRole(scene, layer, heart, p);
                 });
             }
         }

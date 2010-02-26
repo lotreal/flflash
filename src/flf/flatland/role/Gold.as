@@ -12,12 +12,11 @@ package flf.flatland.role
         public function Gold(gold:int = 10)
         {
             super("");
-            this.type = Roles.GOLD;
+            this.groups.add(Roles.GOLD);
             this.color = 0xFFD700;
             this.actor = new PropActor(this);
             this.face = new GoldFace(this);
             this.gold = gold;
-            groupid = Groups.GOLD;
         }
     }
 }
