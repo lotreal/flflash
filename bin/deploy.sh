@@ -1,13 +1,16 @@
 #!/bin/bash
 
-FLF="/home/lot/workspace/flflash/flf/release"
-OUTDIR="$FLF/flf/release"
+if [ "$1" = ""  ] ; then
+     FLAG="release"
+else
+     FLAG="beta"
+fi
 
-rm "$FLF/build" -r
-cp "$FLF/html-template/" "$FLF/build" -r
+FLF="/home/lot/workspace/flflash"
+OUT="$FLF/build/flf/$FLAG"
+echo "Compile to Dir: $OUT"
 
-rm /home/lot/workspace/flflash/release/ -rf
-mkdir /home/lot/workspace/flflash/release/
-~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/release/loader.swf
-~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/release/flf.swf
-cp /home/lot/workspace/flflash/build/resource/ /home/lot/workspace/flflash/release/ -r
+rm $OUT -r
+mkdir $OUT -p
+
+cp $FLF/html-template/* $OUT -r
