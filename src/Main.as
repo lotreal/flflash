@@ -1,5 +1,4 @@
-// ~/share/flex4sdk/bin/mxmlc -debug=true -static-link-runtime-shared-libraries=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/debug/as3/ /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/build/flf.swf
-// ~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/release/flf.swf
+// ~/share/flex4sdk/bin/mxmlc -debug=true -static-link-runtime-shared-libraries=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/local/as3/ /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/build/local/local/flf.swf
 package {
     import br.com.stimuli.loading.BulkLoader;
     import com.hexagonstar.util.debug.Debug;
@@ -33,8 +32,8 @@ package {
          */
         protected function loadAssest():void {
             var loader:BulkLoader = Context.instance.loader;
-            loader.add(Settings.domain + "/flf/resource/FL_Show.swf", {"id":"res"});
-            loader.add(Settings.domain + "/flf/resource/map/map0" + MathUtil.randomIn(1,5) + ".png", {"id":"bg"});
+            loader.add(Settings.domain + "/resource/FL_Show.swf", {"id":"res"});
+            loader.add(Settings.domain + "/resource/map/map0" + MathUtil.randomIn(1,5) + ".png", {"id":"bg"});
             
             loader.addEventListener(BulkLoader.COMPLETE, onAssestLoadComplete);
             //context.loader.addEventListener(BulkLoader.PROGRESS, onAllProgress);

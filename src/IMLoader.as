@@ -1,5 +1,4 @@
-// ~/share/flex4sdk/bin/mxmlc -debug=true -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/debug/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/build/loader.swf
-// ~/share/flex4sdk/bin/mxmlc -debug=false -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/deploy/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/release/loader.swf
+// ~/share/flex4sdk/bin/mxmlc -debug=true -static-link-runtime-shared-libraries=true -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/local/as3/ /home/lot/workspace/flflash/src/IMLoader.as -o /home/lot/workspace/flflash/build/local/local/loader.swf
 package
 {
     import br.com.stimuli.loading.BulkLoader;
@@ -36,13 +35,13 @@ package
             configureLabel();
             setLabel(labelText);
             
-            loader.add(Settings.domain + "/flf/flf.swf", {id:"flf", weight:100});
-            loader.add(Settings.domain + "/flf/resource/FL_Show.swf", {weight:22});
-            loader.add(Settings.domain + "/flf/resource/map/map01.png", {weight:8});
-            loader.add(Settings.domain + "/flf/resource/map/map02.png", {weight:343});
-            loader.add(Settings.domain + "/flf/resource/map/map03.png", {weight:95});
-            loader.add(Settings.domain + "/flf/resource/map/map04.png", {weight:73});
-            loader.add(Settings.domain + "/flf/resource/map/map05.png", {weight:3});
+            loader.add(Settings.domain + "/flf.swf", {id:"flf", weight:100});
+            loader.add(Settings.domain + "/resource/FL_Show.swf", {weight:22});
+            loader.add(Settings.domain + "/resource/map/map01.png", {weight:8});
+            loader.add(Settings.domain + "/resource/map/map02.png", {weight:343});
+            loader.add(Settings.domain + "/resource/map/map03.png", {weight:95});
+            loader.add(Settings.domain + "/resource/map/map04.png", {weight:73});
+            loader.add(Settings.domain + "/resource/map/map05.png", {weight:3});
             loader.addEventListener(BulkLoader.COMPLETE, onAllLoaded);
             loader.addEventListener(BulkLoader.PROGRESS, onAllProgress);
             loader.addEventListener(BulkLoader.ERROR, onAllError);

@@ -4,7 +4,7 @@
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="lib"/>
       <compilerSourcePathEntry kind="1" linkType="1" path="lab"/>
-      <compilerSourcePathEntry kind="1" linkType="1" path="etc/debug/as3"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="etc/local/as3"/>
     </compilerSourcePath>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
