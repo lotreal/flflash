@@ -217,17 +217,17 @@ package im.luo.actor {
         }
 
         // 躲避行为
-        public function flee(target:Vector2D):void
+/*        public function flee(target:Vector2D):void
         {
             var desiredVelocity:Vector2D = target.subtract(_position);
             desiredVelocity.normalize();
             desiredVelocity = desiredVelocity.multiply(_maxSpeed);
             var force:Vector2D = desiredVelocity.subtract(_velocity);
             _steeringForce = _steeringForce.subtract(force);
-        }
+        }*/
         
         // 回避行为
-        private var _avoidDistance:Number = 300;
+/*        private var _avoidDistance:Number = 300;
         private var _avoidBuffer:Number = 20;
         public function set avoidDistance(value:Number):void
         {
@@ -290,9 +290,9 @@ package im.luo.actor {
                     }
                 }
             }
-        }
+        }*/
         // 漫游行为
-        private var _wanderAngle:Number = 0;
+/*        private var _wanderAngle:Number = 0;
         private var _wanderDistance:Number = 30;
         private var _wanderRadius:Number = 5;
         private var _wanderRange:Number = 1;
@@ -332,9 +332,9 @@ package im.luo.actor {
             _wanderAngle += Math.random() * _wanderRange - _wanderRange * .5;
             var force:Vector2D = center.add(offset);
             _steeringForce = _steeringForce.add(force);
-        }
+        }*/
         // 群落行为
-        private var _inSightDist:Number = 200;
+/*        private var _inSightDist:Number = 200;
         private var _tooCloseDist:Number = 60;
         
         public function set inSightDist(value:Number):void
@@ -395,14 +395,14 @@ package im.luo.actor {
         {
             return _position.dist(vehicle.position) < _tooCloseDist;
         }
-
-        public function seek(target:Vector2D):void
+*/
+/*        public function seek(target:Vector2D):void
         {
             var desiredVelocity:Vector2D = target.subtract(position);
             desiredVelocity.normalize();
             desiredVelocity = desiredVelocity.multiply(maxSpeed);
             var force:Vector2D = desiredVelocity.subtract(velocity);
             _steeringForce = _steeringForce.add(force);
-        }
+        }*/
     }
 }

@@ -5,6 +5,7 @@ package im.luo.action
     import flf.flatland.role.Player;
     import flf.flatland.scene.PlayScene;
     import im.luo.role.IRole;
+    import im.luo.motion.AdvancedMotion;
     
     public class SeekAction extends RoleAction
     {
@@ -21,20 +22,17 @@ package im.luo.action
                 var player:IRole = players[0];
                 if (role.position.dist(player.position) < 160)
                 {
-                    role.actor.seek(player.position);
+                    AdvancedMotion.seek(role, player.position);
                 }
                 else
                 {
-                    role.actor.wander();
+                    AdvancedMotion.wander(role);
                 }
             }
             else
             {
-                role.actor.wander();
-                //AdvancedMotion.wander(role);
+                AdvancedMotion.wander(role);
             }
-            //role.actor.seek(scene.player1.position);
-            //role.actor.flock(scene.npc_actors);
         }
         
         override public function toString():String

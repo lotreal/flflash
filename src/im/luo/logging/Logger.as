@@ -5,7 +5,7 @@ package im.luo.logging
         protected var clazz:String;
 
         public function Logger(cls:*) {
-            clazz = getQualifiedClassName(cls);
+            clazz = typeof cls == 'string' ? cls : getQualifiedClassName(cls); 
         }
 
         public static function getLogger(cls:*):Logger {

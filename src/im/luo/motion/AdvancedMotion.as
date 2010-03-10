@@ -14,15 +14,18 @@ package im.luo.motion
         }
         
         // 漫游行为
-        public static function wander(role:IAdvancedMotion, wanderDistance:Number = 30, wanderRadius:Number = 5, wanderRange:Number = 1, wanderAngle:Number = 0):void
+        public static function wander(body:IAdvancedMotion, wanderDistance:Number = 30, wanderRadius:Number = 5, wanderRange:Number = 1, wanderAngle:Number = 0):void
         {
-            var center:Vector2D = role.velocity.clone().normalize().multiply(wanderDistance);
-            var offset:Vector2D = new Vector2D(0);
-            offset.length = wanderRadius;
-            offset.angle = wanderAngle;
-            wanderAngle += Math.random() * wanderRange - wanderRange * .5;
-            var force:Vector2D = center.add(offset);
-            role.steeringForce = role.steeringForce.add(force);
+            Wander.getInstance(body).start();
+        }
+        
+        public static function seek(body:IAdvancedMotion, target:Vector2D):void
+        {
+            var desiredVelocity:Vector2D = target.subtract(body.position);
+            desiredVelocity.normalize();
+            desiredVelocity = desiredVelocity.multiply(20); //maxSpeed
+            var force:Vector2D = desiredVelocity.subtract(body.velocity);
+            body.steeringForce = body.steeringForce.add(force);
         }
     }
 }

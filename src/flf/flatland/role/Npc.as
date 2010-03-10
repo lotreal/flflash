@@ -7,15 +7,14 @@ package flf.flatland.role
     import im.luo.logging.Logger;
     import im.luo.scene.IScene;
     import im.luo.scene.ISceneLayer;
-    import im.luo.util.MathUtil;
-    import im.luo.util.ProbUtil;
+    import im.luo.util.RandomUtil;
     import im.luo.util.TimerUtil;
     
     public class Npc extends Citizen {
         private var _logger:Logger = Logger.getLogger(this);
         
         public function Npc(name:String) {
-            var level:int = MathUtil.randomIn(3, 6);
+            var level:int = RandomUtil.randomIn(3, 6);
             super(name, level);
             this.groups.add(Roles.NPC);
             color = 0xffffff;
@@ -40,7 +39,7 @@ package flf.flatland.role
                 });
             }
 
-            if (ProbUtil.hit(0.20)) {
+            if (RandomUtil.hit(0.20)) {
                 // 不能在事件中创建对象 @TODO 更好地解决方案
                 TimerUtil.delay(200, function handler():void
                 {
