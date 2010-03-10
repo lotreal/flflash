@@ -11,7 +11,7 @@ package {
     
     import im.luo.logging.Logger;
     import im.luo.staff.Context;
-    import im.luo.util.MathUtil;
+    import im.luo.util.RandomUtil;
     
     [SWF(width="750", height="485", backgroundColor="#999999", frameRate="30")]
     public class Main extends Sprite {
@@ -33,7 +33,7 @@ package {
         protected function loadAssest():void {
             var loader:BulkLoader = Context.instance.loader;
             loader.add(Settings.domain + "/resource/FL_Show.swf", {"id":"res"});
-            loader.add(Settings.domain + "/resource/map/map0" + MathUtil.randomIn(1,5) + ".png", {"id":"bg"});
+            loader.add(Settings.domain + "/resource/map/map0" + RandomUtil.randomIn(1,5) + ".png", {"id":"bg"});
             
             loader.addEventListener(BulkLoader.COMPLETE, onAssestLoadComplete);
             //context.loader.addEventListener(BulkLoader.PROGRESS, onAllProgress);
