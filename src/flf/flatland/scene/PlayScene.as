@@ -1,15 +1,13 @@
 package flf.flatland.scene
 {
     import flash.display.Bitmap;
-    import flash.display.Sprite;
     import flash.events.Event;
     import flash.events.TimerEvent;
     import flash.geom.Rectangle;
     
-    import flf.flatland.action.PlayerHotkeyB;
     import flf.flatland.fight.Fight;
+    import flf.flatland.fight.FightProfile;
     import flf.flatland.game.Roles;
-    import flf.flatland.item.InjuryProtect;
     import flf.flatland.role.Citizen;
     import flf.flatland.role.Edge;
     import flf.flatland.role.Gold;
@@ -20,7 +18,6 @@ package flf.flatland.scene
     import flf.flatland.ui.PlaySceneUI;
     
     import im.luo.action.SeekAction;
-    import im.luo.actor.IActor;
     import im.luo.geom.Vector2D;
     import im.luo.logging.Logger;
     import im.luo.role.IRole;
@@ -28,8 +25,8 @@ package flf.flatland.scene
     import im.luo.scene.Scene;
     import im.luo.scene.SpriteLayer;
     import im.luo.scene.TileLayer;
-    import im.luo.staff.Context;
     import im.luo.staff.Screen;
+    import im.luo.user.IUser;
     import im.luo.util.TimerUtil;
     import im.luo.vw.IContactEvent;
     import im.luo.vw.IWorld;
@@ -176,19 +173,26 @@ package flf.flatland.scene
             {
                 this.state.clear().add(GAMEOVER);
                 var gameover_ui:GameOverUI = new GameOverUI();
-                gameover_ui.fight_profile = player1.fightProfile.toString();
+                gameover_ui.fightProfile = player1.fightProfile;
                 gameover_ui.build();
                 
                 gameover_ui.addEventListener(REPLAY, restart);
+                gameover_ui.addEventListener(SHARE, share);
             }
         }
         
         public function restart(event:Event):void
         {
             this.dispatchEvent(event);
-            trace ("playScene发送replay");
-            //destroy();
-            //build();
+        }
+        
+        public function share(event:Event):void
+        {
+            var fp:FightProfile = this.player1.fightProfile;
+            var user:IUser = context.user;
+            user.money = fp.golds;
+            user.score = fp.exp;
+            user.save();
         }
         
         public function beginContact(event:IContactEvent):void {
@@ -235,5 +239,6 @@ package flf.flatland.scene
         public static var PLAYING:String = "playing";
         public static var GAMEOVER:String = "GameOver";
         public static var REPLAY:String = "replay";
+        public static var SHARE:String = "share";
     }
 }

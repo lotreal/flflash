@@ -34,8 +34,17 @@ package
         public function init(event:Event = null):void {
             configureLabel();
             setLabel(labelText);
-            
-            loader.add(Settings.domain + "/flf.swf", {id:"flf", weight:100});
+
+            var keyStr:String;
+            var valueStr:String;
+            var params:String = "";
+            var paramObj:Object = loaderInfo.parameters;
+            for (keyStr in paramObj) {
+                valueStr = String(paramObj[keyStr]);
+                params += keyStr + "=" + valueStr + "&";
+            }
+
+            loader.add(Settings.domain + "/flf.swf?"+params, {id:"flf", weight:100});
             loader.add(Settings.domain + "/resource/FL_Show.swf", {weight:22});
             loader.add(Settings.domain + "/resource/map/map01.png", {weight:8});
             loader.add(Settings.domain + "/resource/map/map02.png", {weight:343});

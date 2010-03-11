@@ -2,11 +2,12 @@ package im.luo.staff {
     import br.com.stimuli.loading.BulkLoader;
     
     import flash.display.DisplayObjectContainer;
-    import flash.display.Sprite;
     import flash.display.Stage;
     import flash.system.LoaderContext;
     
     import im.luo.logging.Logger;
+    import im.luo.user.IUser;
+    import im.luo.user.User;
     
     /**
     * 提供 flash 运行时的上下文环境信息，比如舞台，根，宽，高等。
@@ -16,6 +17,7 @@ package im.luo.staff {
 
         public var root:DisplayObjectContainer;
         public var stage:Stage;
+        public var user:IUser; 
         private var _logger:Logger = Logger.getLogger(this);
 
         private var _loader:BulkLoader = null;
@@ -97,6 +99,8 @@ package im.luo.staff {
             this.stage = root.stage;
             this.width = this.stage.stageWidth;
             this.height = this.stage.stageHeight;
+            
+            this.user = User.getUser();
         }
     }
 }

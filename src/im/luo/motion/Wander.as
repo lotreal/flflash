@@ -23,7 +23,6 @@ package im.luo.motion
         public function Wander(body:IAdvancedMotion)
         {
             this.body = body;
-            logger.debug('xxxxxxxxxxx--',body);
         }
         
         private var _wanderAngle:Number = 0;

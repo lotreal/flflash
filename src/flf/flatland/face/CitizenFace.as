@@ -10,8 +10,10 @@ package flf.flatland.face
     import im.luo.ui.UI;
     
     public class CitizenFace extends Face {
+        public var $role:Citizen;
         public function CitizenFace(role:Citizen) {
             super(role);
+            this.$role = role;
         }
         
         override public function paint():void {
@@ -19,7 +21,7 @@ package flf.flatland.face
             var data:Vector.<Number> = new Vector.<Number>();
 
             var radius:Number = role.radius;
-            var edges:int = role.level;
+            var edges:int = $role.level;
             var innerangle:Number = (2 * Math.PI) / edges;
             var x:Number, y:Number;
 
@@ -36,8 +38,8 @@ package flf.flatland.face
             data.push(data[0]);
             data.push(data[1]);
             
-            body.graphics.lineStyle(2, role.color, 1);
-            body.graphics.beginFill(role.color);
+            body.graphics.lineStyle(2, $role.color, 1);
+            body.graphics.beginFill($role.color);
             body.graphics.drawPath(commands, data);
             body.graphics.endFill();
             
@@ -53,24 +55,27 @@ package flf.flatland.face
                 effect.x = effect.width / -2;
                 ui.addChild(effect);
                 
-                hpPct = role.hp / role.init_hp;
+                hpPct = $role.hp / $role.init_hp;
                 body.alpha = hpPct;
                 _logger.debug('express hurt');
             }
             
             if (desc == HEAL) {
-                effect = new (context.getLoadedClass(HEAL))();
+                effect = new (context.getLoadedClass('HPbar'))();
                 effect.x = effect.width / -2;
                 ui.addChild(effect);
                 
-                hpPct = role.hp / role.init_hp;
+                hpPct = $role.hp / $role.init_hp;
                 body.alpha = hpPct;
                 _logger.debug('express heal');
+
+                (effect.getChildByName("hp")).scaleX = hpPct;
+
             }
         }
         
         public static var HURT:String = "Hurt";
-        public static var HEAL:String = "Recover"; 
+        public static var HEAL:String = "Heal"; 
         
         private var _logger:Logger = Logger.getLogger(this);
     }

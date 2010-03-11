@@ -12,7 +12,7 @@ package {
     import im.luo.logging.Logger;
     import im.luo.staff.Context;
     import im.luo.util.RandomUtil;
-    
+
     [SWF(width="750", height="485", backgroundColor="#999999", frameRate="30")]
     public class Main extends Sprite {
         public function Main() {
@@ -44,6 +44,7 @@ package {
         protected function onAssestLoadComplete(e:Event):void 
         {
             _logger.debug('资源加载完成');
+            //new FbUser();
             Context.director.play(new PlaySceneSS());
         }
         

@@ -61,7 +61,7 @@ package im.luo.face
             return _ui;
         }
         
-        public var role:*;
+        public var role:IRole;
         public var context:Context = Context.instance;
         public var position:Vector2D = new Vector2D(0, 0);
         public var body:Sprite = new Sprite();

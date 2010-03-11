@@ -8,8 +8,8 @@ package im.luo.action
      */ 
     public class RoleAction implements IRoleAction
     {
-        public var scene:*; //IScene;
-        public var role:*; //IRole;
+        public var scene:IScene;
+        public var role:*;
         
         public function RoleAction(scene:IScene, role:IRole)
         {

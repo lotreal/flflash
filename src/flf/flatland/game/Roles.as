@@ -44,7 +44,8 @@ package flf.flatland.game
         
         public function registerPlayer():Player
         {
-            var player:Player = new Player('user');
+            _logger.debug('当前用户名', context.user.id);
+            var player:Player = new Player(context.user.id);
             player.action = new PlayerHotkeyB(null, player);
             return player;
         }

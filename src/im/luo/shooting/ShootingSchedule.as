@@ -11,7 +11,7 @@ package im.luo.shooting
     */
     public class ShootingSchedule implements IShootingSchedule
     {
-        public var scene:*; // IScene
+        public var scene:IScene;
         public var camera:ICamera;
         public var context:Context = Context.instance;
         

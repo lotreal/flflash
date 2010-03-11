@@ -16,7 +16,7 @@ package flf.flatland.fx
         
         public function GetGold()
         {
-            effect = new (context.getLoadedClass("Money"))();
+            effect = new (context.getLoadedClass("GetCoin"))();
             effect.gotoAndStop(effect.totalFrames);
             effect.x = (context.width - effect.width) /2 - 120;
             effect.y = (context.height - effect.height) /2 - 32;
@@ -42,7 +42,7 @@ package flf.flatland.fx
         public function set content(value:String):void
         {
             effect.gotoAndPlay(1);
-            txt = effect.getChildByName("GoldCount") as TextField;
+            txt = effect.getChildByName("coin_num") as TextField;
             txt.text = value;
         }
         
