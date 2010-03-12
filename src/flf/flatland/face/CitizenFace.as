@@ -51,12 +51,12 @@ package flf.flatland.face
             var effect:MovieClip;
             var hpPct:Number;
             if (desc == HURT) {
-                effect = new (context.getLoadedClass(HURT))();
-                effect.x = effect.width / -2;
-                ui.addChild(effect);
+                //effect = new (context.getLoadedClass(HURT))();
+                //effect.x = effect.width / -2;
+                //ui.addChild(effect);
                 
-                hpPct = $role.hp / $role.init_hp;
-                body.alpha = hpPct;
+                //hpPct = $role.hp / $role.init_hp;
+                //body.alpha = hpPct;
                 _logger.debug('express hurt');
             }
             

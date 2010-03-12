@@ -1,12 +1,14 @@
 // ~/share/flex4sdk/bin/mxmlc -debug=true -static-link-runtime-shared-libraries=true -library-path+=/home/lot/sf/ActionScript/alcon/as3/alcon.swc -sp+=/home/lot/workspace/flflash/lib/ -sp+=/home/lot/workspace/flflash/etc/local/as3/ /home/lot/workspace/flflash/src/Main.as -o /home/lot/workspace/flflash/build/local/local/flf.swf
 package {
     import br.com.stimuli.loading.BulkLoader;
+    
     import com.hexagonstar.util.debug.Debug;
-
+    
     import flash.display.Sprite;
     import flash.display.StageScaleMode;
     import flash.events.Event;
     
+    import flf.flatland.Resource;
     import flf.flatland.shooting.PlaySceneSS;
     
     import im.luo.logging.Logger;
@@ -46,6 +48,7 @@ package {
             _logger.debug('资源加载完成');
             //new FbUser();
             Context.director.play(new PlaySceneSS());
+            new Resource();
         }
         
         private var _logger:Logger = Logger.getLogger(this);

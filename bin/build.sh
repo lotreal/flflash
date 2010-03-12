@@ -39,7 +39,7 @@ if [ $FLAG != "local" ] ; then
     cd $FLF; find resource/ -type f -not -iname "*.fla"  -exec cp --parents {} $OUT -r \;
     ncftpput -R -m -f ~/etc/ftp.flf.rc /links/flatlandgame.com/fb/flf $BUILD/*
 else
-    cd $FLF; find resource/ -type f -not -iname "*.fla"  -exec cp --parents {} $OUT -r \;
+    ln -s $FLF/resource $OUT/
     (
     echo $LOADER_CC
     echo $FLF_CC

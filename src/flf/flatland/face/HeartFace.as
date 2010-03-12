@@ -9,7 +9,7 @@ package flf.flatland.face
         public function HeartFace(role:Heart)
         {
             super(role);
-            var chatMain:DisplayObject = new (context.loader.getContent("res").loaderInfo.applicationDomain.getDefinition("HP") as Class)();
+            var chatMain:DisplayObject = new (context.loader.getContent("res").loaderInfo.applicationDomain.getDefinition("Heart") as Class)();
             addChild(chatMain);
             //#CD1821
         }
