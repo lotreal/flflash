@@ -5,7 +5,7 @@ package flf.flatland.fight
     import flf.flatland.game.Groups;
     import flf.flatland.game.States;
     import flf.flatland.role.Citizen;
-    import flf.flatland.face.CitizenFace;
+    
     import im.luo.logging.Logger;
     import im.luo.vw.Manifold;
     
@@ -44,8 +44,8 @@ package flf.flatland.fight
             _logger.debug(role1.state, role2.state);
             if (role1.state.has(States.PROTECTED) || role2.state.has(States.PROTECTED))
             {
-                role1.face.express(CitizenFace.GUARD);
-                role2.face.express(CitizenFace.GUARD);
+//                role1.face.showProtected();
+//                role2.face.showProtected();
                 _logger.debug("in protected");
                 return;
             }

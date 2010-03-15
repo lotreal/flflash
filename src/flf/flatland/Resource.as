@@ -1,4 +1,4 @@
-package flf.flatland.game 
+package flf.flatland
 {
     import im.luo.logging.Logger;
 

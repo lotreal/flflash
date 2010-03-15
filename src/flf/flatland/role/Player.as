@@ -18,7 +18,7 @@ package flf.flatland.role
         {
             super(name, 3);
             this.groups.add(Roles.PLAYER);
-            //if (Settings.debug) this.attack *= 100;
+            if (Settings.debug) this.attack *= 100;
         }
 
 

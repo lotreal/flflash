@@ -8,12 +8,12 @@ package {
     import flash.display.StageScaleMode;
     import flash.events.Event;
     
+    import flf.flatland.Resource;
     import flf.flatland.shooting.PlaySceneSS;
     
     import im.luo.logging.Logger;
     import im.luo.staff.Context;
     import im.luo.util.RandomUtil;
-    import flf.flatland.game.Resource;
 
     [SWF(width="750", height="485", backgroundColor="#999999", frameRate="30")]
     public class Main extends Sprite {
