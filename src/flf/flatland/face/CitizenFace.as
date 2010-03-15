@@ -2,7 +2,7 @@ package flf.flatland.face
 {
     import flash.display.GraphicsPathCommand;
     import flash.display.MovieClip;
-    
+    import flf.flatland.game.States;
     import flf.flatland.role.Citizen;
     
     import im.luo.face.Face;
@@ -55,8 +55,8 @@ package flf.flatland.face
                 //effect.x = effect.width / -2;
                 //ui.addChild(effect);
                 
-                //hpPct = $role.hp / $role.init_hp;
-                //body.alpha = hpPct;
+                hpPct = $role.hp / $role.init_hp;
+                body.alpha = hpPct;
                 _logger.debug('express hurt');
             }
             
@@ -72,10 +72,18 @@ package flf.flatland.face
                 (effect.getChildByName("hp")).scaleX = hpPct;
 
             }
+            
+            if (desc == GUARD && role.state.has(States.PROTECTED)) {
+                effect = new (context.getLoadedClass(GUARD))();
+                effect.x = effect.width / -2;
+                ui.addChild(effect);
+                _logger.debug('express guard');
+            }
         }
         
         public static var HURT:String = "Hurt";
         public static var HEAL:String = "Heal"; 
+        public static var GUARD:String = "Guard";
         
         private var _logger:Logger = Logger.getLogger(this);
     }
