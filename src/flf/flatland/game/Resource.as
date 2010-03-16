@@ -1,22 +1,45 @@
-package flf.flatland
+package flf.flatland.game
 {
+    import br.com.stimuli.loading.BulkLoader;
+    
+    import flash.display.MovieClip;
+    
     import im.luo.logging.Logger;
 
     public class Resource
     {
         private static var logger:Logger = Logger.getLogger(Resource);
         private var define:XML;
+        private var loader:BulkLoader = null;
         
-        public function Resource()
+        public function Resource(loader:BulkLoader)
         {
-            this.init();
-            this.create();
+            this.loader = loader;
+            //this.init();
+            //this.create();
+        }
+        
+        /**
+         * 从资源文件中通过 id 读出指定的 Class 
+         * @param id 资源 id
+         * @param content 资源文件 id, 参见 BulkLoader，默认为 "res"
+         * @return Class
+         * 
+         */        
+        public function getLoadedClass(id:String, content:String = "res"):Class
+        {
+            return loader.getContent(content).loaderInfo.applicationDomain.getDefinition(id) as Class;
         }
         
         public function create():void
         {
             logger.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             logger.debug(define.children());
+        }
+        
+        public function any(resname:String):MovieClip
+        {
+            return (new (getLoadedClass(resname))()) as MovieClip;
         }
         
         public function init():void

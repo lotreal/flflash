@@ -8,7 +8,7 @@ package {
     import flash.display.StageScaleMode;
     import flash.events.Event;
     
-    import flf.flatland.Resource;
+    import flf.flatland.game.Resource;
     import flf.flatland.shooting.PlaySceneSS;
     
     import im.luo.logging.Logger;
@@ -48,7 +48,7 @@ package {
             _logger.debug('资源加载完成');
             //new FbUser();
             Context.director.play(new PlaySceneSS());
-            new Resource();
+            //new Resource();
         }
         
         private var _logger:Logger = Logger.getLogger(this);

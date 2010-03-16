@@ -1,6 +1,11 @@
 package
 {
+    import flash.display.DisplayObjectContainer;
+    import flash.display.MovieClip;
+    
     import im.luo.logging.Logger;
+    import im.luo.util.TimerUtil;
+
     /*
     保护罩 Guard
     获得金钱 GetCoin
@@ -24,6 +29,13 @@ package
         // Fx.add('GetCoin', {'coin_num')
         public function add(position:*):void
         {
+        }
+        
+        public function addGuard(ground:DisplayObjectContainer, showtime:int):void
+        {
+            var guard:MovieClip = Resource.any('Guard');
+            ground.addChild(guard);
+            TimerUtil.delay(showtime, function() { ground.removeChild(guard);});
         }
     }
 }
